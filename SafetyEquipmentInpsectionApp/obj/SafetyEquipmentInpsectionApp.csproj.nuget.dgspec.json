@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\adamj\\source\\repos\\safety-equipment-inspection-app\\SafetyEquipmentInpsectionApp\\SafetyEquipmentInpsectionApp.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\adamj\\source\\repos\\safety-equipment-inspection-app\\SafetyEquipmentInpsectionApp\\SafetyEquipmentInpsectionApp.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\adamj\\source\\repos\\safety-equipment-inspection-app\\SafetyEquipmentInpsectionApp\\SafetyEquipmentInpsectionApp.csproj",
+        "projectName": "SafetyEquipmentInpsectionApp",
+        "projectPath": "C:\\Users\\adamj\\source\\repos\\safety-equipment-inspection-app\\SafetyEquipmentInpsectionApp\\SafetyEquipmentInpsectionApp.csproj",
+        "packagesPath": "C:\\Users\\adamj\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\adamj\\source\\repos\\safety-equipment-inspection-app\\SafetyEquipmentInpsectionApp\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "configFilePaths": [
+          "C:\\Users\\adamj\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "monoandroid12.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "monoandroid12.0": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "monoandroid12.0": {
+          "dependencies": {
+            "Xamarin.AndroidX.AppCompat": {
+              "target": "Package",
+              "version": "[1.2.0.5, )"
+            },
+            "Xamarin.Essentials": {
+              "target": "Package",
+              "version": "[1.6.1, )"
+            },
+            "Xamarin.Google.Android.Material": {
+              "target": "Package",
+              "version": "[1.0.0.1, )"
+            }
+          }
+        }
+      }
+    }
+  }
+}
