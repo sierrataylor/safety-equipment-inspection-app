@@ -1,0 +1,1 @@
+# safety-equipment-inspection-app
