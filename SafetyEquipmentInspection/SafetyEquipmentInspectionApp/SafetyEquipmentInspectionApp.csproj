@@ -7,7 +7,7 @@
     <SpaRoot>ClientApp\</SpaRoot>
     <SpaProxyServerUrl>https://localhost:44451</SpaProxyServerUrl>
     <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
-    <RootNamespace>safety_equipment_inspection_app</RootNamespace>
+    <RootNamespace>SafetyEquipmentInspectionApp</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
@@ -24,6 +24,10 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\src\app\NewFolder\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SafetyEquipmentInspectionAPI\SafetyEquipmentInspectionAPI.csproj" />
   </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
