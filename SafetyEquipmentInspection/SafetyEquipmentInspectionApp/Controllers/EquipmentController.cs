@@ -1,6 +1,14 @@
-﻿namespace safety_equipment_inspection_app.Controllers
+﻿namespace SafetyEquipmentInspectionApp.Controllers
 {
-    public class EquipmentController
+    public class EquipmentController 
     {
+        public EquipmentController()
+        {
+        }
+
+        public void GetAllEquipment()
+        {
+
+        }
     }
 }
