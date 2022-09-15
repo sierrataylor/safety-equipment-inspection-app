@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SafetyEquipmentInspectionAPI.Interfaces;
-
-namespace SafetyEquipmentInspectionAPI.Controllers
+﻿namespace SafetyEquipmentInspectionAPI.Controllers
 {
     public class AnswerController
     {

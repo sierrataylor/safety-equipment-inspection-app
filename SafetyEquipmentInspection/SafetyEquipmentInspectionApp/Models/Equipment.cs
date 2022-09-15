@@ -1,4 +1,4 @@
-﻿namespace SafetyEquipmentInspectionAPP.Models
+namespace SafetyEquipmentInspectionAPP.Models
 {
     public class Equipment
     {
