@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-﻿namespace SafetyEquipmentInspectionAPP.Models
-=======
-namespace SafetyEquipmentInspectionAPP.Models
->>>>>>> d56a3d1e8640e141fb1f5b33817a13990bee315c
+﻿namespace SafetyEquipmentInspectionAPI.Data
 {
     public class Equipment
     {
