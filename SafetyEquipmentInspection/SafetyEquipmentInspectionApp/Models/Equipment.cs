@@ -1,6 +1,6 @@
-﻿namespace SafetyEquipmentInspectionAPI.DTOs
+﻿namespace SafetyEquipmentInspectionApp.Models
 {
-    public class EquipmentDto
+    public class Equipment
     {
         public string EquipmentId { get; set; }
         public string EquipmentType { get; set; }

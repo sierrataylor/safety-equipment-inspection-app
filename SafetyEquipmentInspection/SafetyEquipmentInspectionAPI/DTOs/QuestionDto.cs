@@ -1,4 +1,4 @@
-﻿namespace SafetyEquipmentInspectionDto
+﻿namespace SafetyEquipmentInspectionAPI.DTOs
 {
     public class QuestionDto
     {
