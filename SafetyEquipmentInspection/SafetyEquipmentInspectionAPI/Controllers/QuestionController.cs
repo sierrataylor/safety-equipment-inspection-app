@@ -5,5 +5,17 @@ namespace SafetyEquipmentInspectionAPI.Controllers
 {
     public class QuestionController
     {
+
+        public QuestionController()
+        {
+
+        }
+
+        [HttpGet]
+        public void GetAllQuestions()
+        {
+
+        }
+
     }
 }
