@@ -5,6 +5,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
 {
     public class QuestionController
     {
+
         public QuestionController()
         {
 
@@ -15,5 +16,6 @@ namespace SafetyEquipmentInspectionAPI.Controllers
         {
 
         }
+
     }
 }
