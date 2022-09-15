@@ -2,9 +2,9 @@
 {
     public class Answer
     {
-        public int AnswerId { get; set; }
-        public int EquipmentId { get; set; }
-        public int QuestionNumber { get; set; }
-        public string Response { get; set; }
+        public virtual int AnswerId { get; set; }
+        public virtual int EquipmentId { get; set; }
+        public virtual int QuestionNumber { get; set; }
+        public virtual string Response { get; set; }
     }
 }
