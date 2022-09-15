@@ -2,9 +2,9 @@
 {
     public class Question
     {
-        public virtual int EmployeeId { get; set; }
-        public virtual string FirstName { get; set; }
-        public virtual string LastName { get; set; }
-        public virtual string Email { get; set; }
+        public int QuestionId { get; set; }
+        public string EquipmentType { get; set; }
+        public int QuestionNumber { get; set; }
+        public string Field { get; set; }
     }
 }
