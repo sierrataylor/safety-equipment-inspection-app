@@ -1,11 +1,11 @@
-﻿namespace SafetyEquipmentInspectionApp.Models
+namespace SafetyEquipmentInspectionAPP.Models
 {
     public class Equipment
     {
-        public string EquipmentId { get; set; }
-        public string EquipmentType { get; set; }
-        public string Location { get; set; }
-        public string Building { get; set; }
-        public int Floor { get; set; }
+        public virtual int EquipmentID { get; set; }
+        public virtual string EquipmentType { get; set; }
+        public virtual string Location { get; set; }
+        public virtual string Building { get; set; }
+        public virtual string Floor { get; set; }
     }
 }
