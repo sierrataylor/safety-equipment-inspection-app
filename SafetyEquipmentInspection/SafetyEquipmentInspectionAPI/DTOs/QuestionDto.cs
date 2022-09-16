@@ -2,9 +2,9 @@
 {
     public class QuestionDto
     {
-        public int EmployeeId { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
+        public int QuestionId { get; set; }
+        public string EquipmentType { get; set; }
+        public int QuestionNumber { get; set; }
+        public string Field { get; set; }
     }
 }
