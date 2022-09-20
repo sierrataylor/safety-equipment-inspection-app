@@ -3,7 +3,6 @@ using SafetyEquipmentInspectionAPI.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddTransient<IFirestoreController, FirestoreController>();
 builder.Services.AddTransient<IEquipmentController, EquipmentController>();
 
 builder.Services.AddControllers();
