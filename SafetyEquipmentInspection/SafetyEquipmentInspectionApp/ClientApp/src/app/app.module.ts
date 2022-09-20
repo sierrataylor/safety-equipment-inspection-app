@@ -11,6 +11,7 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LogInComponent } from './log-in/log-in.component';
+import { ScannerComponent } from './scanner/scanner.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,9 @@ import { LogInComponent } from './log-in/log-in.component';
     CounterComponent,
     FetchDataComponent,
     DashboardComponent,
-    LogInComponent
+    LogInComponent,
+    ScannerComponent
+
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
