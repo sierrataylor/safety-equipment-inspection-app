@@ -1,1 +1,26 @@
 <p>log-in works!</p>
+
+
+<div>
+  <div class="log-in-container">
+    <h1>Log In</h1>
+    <div class="log-in-inputs">
+      <form class="log-in-form" id="log-in-form">
+        <label for="employee-id">Employee ID:</label><br>
+        <input type="text" id="employee-id" name="employee-id"><br>
+        <label for="employee-password">Password:</label><br>
+        <input type="password" id="employee-password" name="employee-password"><br />
+        <br />
+        <input type="submit" value="Submit"><br />
+        <div
+            class="forgot-password"
+            [routerLinkActive]="['link-active']"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <a class="forgot-password text-dark" [routerLink]="['/']">Home</a>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+
