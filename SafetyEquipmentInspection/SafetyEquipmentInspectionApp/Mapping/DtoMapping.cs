@@ -8,7 +8,7 @@ namespace SafetyEquipmentInspectionApp.Mapping
         {
             EquipmentDto equipmentDto = new EquipmentDto
             {
-                EquipmentId = equipment.EquipmentID,
+                EquipmentId = Guid.Parse(equipment.EquipmentID),
                 EquipmentType = equipment.EquipmentType,
                 Location = equipment.Location,
                 Floor = equipment.Floor,
@@ -20,7 +20,7 @@ namespace SafetyEquipmentInspectionApp.Mapping
         {
             EmployeeDto employeeDto = new EmployeeDto
             {
-                EmployeeId = int.Parse(employee.EmployeeId),
+                EmployeeId = employee.EmployeeId,
                 FirstName = employee.FirstName,
                 LastName = employee.LastName,
                 Email = employee.Email
@@ -42,7 +42,7 @@ namespace SafetyEquipmentInspectionApp.Mapping
         {
             AnswerDto answerDto = new AnswerDto
             {
-                AnswerId = answer.AnswerId,
+                AnswerId = Guid.Parse(answer.AnswerId),
                 QuestionNumber = answer.QuestionNumber,
                 EquipmentId = answer.EquipmentId,
                 Response = answer.Response
