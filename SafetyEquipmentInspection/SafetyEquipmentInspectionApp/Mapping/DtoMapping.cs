@@ -8,7 +8,7 @@ namespace SafetyEquipmentInspectionApp.Mapping
         {
             EquipmentDto equipmentDto = new EquipmentDto
             {
-                EquipmentId = equipment.EquipmentID,
+                EquipmentId = Guid.Parse(equipment.EquipmentID),
                 EquipmentType = equipment.EquipmentType,
                 Location = equipment.Location,
                 Floor = equipment.Floor,

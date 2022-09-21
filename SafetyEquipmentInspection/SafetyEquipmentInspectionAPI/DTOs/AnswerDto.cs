@@ -2,8 +2,8 @@
 {
     public class AnswerDto
     {
-        public int AnswerId { get; set; }
-        public int EquipmentId { get; set; }
+        public Guid AnswerId { get; set; }
+        public string EquipmentId { get; set; }
         public int QuestionNumber { get; set; }
         public string Response { get; set; }
     }
