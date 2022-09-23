@@ -29,7 +29,6 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 var document = await equipmentCollection.Document(id).GetSnapshotAsync();
                 if (document != null)
                 {
-
                     /*if the document exists convert it to a dictionary
                      * serialize dictionary to JSON
                      * deserialize that JSON to a DTO
@@ -50,6 +49,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             {
                 //if document 
                 return JsonConvert.SerializeObject(new { error = ex.Message });
+
             }
         }
 
@@ -106,7 +106,9 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             var updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(dtoJson);
             await itemDocToBeUpdated.UpdateAsync(updatesDictionary);
 
+
             return JsonConvert.SerializeObject(new { message = $"Update of item {id} successful" });
+
 
         }
 
