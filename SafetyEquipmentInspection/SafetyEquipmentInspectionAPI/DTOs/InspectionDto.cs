@@ -6,6 +6,6 @@
         public string EquipmentId { get; set; }
         public DateTime LastInspectionDate { get; set; }
         public string InspectionResult { get; set; }
-        public int ReviewerId { get; set; }
+        public string ReviewerId { get; set; }
     }
 }
