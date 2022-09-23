@@ -12,6 +12,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LogInComponent } from './log-in/log-in.component';
 import { ScannerComponent } from './scanner/scanner.component';
+import { InspectionFormComponent } from './inspection-form/inspection-form.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ScannerComponent } from './scanner/scanner.component';
     FetchDataComponent,
     DashboardComponent,
     LogInComponent,
-    ScannerComponent
+    ScannerComponent,
+    InspectionFormComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
