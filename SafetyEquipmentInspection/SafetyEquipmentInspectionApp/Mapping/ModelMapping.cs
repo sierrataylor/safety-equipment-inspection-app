@@ -9,7 +9,7 @@ namespace SafetyEquipmentInspectionApp.Mapping
         {
             Equipment equipment = new Equipment
             {
-                EquipmentID = eqDto.EquipmentId,
+                EquipmentID = eqDto.EquipmentId.ToString(),
                 EquipmentType = eqDto.EquipmentType,
                 Location = eqDto.Location,
                 Floor = eqDto.Floor,
@@ -43,7 +43,7 @@ namespace SafetyEquipmentInspectionApp.Mapping
         {
             Answer answer = new Answer
             {
-                AnswerId = answerDto.AnswerId,
+                AnswerId = answerDto.AnswerId.ToString(),
                 QuestionNumber = answerDto.QuestionNumber,
                 EquipmentId = answerDto.EquipmentId,
                 Response = answerDto.Response
