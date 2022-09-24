@@ -56,7 +56,7 @@ namespace SafetyEquipmentInspectionApp.Mapping
                 InspectionId = inspection.InspectionId,
                 EquipmentId = inspection.EquipmentId,
                 InspectionResult = inspection.InspectionResult,
-                ReviewerId = inspection.ReviewerId,
+                ReviewerId = inspection.ReviewerId.ToString(),
                 LastInspectionDate = inspection.LastInspectionDate
             };
             return inspectionDto;
