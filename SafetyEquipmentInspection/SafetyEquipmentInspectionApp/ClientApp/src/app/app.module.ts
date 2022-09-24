@@ -23,7 +23,6 @@ import { ScannerComponent } from './scanner/scanner.component';
     DashboardComponent,
     LogInComponent,
     ScannerComponent
-
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
