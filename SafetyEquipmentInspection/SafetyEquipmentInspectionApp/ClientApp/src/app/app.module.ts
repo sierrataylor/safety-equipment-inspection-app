@@ -34,6 +34,7 @@ import { ScannerComponent } from './scanner/scanner.component';
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'dashboard', component: DashboardComponent },
       { path: 'log-in', component: LogInComponent },
+      { path: 'scanner', component: ScannerComponent }
     ])
   ],
   providers: [],
