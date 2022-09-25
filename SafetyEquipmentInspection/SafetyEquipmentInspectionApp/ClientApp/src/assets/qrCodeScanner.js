@@ -42,12 +42,12 @@ function stream()
   //video.srcObject = stream;
   video.play();
   tick();
-  //scan();
+  scan();
 }
 function tick() {
-  document.getElementById("hello").innerHTML = "got to tick";
+  document.getElementById("hello").innerHTML = "got to tick function";
   document.getElementById("qr-canvas").height = window.innerHeight;
-  document.getElementById("hello").innerHTML = "got to point";
+  document.getElementById("hello").innerHTML = "got to point of height of canvas defined";
   document.getElementById("qr-canvas").width = window.innerWidth;
   document.getElementById("qr-canvas").getContext("2d").drawImage(video, 0, 0, window.innerWidth, window.innerHeight);
 
@@ -55,6 +55,7 @@ function tick() {
 }
 
 function scan() {
+  document.getElementById("hello").innerHTML = "got to scan function";
   try {
     qrcode.decode();
   } catch (e) {
