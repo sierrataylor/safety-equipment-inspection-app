@@ -1,12 +1,6 @@
 const qrcode = window.qrcode;
-
 const video =document.createElement("video");
-const canvasElement = document.getElementById("qr-canvas");
-const canvas = canvasElement.getContext("2d");
 
-const qrResult = document.getElementById("qr-result");
-const outputData = document.getElementById("outputData");
-const btnScanQR = document.getElementById("btn-scan-qr");
 let scanning = false;
 
 qrcode.callback = res => {
@@ -25,33 +19,35 @@ qrcode.callback = res => {
 };
 
 function initializescanner() {
+  const canvas = document.getElementById("qr-canvas");
   document.getElementById("hello").innerHTML = "Hello friends";
   navigator.mediaDevices
     .getUserMedia({ video: { facingMode: "environment" } })
-  stream();
+    .then(function (stream) {
+      document.getElementById("hello").innerHTML = "got to stream function";
+      document.getElementById("scannerimg").style.display = "none";
+      // canvas.style.display = block;
+      video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
+      video.srcObject = stream;
+      video.play();
+      tick();
+      scan();
+    });
+  
 }
 
-function stream()
-{
-  document.getElementById("hello").innerHTML = "got to stream function";
-  //scanning = true;
-  document.getElementById("qr-result").hidden= "false";
-  document.getElementById("scannerimg").style.visibility = "hidden";
-  // document.getElementById("qr-canvas").hidden = false;
-  video.setAttribute("playsinline", true);
-  //video.srcObject = stream;
-  video.play();
-  tick();
-  scan();
-}
+
 function tick() {
+  var canvas = document.getElementById("qr-canvas");
   document.getElementById("hello").innerHTML = "got to tick function";
-  document.getElementById("qr-canvas").height = window.innerHeight;
+  canvas.height = video.videoHeight;
   document.getElementById("hello").innerHTML = "got to point of height of canvas defined";
-  document.getElementById("qr-canvas").width = window.innerWidth;
-  document.getElementById("qr-canvas").getContext("2d").drawImage(video, 0, 0, window.innerWidth, window.innerHeight);
+  canvas.width = video.videoWidth;
+  document.getElementById("hello").innerHTML = "got to point of width of canvas defined";
+  canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
 
-  //scanning && requestAnimationFrame(tick);
+   requestAnimationFrame(tick);
+  document.getElementById("hello").innerHTML = "got to request animtion frame";
 }
 
 function scan() {
