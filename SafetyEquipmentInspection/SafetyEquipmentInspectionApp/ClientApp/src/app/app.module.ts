@@ -37,9 +37,11 @@ import { InspectionsTableComponent } from './inspections-table/inspections-table
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'dashboard', component: DashboardComponent },
+
       { path: '', component: LogInComponent, pathMatch: 'full' },
       { path: 'scanner', component: ScannerComponent },
       { path: 'inspection-form', component: InspectionFormComponent },
+
     ])
   ],
   providers: [],
