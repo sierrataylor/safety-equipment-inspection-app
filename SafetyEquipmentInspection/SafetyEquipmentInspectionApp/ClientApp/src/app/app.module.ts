@@ -14,6 +14,7 @@ import { LogInComponent } from './log-in/log-in.component';
 import { ScannerComponent } from './scanner/scanner.component';
 import { InspectionFormComponent } from './inspection-form/inspection-form.component';
 import { InspectionsTableComponent } from './inspections-table/inspections-table.component';
+import { PastInspectionsComponent } from './past-inspections/past-inspections.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { InspectionsTableComponent } from './inspections-table/inspections-table
     LogInComponent,
     ScannerComponent,
     InspectionFormComponent,
-    InspectionsTableComponent
+    InspectionsTableComponent,
+    PastInspectionsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -37,10 +39,10 @@ import { InspectionsTableComponent } from './inspections-table/inspections-table
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'dashboard', component: DashboardComponent },
-
       { path: '', component: LogInComponent, pathMatch: 'full' },
       { path: 'scanner', component: ScannerComponent },
       { path: 'inspection-form', component: InspectionFormComponent },
+      { path: 'past-inspections', component: PastInspectionsComponent },
 
     ])
   ],
