@@ -1,20 +1,15 @@
+#scannerimg {
+  height: 10em;
+  padding: 15px;
+  margin: 15px;
+  background: white;
+  cursor: pointer;
+}
 #qr-canvas {
   margin: auto;
   width: calc(100% - 20px);
   max-width: 400px;
 }
-
-#btn-scan-qr {
-  cursor: pointer;
-}
-
-  #btn-scan-qr img {
-    height: 10em;
-    padding: 15px;
-    margin: 15px;
-    background: white;
-  }
-
 #qr-result {
   font-size: 1.2em;
   margin: 20px auto;

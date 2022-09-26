@@ -43,6 +43,7 @@ import { PastInspectionsComponent } from './past-inspections/past-inspections.co
       { path: 'scanner', component: ScannerComponent },
       { path: 'inspection-form', component: InspectionFormComponent },
       { path: 'past-inspections', component: PastInspectionsComponent },
+
     ])
   ],
   providers: [],
