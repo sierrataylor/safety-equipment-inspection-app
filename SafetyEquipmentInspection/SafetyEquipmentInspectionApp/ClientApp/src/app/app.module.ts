@@ -29,6 +29,7 @@ import { PastInspectionsComponent } from './past-inspections/past-inspections.co
     InspectionFormComponent,
     InspectionsTableComponent,
     PastInspectionsComponent
+
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
