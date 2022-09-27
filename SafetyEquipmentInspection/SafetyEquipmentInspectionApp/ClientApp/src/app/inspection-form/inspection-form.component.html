@@ -1,25 +1,29 @@
 <form class="inspection-form">
   <div class="form-group">
     <label for="equipment-id">Equipment ID</label>
-    <input type="text" id="equipment-id" name="equipment-id" value="" />
+    <input required type="text" id="equipment-id" ngModel name="equipmentId" #equipmentId="ngModel" value="" />
+    <div class="alert alert-danger" *ngIf="!equipmentId.valid && equipmentId.touched">Equipment ID is required</div>
   </div>
   <div class="form-group">
     <label for="equipment-type">Equipment Type </label>
-    <input type="text" id="equipment-type" name="equipment-type" value="" />
+    <input required type="text" id="equipment-type" ngModel name="equipmentType" #equipmentType="ngModel" value="" />
+    <div class="alert alert-danger" *ngIf="!equipmentType.valid && equipmentType.touched">Equipment Type is required</div>
     <!--drop down for equipment type? Should autopopulate.-->
   </div>
   <div class="form-group">
     <label for="inspection-date">Inspection Date</label>
-    <input type="date" id="inspection-date" name="inspection-date" value="" />
+    <input required type="date" id="inspection-date" ngModel name="inspectionDate" #inspectionDate="ngModel" value="" />
+    <div class="alert alert-danger" *ngIf="!inspectionDate.valid && inspectionDate.touched">Inspection Date is required</div>
   </div>
   <div class="form-group">
     <label for="employee-name">Employee Name</label>
-    <input type="text" id="employee-name" name="employee-name" value="" />
+    <input required type="text" id="employee-name" ngModel name="employeeName" #employeeName="ngModel" value="" />
+    <div class="alert alert-danger" *ngIf="!employeeName.valid && employeeName.touched">Employee Name is required</div>
   </div>
   <div class="form-group">
     <label for="employee-email">Employee Email</label>
-    <input type="email" id="employee-email" name="employee-email" value="" />
+    <input required type="email" id="employee-email" ngModel name="employeeEmail" #employeeEmail="ngModel" value="" />
+    <div class="alert alert-danger" *ngIf="!employeeEmail.valid && employeeEmail.touched">Employee Email is required</div>
   </div>
-
   <button class="btn btn-primary">Submit</button>
 </form>
