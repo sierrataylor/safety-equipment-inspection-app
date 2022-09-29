@@ -23,11 +23,9 @@ namespace SafetyEquipmentInspectionAPI
             {
                 var employeesCollection = _db.Collection("Employees");
                 var employeeDoc = await employeesCollection.Document(employeeId).GetSnapshotAsync();
-                Dictionary<string, object> result = employeeDoc.ToDictionary();
-                var empResultJson = JsonConvert.SerializeObject(result);
-                var employeeDataTransferObj = JsonConvert.DeserializeObject<EmployeeDto>(empResultJson);
+                var employee = employeeDoc.ConvertTo<EmployeeDto>();
+                var employeeJson = JsonConvert.SerializeObject(employee);
 
-                var employeeJson = JsonConvert.DeserializeObject<EmployeeDto>(empResultJson);
                 return !employeeDoc.Exists ?
                     JsonConvert.SerializeObject(new { employee = employeeJson }) :
                     $"Employee {employeeId} not found";
@@ -67,6 +65,29 @@ namespace SafetyEquipmentInspectionAPI
                 return JsonConvert.SerializeObject( new { error = ex.Message});
             }
         }
+
+        [HttpGet("/employees/")]
+        public async Task<List<EmployeeDto>> GetAllEmployees()
+        {
+            try
+            {
+                List<EmployeeDto> employees = new List<EmployeeDto>();
+                var employeesCollection = _db.Collection("Employee");
+                var allEmployeesDocs = await employeesCollection.GetSnapshotAsync();
+                foreach (var employeeDoc in allEmployeesDocs)
+                {
+                    var employee = employeeDoc.ConvertTo<EmployeeDto>();
+                    employees.Add(employee);
+                }
+                return employees;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         [HttpPut("employees/edit/{employeeId}")]
         public async Task<string> UpdateEmployee(EmployeeDto employeeDto)
         {

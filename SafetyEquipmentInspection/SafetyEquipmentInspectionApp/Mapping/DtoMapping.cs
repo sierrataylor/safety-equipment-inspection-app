@@ -62,5 +62,56 @@ namespace SafetyEquipmentInspectionApp.Mapping
             };
             return inspectionDto;
         }
+
+        public List<EquipmentDto> MapEquipmentModelListToDtos(List<Equipment> equipmentModels)
+        {
+            List<EquipmentDto> equipmentDtoList = new List<EquipmentDto>();
+            foreach (var model in equipmentModels)
+            {
+                EquipmentDto dto = MapEquipmentModelToDto(model);
+                equipmentDtoList.Add(dto);
+            }
+            return equipmentDtoList;
+        }
+        public List<EmployeeDto> MapEmployeeModelListToDtos(List<Employee> employeeeModels)
+        {
+            List<EmployeeDto> employeeDtoList = new List<EmployeeDto>();
+            foreach (var model in employeeeModels)
+            {
+                EmployeeDto dto = MapEmployeeModelToDto(model);
+                employeeDtoList.Add(dto);
+            }
+            return employeeDtoList;
+        }
+        public List<QuestionDto> MapQuestionModelListToDtos(List<Question> questionModels)
+        {
+            List<QuestionDto> questionDtoList = new List<QuestionDto>();
+            foreach (var model in questionModels)
+            {
+                QuestionDto dto = MapQuestionModelToDto(model);
+                questionDtoList.Add(dto);
+            }
+            return questionDtoList;
+        }
+        public List<AnswerDto> MapAnswerModelListToDtos(List<Answer> answerModels)
+        {
+            List<AnswerDto> answerDtoList = new List<AnswerDto>();
+            foreach (var model in answerModels)
+            {
+                AnswerDto dto = MapAnswerModelToDto(model);
+                answerDtoList.Add(dto);
+            }
+            return answerDtoList;
+        }
+        public List<InspectionDto> MapInspectionModelListToDtos(List<Inspection> inspectionModels)
+        {
+            List<InspectionDto> inspectionDtoList = new List<InspectionDto>();
+            foreach (var model in inspectionModels)
+            {
+                InspectionDto dto = MapInspectionModelToDto(model);
+                inspectionDtoList.Add(dto);
+            }
+            return inspectionDtoList;
+        }
     }
 }
