@@ -98,10 +98,9 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             var id = equipmentDto.EquipmentId;
             var equipmentCollection = _db.Collection("Equipment");
 
-            var query = await equipmentCollection.WhereEqualTo("EquipmentId", id.ToString()).GetSnapshotAsync();
 
             //get async snapshot of this document; null if query.document.Count = 0 (meaning the equipmentId was not found)
-            var itemDocToBeUpdated = equipmentCollection.Document(query.Documents[0].Id);
+            var itemDocToBeUpdated = equipmentCollection.Document(equipmentDto.EquipmentId.ToString());
             var dtoJson = JsonConvert.SerializeObject(equipmentDto);
             var updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(dtoJson);
             await itemDocToBeUpdated.UpdateAsync(updatesDictionary);
