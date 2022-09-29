@@ -24,7 +24,8 @@ namespace SafetyEquipmentInspectionApp.Mapping
                 EmployeeId = employeeDto.EmployeeId.ToString(),
                 FirstName = employeeDto.FirstName,
                 LastName = employeeDto.LastName,
-                Email = employeeDto.Email
+                Email = employeeDto.Email,
+                Role = employeeDto.Role
             };
             return employee;
         }
