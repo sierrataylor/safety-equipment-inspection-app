@@ -28,6 +28,10 @@ namespace SafetyEquipmentInspectionAPI
                 var employeeDataTransferObj = JsonConvert.DeserializeObject<EmployeeDto>(empResultJson);
                 return !employeeDoc.Exists ?
                     JsonConvert.SerializeObject(new { employee = employeeDataTransferObj }) :
+
+                var employeeJson = JsonConvert.DeserializeObject<EmployeeDto>(empResultJson);
+                return !employeeDoc.Exists ?
+                    JsonConvert.SerializeObject(new { employee = employeeJson }) :
                     $"Employee {employeeId} not found";
             }
             catch (Exception ex)
@@ -65,7 +69,6 @@ namespace SafetyEquipmentInspectionAPI
                 return JsonConvert.SerializeObject( new { error = ex.Message});
             }
         }
-
         [HttpPut("employees/edit/{employeeId}")]
         public async Task<string> UpdateEmployee(EmployeeDto employeeDto)
         {
@@ -119,6 +122,7 @@ namespace SafetyEquipmentInspectionAPI
                 return ex.Message;
             }
         }
+
 
 
     }

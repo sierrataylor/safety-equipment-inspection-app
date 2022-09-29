@@ -58,6 +58,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             catch (Exception ex)
             {
 
+
                 return JsonConvert.SerializeObject(new { error = ex.Message });
             }
         }
@@ -107,14 +108,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                     return "Question not found";
                 }
 
-            }
-            catch (Exception ex)
-            {
 
-                return ex.Message;
-            }
-
-        }
 
     }
 }
