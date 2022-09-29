@@ -14,3 +14,16 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+html {
+  height: 100%;
+}
+
+
+h1 {
+  margin: 0;
+  padding: 15px;
+}
+#container {
+  text-align: center;
+  margin: 0;
+}
