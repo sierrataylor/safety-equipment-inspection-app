@@ -88,6 +88,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             }
         }
 
+
         [HttpDelete("admin/questions/deleteQuestion/{questionId}")]
         public async Task<string> DeleteQuestion(string questionId, string equipmentId = null)
         {
