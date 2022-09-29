@@ -58,9 +58,57 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             catch (Exception ex)
             {
 
+
                 return JsonConvert.SerializeObject(new { error = ex.Message });
             }
         }
+        [HttpPut("admin/questions/editQuestion/questionId}")]
+        public async Task<string> UpdateQuestion(QuestionDto questionDto)
+        {
+            try
+            {
+                var questionsCollection = _db.Collection("Questions");
+                var questiontoBeUpdated = await questionsCollection.Document(questionDto.QuestionId).GetSnapshotAsync();
+                if (questiontoBeUpdated.Exists)
+                {
+                    var updateJson = JsonConvert.SerializeObject(questionDto);
+                    Dictionary<string, object> updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(updateJson);
+                    await questionsCollection.Document(questionDto.QuestionId).UpdateAsync(updatesDictionary);
+                    return JsonConvert.SerializeObject(new { message = $"Update of Question {questionDto.Field} with ID {questionDto.QuestionId} successfully" });
+                }
+                else
+                {
+                    return "Question not found";
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return ex.Message;
+            }
+        }
+
+        [HttpDelete("admin/questions/deleteQuestion/{questionId}")]
+        public async Task<string> DeleteQuestion(string questionId, string equipmentId = null)
+        {
+            try
+            {
+                var questionsCollection = _db.Collection("Questions");
+                var questiontoBeDeleted = await questionsCollection.Document(questionId).GetSnapshotAsync();
+                if (questiontoBeDeleted.Exists)
+                {
+                    Dictionary<string, object> result = questiontoBeDeleted.ToDictionary();
+                    var questionJson = JsonConvert.SerializeObject(result);
+                    var questionDataTransferObj = JsonConvert.DeserializeObject<QuestionDto>(questionJson);
+                    await questionsCollection.Document(questionId).DeleteAsync();
+                    return $"Question {questionDataTransferObj.Field} for {questionDataTransferObj.EquipmentType} deleted";
+                }
+                else
+                {
+                    return "Question not found";
+                }
+
+
 
     }
 }
