@@ -26,9 +26,6 @@ namespace SafetyEquipmentInspectionAPI
                 Dictionary<string, object> result = employeeDoc.ToDictionary();
                 var empResultJson = JsonConvert.SerializeObject(result);
                 var employeeDataTransferObj = JsonConvert.DeserializeObject<EmployeeDto>(empResultJson);
-                return !employeeDoc.Exists ?
-                    JsonConvert.SerializeObject(new { employee = employeeDataTransferObj }) :
-
                 var employeeJson = JsonConvert.DeserializeObject<EmployeeDto>(empResultJson);
                 return !employeeDoc.Exists ?
                     JsonConvert.SerializeObject(new { employee = employeeJson }) :

@@ -109,6 +109,11 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 }
 
 
-
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
     }
 }
