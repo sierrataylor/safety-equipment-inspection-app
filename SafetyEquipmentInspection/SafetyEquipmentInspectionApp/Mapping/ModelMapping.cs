@@ -51,7 +51,7 @@ namespace SafetyEquipmentInspectionApp.Mapping
             };
             return answer;
         }
-        public Inspection MapInsepctionDtoToModel(InspectionDto inspectionDto)
+        public Inspection MapInspectionDtoToModel(InspectionDto inspectionDto)
         {
             Inspection inspection = new Inspection
             {
@@ -63,5 +63,46 @@ namespace SafetyEquipmentInspectionApp.Mapping
             };
             return inspection;
         }
+        public List<Equipment> MapEquipmentDtoListToModels(List<EquipmentDto> equipmentDtos)
+        {
+            List<Equipment> equipmentModelList = new List<Equipment>();
+            foreach (var dto in equipmentDtos)
+            {
+                Equipment model = MapEquipmentDtoToModel(dto);
+                equipmentModelList.Add(model);
+            }
+            return equipmentModelList;
+        }
+        public List<Question> MapQuestionDtoListToModels(List<QuestionDto> questionDtos)
+        {
+            List<Question> questionModelList = new List<Question>();
+            foreach (var dto in questionDtos)
+            {
+                Question model = MapQuestionDtoToModel(dto);
+                questionModelList.Add(model);
+            }
+            return questionModelList;
+        }
+        public List<Answer> MapAnswerDtoListToModels(List<AnswerDto> answerDtos)
+        {
+            List<Answer> answerModelList = new List<Answer>();
+            foreach (var dto in answerDtos)
+            {
+                Answer model = MapAnswerDtoToModel(dto);
+                answerModelList.Add(model);
+            }
+            return answerModelList;
+        }
+        public List<Inspection> MapInspectionDtoListToModels(List<InspectionDto> inspectionDtos)
+        {
+            List<Inspection> inspectionDtoList = new List<Inspection>();
+            foreach (var dto in inspectionDtos)
+            {
+                Inspection model = MapInspectionDtoToModel(dto);
+                inspectionDtoList.Add(model);
+            }
+            return inspectionDtoList;
+        }
+
     }
 }
