@@ -74,7 +74,9 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 return JsonConvert.SerializeObject(new { error = ex.Message });
             }
         }
+
         [HttpPut("admin/questions/editQuestion/{questionId}")]
+
         public async Task<string> UpdateQuestion(QuestionDto questionDto)
         {
             try
@@ -100,7 +102,6 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             }
         }
 
-
         [HttpDelete("admin/questions/deleteQuestion/{questionId}")]
         public async Task<string> DeleteQuestion(string questionId, string equipmentId = null)
         {
@@ -120,8 +121,6 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 {
                     return "Question not found";
                 }
-
-
             }
             catch (Exception ex)
             {
