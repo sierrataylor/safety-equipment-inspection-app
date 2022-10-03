@@ -232,3 +232,4 @@ _Pvt_Extensions
 
 # Webpack files
 /SafetyEquipmentInspection/SafetyEquipmentInspectionApp/ClientApp/.angular/
+/SafetyEquipmentInspection/SafetyEquipmentInspectionAPI/firestoreCredentials.json
