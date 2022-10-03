@@ -88,6 +88,7 @@ namespace SafetyEquipmentInspectionAPI
             }
         }
 
+
         [HttpPut("employees/edit/{employeeId}")]
         public async Task<string> UpdateEmployee(EmployeeDto employeeDto)
         {
@@ -141,7 +142,5 @@ namespace SafetyEquipmentInspectionAPI
                 return ex.Message;
             }
         }
-
-
     }
 }

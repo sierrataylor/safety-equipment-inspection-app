@@ -1,7 +1,15 @@
 using SafetyEquipmentInspectionAPI.Controllers;
 using SafetyEquipmentInspectionAPI.Interfaces;
 
+var AllowedOrigins = "_allowedOrigins";
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options => {
+    options.AddPolicy(name: AllowedOrigins,
+                      policy => {
+                          policy.WithOrigins("https://localhost:44451");
+                      });
+});
 
 builder.Services.AddTransient<IEquipmentController, EquipmentController>();
 
@@ -18,6 +26,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(AllowedOrigins);
 
 app.UseAuthorization();
 
