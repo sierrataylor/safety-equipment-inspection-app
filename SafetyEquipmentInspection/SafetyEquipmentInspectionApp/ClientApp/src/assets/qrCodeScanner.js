@@ -3,21 +3,6 @@ const video =document.createElement("video");
 
 let scanning = false;
 
-qrcode.callback = res => {
-  if (res) {
-    outputData.innerText = res;
-    scanning = false;
-
-    video.srcObject.getTracks().forEach(track => {
-      track.stop();
-    });
-
-    qrResult.hidden = false;
-    canvasElement.hidden = true;
-    btnScanQR.hidden = false;
-  }
-};
-
 function initializescanner() {
   const canvas = document.getElementById("qr-canvas");
   navigator.mediaDevices
