@@ -26,7 +26,6 @@ namespace SafetyEquipmentInspectionAPI
 
                 var employee = employeeDoc.ConvertTo<EmployeeDto>();
                 var employeeJson = JsonConvert.SerializeObject(employee);
-
                 return !employeeDoc.Exists ?
                     JsonConvert.SerializeObject(new { employee = employeeJson }) :
                     $"Employee {employeeId} not found";
@@ -66,61 +65,6 @@ namespace SafetyEquipmentInspectionAPI
                 return JsonConvert.SerializeObject( new { error = ex.Message});
             }
         }
-        [HttpPut("employees/edit/{employeeId}")]
-        public async Task<string> UpdateEmployee(EmployeeDto employeeDto)
-        {
-            try
-            {
-                var employeesCollection = _db.Collection("Employee");
-                var employeeToBeUpdated = await employeesCollection.Document(employeeDto.EmployeeId).GetSnapshotAsync();
-                if (employeeToBeUpdated.Exists)
-                {
-                    var updateJson = JsonConvert.SerializeObject(employeeDto);
-                    Dictionary<string, object> updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(updateJson);
-                    await employeesCollection.Document(employeeDto.EmployeeId).UpdateAsync(updatesDictionary);
-                    return JsonConvert.SerializeObject(new { message = $"Update of {employeeDto.EmployeeId} successfully" });
-                }else
-                {
-                    return $"Employee {employeeDto.EmployeeId} successfully updated";
-                }
-
-            }
-            catch (Exception ex)
-            {
-
-                return ex.Message;
-            }
-        }
-
-        [HttpDelete("employees/delete/{employeeId}")]
-        public async Task<string> DeleteEmployee(string employeeId)
-        {
-            try
-            {
-                var employeesCollection = _db.Collection("Employee");
-                var employeeDocToBeDeleted = await employeesCollection.Document(employeeId).GetSnapshotAsync();
-                if (employeeDocToBeDeleted.Exists)
-                {
-                    Dictionary<string, object> result = employeeDocToBeDeleted.ToDictionary();
-                    var empResultJson = JsonConvert.SerializeObject(result);
-                    var employeeDataTransferObj = JsonConvert.DeserializeObject<EmployeeDto>(empResultJson);
-                    await employeesCollection.Document(employeeId).DeleteAsync();
-                    return $"Employee {employeeDataTransferObj.FirstName} {employeeDataTransferObj.LastName} with " +
-                            $"ID {employeeDataTransferObj.EmployeeId} deleted";
-                }
-                else
-                {
-                    return $"Employee {employeeId} does not exist";
-                }
-            }
-            catch (Exception ex)
-            {
-
-                return ex.Message;
-            }
-        }
-
-
 
         [HttpGet("/employees/")]
         public async Task<List<EmployeeDto>> GetAllEmployees()
@@ -197,7 +141,6 @@ namespace SafetyEquipmentInspectionAPI
                 return ex.Message;
             }
         }
-
 
 
     }
