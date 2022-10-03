@@ -9,6 +9,7 @@
   margin: auto;
   width: calc(100% - 20px);
   max-width: 400px;
+  display:none;
 }
 #qr-result {
   font-size: 1.2em;
