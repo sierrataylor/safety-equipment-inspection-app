@@ -24,7 +24,7 @@ function initializescanner() {
     .getUserMedia({ video: { facingMode: "environment" } })
     .then(function (stream) {
       document.getElementById("scannerimg").style.display = "none";
-      // canvas.style.display = block;
+      canvas.style.display = "inline";
       video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
       video.srcObject = stream;
       video.play();
@@ -33,7 +33,6 @@ function initializescanner() {
     });
   
 }
-
 
 function tick() {
   var canvas = document.getElementById("qr-canvas");
@@ -49,5 +48,17 @@ function scan() {
     qrcode.decode();
   } catch (e) {
     setTimeout(scan, 300);
+  }
+}
+
+function submit()
+{
+  text = document.getElementById("code").value;
+  if (text == "") {
+    alert("input a code in order to get to form");
+  }
+  else
+  {
+    window.location.href = '/inspection-form'; 
   }
 }

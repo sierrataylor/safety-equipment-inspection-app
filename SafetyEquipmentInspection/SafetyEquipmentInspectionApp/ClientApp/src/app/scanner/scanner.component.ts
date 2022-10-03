@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 declare function initalizescanner(): any;
-declare function tick(): any;
-declare function scan(): any;
-declare function stream(): any;
+declare function submit(): any;
 @Component({
   selector: 'app-scanner',
   templateUrl: './scanner.component.html',

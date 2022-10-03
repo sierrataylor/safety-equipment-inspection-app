@@ -17,3 +17,7 @@
   max-width: 700px;
   background-color: white;
 }
+#submitbtn {
+   margin-top: 20px;
+   width: 10%;
+}
