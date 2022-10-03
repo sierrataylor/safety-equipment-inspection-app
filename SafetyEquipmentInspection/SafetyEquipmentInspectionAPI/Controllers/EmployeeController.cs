@@ -23,6 +23,7 @@ namespace SafetyEquipmentInspectionAPI
             {
                 var employeesCollection = _db.Collection("Employees");
                 var employeeDoc = await employeesCollection.Document(employeeId).GetSnapshotAsync();
+
                 var employee = employeeDoc.ConvertTo<EmployeeDto>();
                 var employeeJson = JsonConvert.SerializeObject(employee);
                 return !employeeDoc.Exists ?
@@ -140,7 +141,6 @@ namespace SafetyEquipmentInspectionAPI
                 return ex.Message;
             }
         }
-
 
 
     }
