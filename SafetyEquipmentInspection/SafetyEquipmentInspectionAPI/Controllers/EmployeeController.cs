@@ -142,6 +142,5 @@ namespace SafetyEquipmentInspectionAPI
             }
         }
 
-
     }
 }

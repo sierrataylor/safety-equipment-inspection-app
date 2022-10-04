@@ -6,16 +6,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Content Remove="firestoreCredentials.json" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<EmbeddedResource Include="firestoreCredentials.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</EmbeddedResource>
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="Google.Cloud.Firestore" Version="3.0.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
 	</ItemGroup>
@@ -23,6 +13,9 @@
 	<ItemGroup>
 		<Content Update="appsettings.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Update="firestoreCredentials.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
 
