@@ -57,7 +57,7 @@ namespace SafetyEquipmentInspectionApp.Mapping
             {
                 InspectionId = inspectionDto.InspectionId,
                 EquipmentId = inspectionDto.EquipmentId,
-                InspectionResult = inspectionDto.InspectionResult,
+                PassedInspection = inspectionDto.PassedInspection ? "passed" : "failed",
                 ReviewerId = int.Parse(inspectionDto.ReviewerId), 
                 LastInspectionDate = inspectionDto.LastInspectionDate
             };

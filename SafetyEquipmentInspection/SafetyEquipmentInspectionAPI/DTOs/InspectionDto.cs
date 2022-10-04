@@ -12,7 +12,7 @@ namespace SafetyEquipmentInspectionAPI.DTOs
         [FirestoreProperty]
         public DateTime LastInspectionDate { get; set; }
         [FirestoreProperty]
-        public string InspectionResult { get; set; }
+        public Boolean PassedInspection { get; set; }
         [FirestoreProperty]
         public string ReviewerId { get; set; }
     }
