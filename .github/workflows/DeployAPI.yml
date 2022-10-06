@@ -1,0 +1,13 @@
+name: Deploy API to Azure
+run-name: ${{ github.actor }} is deploying the SafetyEquipmentInspectionAPI to Azure 🚀
+on:
+  pull_request:
+    types:
+    - closed
+jobs:
+  if_merged:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo secrets.OCP_APIM_SUBSCRIPTION_KEY
+      - run: echo secrets.PRIVATE_KEY
