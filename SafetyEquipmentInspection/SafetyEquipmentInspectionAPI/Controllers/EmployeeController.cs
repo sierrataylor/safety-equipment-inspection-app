@@ -89,22 +89,30 @@ namespace SafetyEquipmentInspectionAPI
             }
         }
 
-        [HttpPut("employees/edit/")]
-        public async Task<string> UpdateEmployee(EmployeeDto employeeDto)
+        [HttpPut("employees/edit/{employeeId}")]
+        public async Task<string> UpdateEmployee(string employeeId, string firstName, string lastName, string role, string email)
         {
             try
             {
                 var employeesCollection = _db.Collection("Employee");
-                var employeeToBeUpdated = await employeesCollection.Document(employeeDto.EmployeeId).GetSnapshotAsync();
+                var employeeToBeUpdated = await employeesCollection.Document(employeeId).GetSnapshotAsync();
                 if (employeeToBeUpdated.Exists)
                 {
+                    EmployeeDto employeeDto = new EmployeeDto
+                    {
+                        EmployeeId = employeeId,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = email,
+                        Role = role
+                    };
                     var updateJson = JsonConvert.SerializeObject(employeeDto);
                     Dictionary<string, object> updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(updateJson);
                     await employeesCollection.Document(employeeDto.EmployeeId).UpdateAsync(updatesDictionary);
                     return JsonConvert.SerializeObject(new { message = $"Update of {employeeDto.EmployeeId} successfully" });
                 }else
                 {
-                    return $"Employee {employeeDto.EmployeeId} not found";
+                    return $"Employee {employeeId} not found";
                 }
 
             }
