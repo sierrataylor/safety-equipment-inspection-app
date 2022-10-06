@@ -1,1 +1,0 @@
-GitHub does not allow you to create empty folders, so this file was added only for the purpose of creating the "workflows" folder.
