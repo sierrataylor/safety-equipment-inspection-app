@@ -2,18 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { SharedService } from 'src/app/shared.service';
 
 @Component({
-  selector: 'app-inspections-table',
-  templateUrl: './inspections-table.component.html',
-  styleUrls: ['./inspections-table.component.css']
+  selector: 'app-equipment-table',
+  templateUrl: './equipment-table.component.html',
+  styleUrls: ['./equipment-table.component.css']
 })
-export class InspectionsTableComponent implements OnInit {
+export class EquipmentTableComponent implements OnInit {
 
   readonly APIUrl = "https://localhost:7023/";
 
-  EquipmentList: any =[];
+  EquipmentList: any = [];
 
   constructor(public service: SharedService) { }
-  
+
 
   ngOnInit(): void {
     this.GetEquipmentList("fire extinguisher");
