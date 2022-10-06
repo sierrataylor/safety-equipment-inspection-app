@@ -123,6 +123,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 var equipmentCollection = _db.Collection("Equipment");
                 var itemDocToBeUpdated = await equipmentCollection.Document(equipmentId).GetSnapshotAsync();
 
+
                 if (itemDocToBeUpdated.Exists)
                 {
                     EquipmentDto equipmentDto = new EquipmentDto
@@ -137,7 +138,6 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                     var dtoJson = JsonConvert.SerializeObject(equipmentDto);
                     var updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(dtoJson);
                     await equipmentCollection.Document(equipmentId).UpdateAsync(updatesDictionary);
-
                 };
 
                 return JsonConvert.SerializeObject(new { message = $"Update of item {equipmentId} successful" });
