@@ -26,7 +26,6 @@ namespace SafetyEquipmentInspectionAPI
 
                 var employee = employeeDoc.ConvertTo<EmployeeDto>();
                 var employeeJson = JsonConvert.SerializeObject(employee);
-
                 return !employeeDoc.Exists ?
                     JsonConvert.SerializeObject(new { employee = employeeJson }) :
                     $"Employee {employeeId} not found";
@@ -66,6 +65,32 @@ namespace SafetyEquipmentInspectionAPI
                 return JsonConvert.SerializeObject( new { error = ex.Message});
             }
         }
+
+        [HttpGet("/employees/")]
+        public async Task<List<EmployeeDto>> GetAllEmployees()
+        {
+            try
+            {
+                List<EmployeeDto> employees = new List<EmployeeDto>();
+                var employeesCollection = _db.Collection("Employee");
+                var allEmployeesDocs = await employeesCollection.GetSnapshotAsync();
+                foreach (var employeeDoc in allEmployeesDocs)
+                {
+                    var employee = employeeDoc.ConvertTo<EmployeeDto>();
+                    employees.Add(employee);
+                }
+                return employees;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
+<<<<<<< HEAD
+=======
         [HttpPut("employees/edit/{employeeId}")]
         public async Task<string> UpdateEmployee(EmployeeDto employeeDto)
         {
@@ -119,31 +144,6 @@ namespace SafetyEquipmentInspectionAPI
                 return ex.Message;
             }
         }
-
-
-
-        [HttpGet("/employees/")]
-        public async Task<List<EmployeeDto>> GetAllEmployees()
-        {
-            try
-            {
-                List<EmployeeDto> employees = new List<EmployeeDto>();
-                var employeesCollection = _db.Collection("Employee");
-                var allEmployeesDocs = await employeesCollection.GetSnapshotAsync();
-                foreach (var employeeDoc in allEmployeesDocs)
-                {
-                    var employee = employeeDoc.ConvertTo<EmployeeDto>();
-                    employees.Add(employee);
-                }
-                return employees;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-
+>>>>>>> 0cd9d5192dcae9a2f014ab007cfb3dea03571172
     }
 }

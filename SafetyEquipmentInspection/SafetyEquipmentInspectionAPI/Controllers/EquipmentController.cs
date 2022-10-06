@@ -123,6 +123,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 var id = equipmentDto.EquipmentId;
                 var equipmentCollection = _db.Collection("Equipment");
 
+
                 //get async snapshot of this document; null if query.document.Count = 0 (meaning the equipmentId was not found)
                 var itemDocToBeUpdated = equipmentCollection.Document(equipmentDto.EquipmentId.ToString());
                 var dtoJson = JsonConvert.SerializeObject(equipmentDto);
