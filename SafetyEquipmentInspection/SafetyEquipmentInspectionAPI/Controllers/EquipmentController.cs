@@ -75,7 +75,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             }
         }
 
-        [HttpPost("AddEquipmentPiece")]
+        [HttpPost("equipment/addItem")]
         public async Task<string> AddEquipmentPiece(string equipmentType, string building, int floor, string location)
         {
             try
@@ -115,23 +115,32 @@ namespace SafetyEquipmentInspectionAPI.Controllers
 
         }
 
-        [HttpPut("equipment/updateItem/{id}")]
-        public async Task<string> UpdateItem(EquipmentDto equipmentDto)
+        [HttpPut("equipment/updateItem/{equipmentId}")]
+        public async Task<string> UpdateItem(string equipmentId, string equipmentType, string location, int floor, string building)
         {
             try
             {
-                var id = equipmentDto.EquipmentId;
                 var equipmentCollection = _db.Collection("Equipment");
+                var itemDocToBeUpdated = await equipmentCollection.Document(equipmentId).GetSnapshotAsync();
 
+                if (itemDocToBeUpdated.Exists)
+                {
+                    EquipmentDto equipmentDto = new EquipmentDto
+                    {
+                        EquipmentId = Guid.Parse(equipmentId),
+                        EquipmentType = equipmentType,
+                        Location = location,
+                        Building = building,
+                        Floor = floor
+                    };
+                    //get async snapshot of this document; null if query.document.Count = 0 (meaning the equipmentId was not found)
+                    var dtoJson = JsonConvert.SerializeObject(equipmentDto);
+                    var updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(dtoJson);
+                    await equipmentCollection.Document(equipmentId).UpdateAsync(updatesDictionary);
 
-                //get async snapshot of this document; null if query.document.Count = 0 (meaning the equipmentId was not found)
-                var itemDocToBeUpdated = equipmentCollection.Document(equipmentDto.EquipmentId.ToString());
-                var dtoJson = JsonConvert.SerializeObject(equipmentDto);
-                var updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(dtoJson);
-                await itemDocToBeUpdated.UpdateAsync(updatesDictionary);
+                };
 
-
-                return JsonConvert.SerializeObject(new { message = $"Update of item {id} successful" });
+                return JsonConvert.SerializeObject(new { message = $"Update of item {equipmentId} successful" });
             }
             catch (Exception)
             {
