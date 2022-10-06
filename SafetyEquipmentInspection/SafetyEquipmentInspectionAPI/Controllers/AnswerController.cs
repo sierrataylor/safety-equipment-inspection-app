@@ -6,6 +6,7 @@ using SafetyEquipmentInspectionAPI.DTOs;
 
 namespace SafetyEquipmentInspectionAPI.Controllers
 {
+    [ApiController]
     public class AnswerController
     {
         public readonly FirestoreDb _db;

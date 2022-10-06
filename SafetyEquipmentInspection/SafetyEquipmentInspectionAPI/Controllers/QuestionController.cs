@@ -7,6 +7,7 @@ using SafetyEquipmentInspectionAPI.Interfaces;
 
 namespace SafetyEquipmentInspectionAPI.Controllers
 {
+    [ApiController]
     public class QuestionController
     {
         public readonly FirestoreDb _db;

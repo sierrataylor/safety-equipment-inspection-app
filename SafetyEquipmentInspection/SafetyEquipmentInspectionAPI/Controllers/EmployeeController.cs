@@ -7,6 +7,7 @@ using SafetyEquipmentInspectionAPI.Interfaces;
 
 namespace SafetyEquipmentInspectionAPI
 {
+    [ApiController]
     public class EmployeeController
     {
         public readonly FirestoreDb _db;
@@ -38,16 +39,24 @@ namespace SafetyEquipmentInspectionAPI
             
         }
         [HttpPost("/employees/addEmployee")]
-        public async Task<string> AddEmployee(EmployeeDto employeeDto)
+        public async Task<string> AddEmployee(string employeeId, string firstName, string lastName, string email, string role)
         {
             try
             {
                 var employeesCollection = _db.Collection("Employee");
-                var employeeDoc = await employeesCollection.Document(employeeDto.EmployeeId).GetSnapshotAsync();
+                var employeeDoc = await employeesCollection.Document(employeeId).GetSnapshotAsync();
                 string message;
                 
                 if (!employeeDoc.Exists)
                 {
+                    EmployeeDto employeeDto = new EmployeeDto
+                    {
+                        EmployeeId = employeeId,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = email,
+                        Role = role
+                    };
                     var empJson = JsonConvert.SerializeObject(employeeDto);
                     Dictionary<string, object> employeeDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(empJson);
                     await employeesCollection.Document(employeeDto.EmployeeId).SetAsync(employeeDict);
@@ -55,7 +64,7 @@ namespace SafetyEquipmentInspectionAPI
                 }
                 else
                 {
-                    message = $"Employee {employeeDto.EmployeeId} already exists";
+                    message = $"Employee {employeeId} already exists";
                 }
                 return message;
                 
@@ -109,7 +118,7 @@ namespace SafetyEquipmentInspectionAPI
                     var updateJson = JsonConvert.SerializeObject(employeeDto);
                     Dictionary<string, object> updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(updateJson);
                     await employeesCollection.Document(employeeDto.EmployeeId).UpdateAsync(updatesDictionary);
-                    return JsonConvert.SerializeObject(new { message = $"Update of {employeeDto.EmployeeId} successfully" });
+                    return JsonConvert.SerializeObject(new { message = $"Update of {employeeDto.EmployeeId} successfully", currentEmployeeData = JsonConvert.SerializeObject(employeeDto) });
                 }else
                 {
                     return $"Employee {employeeId} not found";
@@ -150,6 +159,5 @@ namespace SafetyEquipmentInspectionAPI
                 return ex.Message;
             }
         }
-
     }
 }

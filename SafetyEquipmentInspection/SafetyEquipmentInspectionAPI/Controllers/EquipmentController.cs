@@ -9,6 +9,7 @@ using System.Web;
 
 namespace SafetyEquipmentInspectionAPI.Controllers
 {
+    [ApiController]
     public class EquipmentController : IEquipmentController
     {
         public readonly FirestoreDb _db;
@@ -139,7 +140,6 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                     var dtoJson = JsonConvert.SerializeObject(equipmentDto);
                     var updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(dtoJson);
                     await equipmentCollection.Document(equipmentId).UpdateAsync(updatesDictionary);
-
                 };
 
                 return JsonConvert.SerializeObject(new { message = $"Update of item {equipmentId} successful" });
