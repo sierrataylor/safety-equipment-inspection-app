@@ -57,11 +57,11 @@ namespace SafetyEquipmentInspectionAPI.Controllers
         /// <param name="answers">All the answers being submitted through the form, passed as a List</param>
         /// <returns></returns>
         [HttpPost("/inspection/")]
-        public async Task SubmitInspection(string equipmentId, string reviewer, string inspectionDate, List<AnswerDto> answers)
+        public async Task SubmitInspection(string equipmentId, string reviewer, List<AnswerDto> answers)
         {
             bool hasPassedInspection = false;
 
-            string message;
+            //string message;
             var inspectionCollection = _db.Collection("Inspection");
             var equipmentCollection = _db.Collection("Equipment");
             var equipmentBeingInspected = await equipmentCollection.Document(equipmentId).GetSnapshotAsync();
@@ -79,16 +79,41 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                     EquipmentId = equipmentId,
                     PassedInspection = hasPassedInspection,
                     ReviewerId = reviewer,
-                    LastInspectionDate = DateTime.Parse(inspectionDate)
+                    LastInspectionDate = DateTime.UtcNow //DateTime.Parse(inspectionDate)
                 };
+                //inspectionDto.LastInspectionDate = Timestamp.FromDateTime(inspectionDto.LastInspectionDate);
                 var inspectionDocument = await inspectionCollection.Document(inspectionDto.InspectionId).GetSnapshotAsync();
-                Dictionary<string, object> inspectionDictionary = inspectionDocument.ToDictionary();
+                var inspectJson = JsonConvert.SerializeObject(inspectionDto);
+                Dictionary<string, object> inspectionDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(inspectJson);
+                inspectionDictionary["LastInspectionDate"] = Timestamp.FromDateTime(inspectionDto.LastInspectionDate);
                 await inspectionCollection.Document(inspectionDto.InspectionId).SetAsync(inspectionDictionary);
-                message = JsonConvert.SerializeObject(inspectionDictionary);
+                //message = JsonConvert.SerializeObject(inspectionDictionary);
             }
-            else
+        }
+
+        [HttpGet("inspections/past/{equipmentId}")]
+        public async Task<List<InspectionDto>> GetPastInspections(string equipmentId)
+        {
+            try
             {
-                message = $"Cannot complete this inspection, item not found";
+                var inspectionCollection = _db.Collection("Inspection");
+                List<InspectionDto> pastInspections = new List<InspectionDto>();
+                var getInspectionsBasedOnItemIdQuery = await inspectionCollection.WhereEqualTo("EquipmentId", equipmentId).GetSnapshotAsync();
+                if (getInspectionsBasedOnItemIdQuery.Any())
+                {
+                    foreach (var inspectionDoc in getInspectionsBasedOnItemIdQuery.Documents)
+                    {
+                        var inspection = inspectionDoc.ConvertTo<InspectionDto>();
+                        pastInspections.Add(inspection);
+                    }
+                }
+                return pastInspections;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
     }
