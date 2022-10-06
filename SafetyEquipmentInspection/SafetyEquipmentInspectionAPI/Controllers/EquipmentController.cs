@@ -8,6 +8,7 @@ using System.Web;
 
 namespace SafetyEquipmentInspectionAPI.Controllers
 {
+    [ApiController]
     public class EquipmentController : IEquipmentController
     {
         public readonly FirestoreDb _db;
