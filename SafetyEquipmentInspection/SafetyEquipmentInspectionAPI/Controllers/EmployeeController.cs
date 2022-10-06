@@ -16,17 +16,19 @@ namespace SafetyEquipmentInspectionAPI
             _db = FirestoreDb.Create(FirestoreConstants.ProjectId);
         }
 
-        [HttpGet("/employees/employee/{id}")]
+        [HttpGet("/employees/employee/{employeeId}")]
         public async Task<string> GetEmployee(string employeeId)
         {
             try
             {
-                var employeesCollection = _db.Collection("Employees");
+                var employeesCollection = _db.Collection("Employee");
                 var employeeDoc = await employeesCollection.Document(employeeId).GetSnapshotAsync();
 
                 var employee = employeeDoc.ConvertTo<EmployeeDto>();
                 var employeeJson = JsonConvert.SerializeObject(employee);
-                return !employeeDoc.Exists ?
+
+                return employeeDoc.Exists ?
+
                     JsonConvert.SerializeObject(new { employee = employeeJson }) :
                     $"Employee {employeeId} not found";
             }
@@ -37,7 +39,7 @@ namespace SafetyEquipmentInspectionAPI
             }
 
         }
-        [HttpPost("/employees/{id}")]
+        [HttpPost("/employees/addEmployee")]
         public async Task<string> AddEmployee(EmployeeDto employeeDto)
         {
             try
@@ -48,7 +50,8 @@ namespace SafetyEquipmentInspectionAPI
 
                 if (!employeeDoc.Exists)
                 {
-                    Dictionary<string, object> employeeDict = employeeDoc.ToDictionary();
+                    var empJson = JsonConvert.SerializeObject(employeeDto);
+                    Dictionary<string, object> employeeDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(empJson);
                     await employeesCollection.Document(employeeDto.EmployeeId).SetAsync(employeeDict);
                     message = JsonConvert.SerializeObject(employeeDict);
                 }
@@ -89,14 +92,22 @@ namespace SafetyEquipmentInspectionAPI
         }
 
         [HttpPut("employees/edit/{employeeId}")]
-        public async Task<string> UpdateEmployee(EmployeeDto employeeDto)
+        public async Task<string> UpdateEmployee(string employeeId, string firstName, string lastName, string role, string email)
         {
             try
             {
                 var employeesCollection = _db.Collection("Employee");
-                var employeeToBeUpdated = await employeesCollection.Document(employeeDto.EmployeeId).GetSnapshotAsync();
+                var employeeToBeUpdated = await employeesCollection.Document(employeeId).GetSnapshotAsync();
                 if (employeeToBeUpdated.Exists)
                 {
+                    EmployeeDto employeeDto = new EmployeeDto
+                    {
+                        EmployeeId = employeeId,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = email,
+                        Role = role
+                    };
                     var updateJson = JsonConvert.SerializeObject(employeeDto);
                     Dictionary<string, object> updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(updateJson);
                     await employeesCollection.Document(employeeDto.EmployeeId).UpdateAsync(updatesDictionary);
@@ -104,7 +115,7 @@ namespace SafetyEquipmentInspectionAPI
                 }
                 else
                 {
-                    return $"Employee {employeeDto.EmployeeId} successfully updated";
+                    return $"Employee {employeeId} not found";
                 }
 
             }
@@ -142,6 +153,5 @@ namespace SafetyEquipmentInspectionAPI
                 return ex.Message;
             }
         }
-
     }
 }

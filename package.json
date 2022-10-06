@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@nguniversal/module-map-ngfactory-loader": "^7.0.2"
+  }
+}
