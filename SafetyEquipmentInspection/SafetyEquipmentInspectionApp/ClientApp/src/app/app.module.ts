@@ -20,6 +20,7 @@ import { PastInspectionsComponent } from './past-inspections/past-inspections.co
 import { SharedService } from './shared.service';
 import { FireExtinguisherFormComponent } from './inspection-form/fire-extinguisher-form/fire-extinguisher-form.component';
 import { EquipmentTableComponent } from './equipment-table/equipment-table.component';
+import { qrgeneratorComponent } from './qrgenerator/qrgenerator.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { EquipmentTableComponent } from './equipment-table/equipment-table.compo
     InspectionsTableComponent,
     PastInspectionsComponent,
     FireExtinguisherFormComponent,
-    EquipmentTableComponent
+    EquipmentTableComponent,
+    qrgeneratorComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -53,6 +55,7 @@ import { EquipmentTableComponent } from './equipment-table/equipment-table.compo
       { path: 'inspection-form', component: InspectionFormComponent },
       { path: 'past-inspections', component: PastInspectionsComponent },
       { path: 'equipment-table', component: EquipmentTableComponent },
+      { path: 'qrgenerator', component: qrgeneratorComponent }
 
     ])
   ],
