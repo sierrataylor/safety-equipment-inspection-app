@@ -2,11 +2,11 @@
 ## Automatic Deployment with GitHub Actions
   To be updated later...
 ## Manual Deployment
-### 1. Save all of your changes.
+1. Save all of your changes by using CTRL + K, S.
 
+2. Right click on the SafetyEquipmentInspectionAPI.csproj file in the Solution Explorer and then left click "Publish" in the dropdown menu that appears.
 
-### 2.
-
+![alt text](https://imgur.com/a/nUxLQ1a)
 
 
 
