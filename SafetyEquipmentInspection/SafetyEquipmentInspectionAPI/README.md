@@ -6,7 +6,7 @@
 
 2. Right click on the SafetyEquipmentInspectionAPI.csproj file in the Solution Explorer and then left click "Publish" in the dropdown menu that appears.
 
-![alt text](https://imgur.com/a/nUxLQ1a)
+![alt text](https://i.imgur.com/bJxQKUm.png)
 
 
 
