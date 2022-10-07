@@ -26,9 +26,7 @@ namespace SafetyEquipmentInspectionAPI
 
                 var employee = employeeDoc.ConvertTo<EmployeeDto>();
                 var employeeJson = JsonConvert.SerializeObject(employee);
-
                 return employeeDoc.Exists ?
-
                     JsonConvert.SerializeObject(new { employee = employeeJson }) :
                     $"Employee {employeeId} not found";
             }
@@ -40,16 +38,24 @@ namespace SafetyEquipmentInspectionAPI
 
         }
         [HttpPost("/employees/addEmployee")]
-        public async Task<string> AddEmployee(EmployeeDto employeeDto)
+        public async Task<string> AddEmployee(string employeeId, string firstName, string lastName, string email, string role)
         {
             try
             {
                 var employeesCollection = _db.Collection("Employee");
-                var employeeDoc = await employeesCollection.Document(employeeDto.EmployeeId).GetSnapshotAsync();
+                var employeeDoc = await employeesCollection.Document(employeeId).GetSnapshotAsync();
                 string message;
 
                 if (!employeeDoc.Exists)
                 {
+                    EmployeeDto employeeDto = new EmployeeDto
+                    {
+                        EmployeeId = employeeId,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Email = email,
+                        Role = role
+                    };
                     var empJson = JsonConvert.SerializeObject(employeeDto);
                     Dictionary<string, object> employeeDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(empJson);
                     await employeesCollection.Document(employeeDto.EmployeeId).SetAsync(employeeDict);
@@ -57,7 +63,7 @@ namespace SafetyEquipmentInspectionAPI
                 }
                 else
                 {
-                    message = $"Employee {employeeDto.EmployeeId} already exists";
+                    message = $"Employee {employeeId} already exists";
                 }
                 return message;
 
