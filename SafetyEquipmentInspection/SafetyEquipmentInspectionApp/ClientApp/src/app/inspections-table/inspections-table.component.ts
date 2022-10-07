@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SharedService } from 'src/app/shared.service';
 
 @Component({
   selector: 'app-inspections-table',
@@ -7,11 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InspectionsTableComponent implements OnInit {
 
-  constructor() { }
+  readonly APIUrl = "https://localhost:7023/";
 
+  EquipmentList: any =[];
 
+  constructor(public service: SharedService) { }
+  
 
   ngOnInit(): void {
+    this.GetEquipmentList("fire extinguisher");
+  }
+
+  GetEquipmentList(equipmentId: any) {
+    this.service.GetEquipmentList(equipmentId).subscribe(data => {
+      this.EquipmentList = data;
+      console.log(this.EquipmentList);
+    })
   }
 
 }

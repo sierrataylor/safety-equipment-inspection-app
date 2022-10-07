@@ -56,7 +56,7 @@ namespace SafetyEquipmentInspectionApp.Mapping
             {
                 InspectionId = inspection.InspectionId,
                 EquipmentId = inspection.EquipmentId,
-                InspectionResult = inspection.InspectionResult,
+                PassedInspection = inspection.PassedInspection.ToLower().Equals("true"), 
                 ReviewerId = inspection.ReviewerId.ToString(),
                 LastInspectionDate = inspection.LastInspectionDate
             };

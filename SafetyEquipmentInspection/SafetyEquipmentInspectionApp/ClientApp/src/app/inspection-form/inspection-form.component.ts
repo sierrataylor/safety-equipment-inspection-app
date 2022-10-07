@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SharedService } from 'src/app/shared.service';
 
 @Component({
   selector: 'app-inspection-form',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InspectionFormComponent implements OnInit {
 
-  constructor() { }
+  constructor(public service: SharedService) { }
+
+  EquipmentItem: any;
 
   ngOnInit(): void {
+  }
+
+  GetEquipmentItem(equipmentId: any) {
+    this.service.GetEquipmentItem(equipmentId).subscribe(data => {
+      this.EquipmentItem = data;
+    })
   }
 
 }

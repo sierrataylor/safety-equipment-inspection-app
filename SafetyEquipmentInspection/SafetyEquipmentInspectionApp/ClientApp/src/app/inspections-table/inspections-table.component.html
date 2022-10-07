@@ -2,20 +2,23 @@
   <div>
     <!--sorting drop downs (display and sort by options)-->
   </div>
+  <!--
   <table class="table table-striped">
     <thead>
       <tr>
-        <th>Inspection ID</th>
-        <th>Date of Scan</th>
         <th>Equipment ID</th>
+        <th>Inspection Result</th>
+        <th>Last Inspection Date</th>
+        <th>Reviewer ID</th>
         <th>Options</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
+      <tr *ngFor="let dataItem of InspectionList">
+        <td>{{dataItem.InspectionID}}</td>
+        <td>{{dataItem.InspectionResults}}</td>
+        <td>{{dataItem.LastInspectionDate}}</td>
+        <td>{{dataItem.ReviewerID}}</td>
         <td>
           <button type="button" class="btn btn bg-light">i</button>
           <button type="button" class="btn btn bg-light">Edit</button>
@@ -24,5 +27,7 @@
       </tr>
     </tbody>
   </table>
+    -->
+  
 </div>
 
