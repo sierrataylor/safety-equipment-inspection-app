@@ -5,7 +5,6 @@ using Newtonsoft.Json.Serialization;
 using SafetyEquipmentInspectionAPI.Constants;
 using SafetyEquipmentInspectionAPI.DTOs;
 using SafetyEquipmentInspectionAPI.Interfaces;
-using System.Web;
 
 namespace SafetyEquipmentInspectionAPI.Controllers
 {
@@ -47,7 +46,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             }
             catch (Exception ex)
             {
-                //if document 
+                //if document
                 return JsonConvert.SerializeObject(new { error = ex.Message });
 
             }
@@ -57,7 +56,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
         public async Task<List<EquipmentDto>> GetListItems(string equipmentType)
         {
             try
-            {            
+            {
                 List<EquipmentDto> equipmentItems = new List<EquipmentDto>();
                 var equipmentCollection = _db.Collection("Equipment");
                 var getAllItemsQuery = await equipmentCollection.WhereEqualTo("EquipmentType", equipmentType).GetSnapshotAsync();
@@ -72,7 +71,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
 
                 return equipmentItems;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }

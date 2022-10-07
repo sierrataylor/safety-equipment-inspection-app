@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SafetyEquipmentInspectionAPI.Constants;
 using SafetyEquipmentInspectionAPI.DTOs;
-using SafetyEquipmentInspectionAPI.Interfaces;
 
 namespace SafetyEquipmentInspectionAPI.Controllers
 {
@@ -45,11 +44,11 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 inspectionFormQuestions.Add(question.Field);
             }
             return inspectionFormQuestions;
-            
+
         }
 
         /// <summary>
-        /// HTTP Post for submitted the answers input during an inspection. 
+        /// HTTP Post for submitted the answers input during an inspection.
         /// Will be performed once the user selects submit.
         /// </summary>
         /// <param name="equipmentId">The ID of the item being inspected</param>
@@ -72,7 +71,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             {
                 //if answers are correct, boolean is set to true; else, false
                 hasPassedInspection = answers.Any(); //WIP
-                
+
                 //create instance of inspection and add to the database
                 InspectionDto inspectionDto = new InspectionDto
                 {
