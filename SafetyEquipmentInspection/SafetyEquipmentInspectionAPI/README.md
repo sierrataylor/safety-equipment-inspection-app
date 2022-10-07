@@ -8,10 +8,8 @@
 
 ![alt text](https://i.imgur.com/bJxQKUm.png)
 
+3. Ensure that "SafetyEquipmentInspectionAPI - Web Deploy.pubxml" is selected in the top left.
 
-
-### 3.
-
-
+![alt text](https://i.imgur.com/D6cLLbR.png)
 
 ### 4.
