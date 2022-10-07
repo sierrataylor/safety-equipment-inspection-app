@@ -7,6 +7,7 @@ using SafetyEquipmentInspectionAPI.Interfaces;
 
 namespace SafetyEquipmentInspectionAPI.Controllers
 {
+    [ApiController]
     public class QuestionController
     {
         public readonly FirestoreDb _db;
@@ -17,13 +18,25 @@ namespace SafetyEquipmentInspectionAPI.Controllers
         }
 
         [HttpGet("inspection/{equipmentId}/")]
-        public async Task<string> GetAllQuestions(string equipmentType)
+        public async Task<List<QuestionDto>> GetAllQuestions(string equipmentType)
         {
-            var questionCollection = _db.Collection("Questions");
-            var query = await questionCollection.WhereEqualTo("EquipmentType", equipmentType).GetSnapshotAsync();
-            var questions = query.Documents;
-            return JsonConvert.SerializeObject(questions);
+            try
+            {
+                List<QuestionDto> questions = new List<QuestionDto>();
+                var questionCollection = _db.Collection("Questions");
+                var questionQuery = await questionCollection.WhereEqualTo("EquipmentType", equipmentType).GetSnapshotAsync();
+                foreach (var questionDoc in questionQuery)
+                {
+                    var question = questionDoc.ConvertTo<QuestionDto>();
+                    questions.Add(question);
+                }
+                return questions;
+            }
+            catch (Exception)
+            {
 
+                throw;
+            }
         }
 
         [HttpPost("admin/questions/")]
@@ -62,7 +75,9 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 return JsonConvert.SerializeObject(new { error = ex.Message });
             }
         }
-        [HttpPut("admin/questions/editQuestion/questionId}")]
+
+        [HttpPut("admin/questions/editQuestion/{questionId}")]
+
         public async Task<string> UpdateQuestion(QuestionDto questionDto)
         {
             try
@@ -108,7 +123,6 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 {
                     return "Question not found";
                 }
-
 
             }
             catch (Exception ex)

@@ -1,7 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -15,6 +17,10 @@ import { ScannerComponent } from './scanner/scanner.component';
 import { InspectionFormComponent } from './inspection-form/inspection-form.component';
 import { InspectionsTableComponent } from './inspections-table/inspections-table.component';
 import { PastInspectionsComponent } from './past-inspections/past-inspections.component';
+import { SharedService } from './shared.service';
+import { FireExtinguisherFormComponent } from './inspection-form/fire-extinguisher-form/fire-extinguisher-form.component';
+import { EquipmentTableComponent } from './equipment-table/equipment-table.component';
+
 
 @NgModule({
   declarations: [
@@ -28,12 +34,15 @@ import { PastInspectionsComponent } from './past-inspections/past-inspections.co
     ScannerComponent,
     InspectionFormComponent,
     InspectionsTableComponent,
-    PastInspectionsComponent
+    PastInspectionsComponent,
+    FireExtinguisherFormComponent,
+    EquipmentTableComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot([
       { path: 'home', component: HomeComponent},
       { path: 'counter', component: CounterComponent },
@@ -43,10 +52,11 @@ import { PastInspectionsComponent } from './past-inspections/past-inspections.co
       { path: 'scanner', component: ScannerComponent },
       { path: 'inspection-form', component: InspectionFormComponent },
       { path: 'past-inspections', component: PastInspectionsComponent },
+      { path: 'equipment-table', component: EquipmentTableComponent },
 
     ])
   ],
-  providers: [],
+  providers: [SharedService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
