@@ -12,4 +12,8 @@
 
 ![alt text](https://i.imgur.com/D6cLLbR.png)
 
-### 4.
+4. Left click "Publish"!
+
+![alt text](https://i.imgur.com/cz6YcIF.png)
+
+5. Ensure that the deployment was successful.
