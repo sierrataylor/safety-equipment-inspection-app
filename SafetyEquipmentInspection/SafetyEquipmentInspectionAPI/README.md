@@ -17,3 +17,5 @@
 ![alt text](https://i.imgur.com/cz6YcIF.png)
 
 5. Ensure that the deployment was successful.
+
+![alt text](https://i.imgur.com/sGC4scH.png)
