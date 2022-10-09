@@ -21,6 +21,7 @@ import { SharedService } from './shared.service';
 import { FireExtinguisherFormComponent } from './inspection-form/fire-extinguisher-form/fire-extinguisher-form.component';
 import { EquipmentTableComponent } from './equipment-table/equipment-table.component';
 import { qrgeneratorComponent } from './qrgenerator/qrgenerator.component';
+
 import { SpillKitFormComponent } from './inspection-form/spill-kit-form/spill-kit-form.component';
 import { EyewashFormComponent } from './inspection-form/eyewash-form/eyewash-form.component';
 import { SafetyShowerFormComponent } from './inspection-form/safety-shower-form/safety-shower-form.component';
