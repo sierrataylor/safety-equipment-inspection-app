@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SafetyEquipmentInspectionAPI.Constants;
 using SafetyEquipmentInspectionAPI.DTOs;
-using SafetyEquipmentInspectionAPI.Interfaces;
 
 namespace SafetyEquipmentInspectionAPI.Controllers
 {
+    [ApiController]
     public class QuestionController
     {
         public readonly FirestoreDb _db;
