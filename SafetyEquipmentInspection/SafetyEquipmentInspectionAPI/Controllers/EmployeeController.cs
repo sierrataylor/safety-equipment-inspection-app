@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SafetyEquipmentInspectionAPI.Constants;
 using SafetyEquipmentInspectionAPI.DTOs;
-using SafetyEquipmentInspectionAPI.Interfaces;
 
 namespace SafetyEquipmentInspectionAPI
 {
@@ -34,21 +33,24 @@ namespace SafetyEquipmentInspectionAPI
             catch (Exception ex)
             {
 
-                return JsonConvert.SerializeObject( new { error = ex.Message});
+                return JsonConvert.SerializeObject(new { error = ex.Message });
             }
-            
+
         }
         [HttpPost("/employees/addEmployee")]
+
         public async Task<string> AddEmployee(string employeeId, string firstName, string lastName, string email, string role)
+
         {
             try
             {
                 var employeesCollection = _db.Collection("Employee");
                 var employeeDoc = await employeesCollection.Document(employeeId).GetSnapshotAsync();
                 string message;
-                
+
                 if (!employeeDoc.Exists)
                 {
+
                     EmployeeDto employeeDto = new EmployeeDto
                     {
                         EmployeeId = employeeId,
@@ -57,6 +59,7 @@ namespace SafetyEquipmentInspectionAPI
                         Email = email,
                         Role = role
                     };
+
                     var empJson = JsonConvert.SerializeObject(employeeDto);
                     Dictionary<string, object> employeeDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(empJson);
                     await employeesCollection.Document(employeeDto.EmployeeId).SetAsync(employeeDict);
@@ -67,12 +70,12 @@ namespace SafetyEquipmentInspectionAPI
                     message = $"Employee {employeeId} already exists";
                 }
                 return message;
-                
+
             }
             catch (Exception ex)
             {
 
-                return JsonConvert.SerializeObject( new { error = ex.Message});
+                return JsonConvert.SerializeObject(new { error = ex.Message });
             }
         }
 
@@ -118,8 +121,9 @@ namespace SafetyEquipmentInspectionAPI
                     var updateJson = JsonConvert.SerializeObject(employeeDto);
                     Dictionary<string, object> updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(updateJson);
                     await employeesCollection.Document(employeeDto.EmployeeId).UpdateAsync(updatesDictionary);
-                    return JsonConvert.SerializeObject(new { message = $"Update of {employeeDto.EmployeeId} successfully", currentEmployeeData = JsonConvert.SerializeObject(employeeDto) });
-                }else
+                    return JsonConvert.SerializeObject(new { message = $"Update of {employeeDto.EmployeeId} successfully" });
+                }
+                else
                 {
                     return $"Employee {employeeId} not found";
                 }
