@@ -3,6 +3,7 @@ import { HttpClient, } from '@angular/common/http';
 import { HttpClientModule, HttpResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
+import { EquipmentDto } from './SharedDTO/equipment.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -16,12 +17,12 @@ export class SharedService {
 
   //Equipment API Methods
 
-  GetEquipmentItem(equipmentId: string) {
-    return this.http.get(this.APIUrl + "equipment/item/" + equipmentId);
+  GetEquipmentItem(equipmentId: string): Observable<EquipmentDto> {
+    return this.http.get<EquipmentDto>(this.APIUrl + "equipment/item/" + equipmentId);
   }
 
-  GetEquipmentList(equipmentType: string) {
-    return this.http.get(this.APIUrl + "equipment/items/" + equipmentType);
+  GetEquipmentList(equipmentType: string): Observable<EquipmentDto[]>{
+    return this.http.get<EquipmentDto[]> (this.APIUrl + "equipment/items/" + equipmentType);
   }
 
   AddEquipmentItem(equipmentType: string, building: string, floor: number, location: string) {

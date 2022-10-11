@@ -140,7 +140,6 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                     var updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(dtoJson);
                     await equipmentCollection.Document(equipmentId).UpdateAsync(updatesDictionary);
                 };
-
                 return JsonConvert.SerializeObject(new { message = $"Update of item {equipmentId} successful" });
             }
             catch (Exception)

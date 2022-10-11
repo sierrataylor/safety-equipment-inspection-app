@@ -22,6 +22,20 @@ import { FireExtinguisherFormComponent } from './inspection-form/fire-extinguish
 import { EquipmentTableComponent } from './equipment-table/equipment-table.component';
 import { qrgeneratorComponent } from './qrgenerator/qrgenerator.component';
 
+import { SpillKitFormComponent } from './inspection-form/spill-kit-form/spill-kit-form.component';
+import { EyewashFormComponent } from './inspection-form/eyewash-form/eyewash-form.component';
+import { SafetyShowerFormComponent } from './inspection-form/safety-shower-form/safety-shower-form.component';
+import { EyewashShowerFormComponent } from './inspection-form/eyewash-shower-form/eyewash-shower-form.component';
+import { EmergencyLightingFormComponent } from './inspection-form/emergency-lighting-form/emergency-lighting-form.component';
+import { FireBlanketsFormComponent } from './inspection-form/fire-blankets-form/fire-blankets-form.component';
+import { FirstAidSuppliesFormComponent } from './inspection-form/first-aid-supplies-form/first-aid-supplies-form.component';
+import { AedFormComponent } from './inspection-form/aed-form/aed-form.component';
+import { FlammableCabinetsFormComponent } from './inspection-form/flammable-cabinets-form/flammable-cabinets-form.component';
+import { LadderFormComponent } from './inspection-form/ladder-form/ladder-form.component';
+import { HarnessFormComponent } from './inspection-form/harness-form/harness-form.component';
+import { FpLanyardFormComponent } from './inspection-form/fp-lanyard-form/fp-lanyard-form.component';
+import { HoistSlingFormComponent } from './inspection-form/hoist-sling-form/hoist-sling-form.component';
+
 
 @NgModule({
   declarations: [
@@ -38,7 +52,20 @@ import { qrgeneratorComponent } from './qrgenerator/qrgenerator.component';
     PastInspectionsComponent,
     FireExtinguisherFormComponent,
     EquipmentTableComponent,
-    qrgeneratorComponent
+    qrgeneratorComponent,
+    SpillKitFormComponent,
+    EyewashFormComponent,
+    SafetyShowerFormComponent,
+    EyewashShowerFormComponent,
+    EmergencyLightingFormComponent,
+    FireBlanketsFormComponent,
+    FirstAidSuppliesFormComponent,
+    AedFormComponent,
+    FlammableCabinetsFormComponent,
+    LadderFormComponent,
+    HarnessFormComponent,
+    FpLanyardFormComponent,
+    HoistSlingFormComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

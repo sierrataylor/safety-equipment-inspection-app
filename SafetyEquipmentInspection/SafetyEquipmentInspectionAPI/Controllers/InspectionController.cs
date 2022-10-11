@@ -44,11 +44,11 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 inspectionFormQuestions.Add(question.Field);
             }
             return inspectionFormQuestions;
-
         }
 
         /// <summary>
         /// HTTP Post for submitted the answers input during an inspection.
+
         /// Will be performed once the user selects submit.
         /// </summary>
         /// <param name="equipmentId">The ID of the item being inspected</param>
@@ -57,11 +57,13 @@ namespace SafetyEquipmentInspectionAPI.Controllers
         /// <param name="answers">All the answers being submitted through the form, passed as a List</param>
         /// <returns></returns>
         [HttpPost("/inspection/")]
+
         public async Task SubmitInspection(string equipmentId, string reviewer, List<AnswerDto> answers)
         {
             bool hasPassedInspection = false;
 
             //string message;
+
             var inspectionCollection = _db.Collection("Inspection");
             var equipmentCollection = _db.Collection("Equipment");
             var equipmentBeingInspected = await equipmentCollection.Document(equipmentId).GetSnapshotAsync();
@@ -71,7 +73,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             {
                 //if answers are correct, boolean is set to true; else, false
                 hasPassedInspection = answers.Any(); //WIP
-
+                
                 //create instance of inspection and add to the database
                 InspectionDto inspectionDto = new InspectionDto
                 {
@@ -86,6 +88,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 var inspectJson = JsonConvert.SerializeObject(inspectionDto);
                 Dictionary<string, object> inspectionDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(inspectJson);
                 inspectionDictionary["LastInspectionDate"] = Timestamp.FromDateTime(inspectionDto.LastInspectionDate);
+
                 await inspectionCollection.Document(inspectionDto.InspectionId).SetAsync(inspectionDictionary);
                 //message = JsonConvert.SerializeObject(inspectionDictionary);
             }
@@ -114,6 +117,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             {
 
                 throw;
+
             }
         }
     }

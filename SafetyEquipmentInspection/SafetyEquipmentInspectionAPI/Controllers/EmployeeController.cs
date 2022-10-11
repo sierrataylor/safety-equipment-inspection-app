@@ -26,7 +26,9 @@ namespace SafetyEquipmentInspectionAPI
 
                 var employee = employeeDoc.ConvertTo<EmployeeDto>();
                 var employeeJson = JsonConvert.SerializeObject(employee);
+
                 return employeeDoc.Exists ?
+
                     JsonConvert.SerializeObject(new { employee = employeeJson }) :
                     $"Employee {employeeId} not found";
             }
@@ -38,7 +40,9 @@ namespace SafetyEquipmentInspectionAPI
 
         }
         [HttpPost("/employees/addEmployee")]
+
         public async Task<string> AddEmployee(string employeeId, string firstName, string lastName, string email, string role)
+
         {
             try
             {
@@ -48,6 +52,7 @@ namespace SafetyEquipmentInspectionAPI
 
                 if (!employeeDoc.Exists)
                 {
+
                     EmployeeDto employeeDto = new EmployeeDto
                     {
                         EmployeeId = employeeId,
@@ -56,6 +61,7 @@ namespace SafetyEquipmentInspectionAPI
                         Email = email,
                         Role = role
                     };
+
                     var empJson = JsonConvert.SerializeObject(employeeDto);
                     Dictionary<string, object> employeeDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(empJson);
                     await employeesCollection.Document(employeeDto.EmployeeId).SetAsync(employeeDict);
