@@ -2,7 +2,11 @@
 
 This project has been built by the John Carroll University graduating class of 2023 for the company Avery Dennison. Its purpose is perform efficient inspections of safety equipment.
 
+<<<<<<< HEAD
 ## Built with:
+=======
+##Built with:
+>>>>>>> origin/main
 - [.NET 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
 - [Angular](https://angular.io/docs)
 - [Firestore](https://firebase.google.com/support/releases)
@@ -11,7 +15,11 @@ This project has been built by the John Carroll University graduating class of 2
 ## Prerequisites
 
 - Latest version of .NET: can be downloaded [here](https://dotnet.microsoft.com/en-us/download)
+<<<<<<< HEAD
 - npm: Download [here](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) 
+=======
+- npm: Download [here](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) to do so
+>>>>>>> origin/main
 - TypeScript: Find instructions on how to install [here](https://www.typescriptlang.org/download)
 - Google.Cloud.Firestore: a .NET library for working with FireStore documents; installed from the NuGet packages in Visual Studio. Go into Visual Studio, right click the project, choose *"Manage NuGet packages..."* and search for it.
 
@@ -34,6 +42,7 @@ npm install package.json
 to install the necessary dependencies.
 
 4. To run the app:
+<<<<<<< HEAD
  - Windows: Press F5 in the Visual Studio window to start the application with debugging
  - Mac:
  Type this command
@@ -41,6 +50,13 @@ to install the necessary dependencies.
  npm start
  ```
  to start the front end before running the application in Visual Studio.
+=======
+ - If you're using Visual Studio: Press F5 to start the application with debugging
+ - If you're using a terminal:
+ ```
+ npm start
+ ```
+>>>>>>> origin/main
  
  ### Configuration
  to be added
