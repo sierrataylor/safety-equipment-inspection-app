@@ -25,7 +25,8 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 AnswerId = new Guid(equipmentId),
                 EquipmentId = equipmentId,
                 QuestionNumber = questionNum,
-                Response = response
+                Response = response,
+                isResponseNo = response.ToLower() == "yes" ? false : true           
             };
             var answerJson = JsonConvert.SerializeObject(answer);
             var answerDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(answerJson);
