@@ -46,7 +46,8 @@ namespace SafetyEquipmentInspectionApp.Mapping
                 AnswerId = Guid.Parse(answer.AnswerId),
                 QuestionNumber = answer.QuestionNumber,
                 EquipmentId = answer.EquipmentId,
-                Response = answer.Response
+                Response = answer.Response,
+                isResponseNo = answer.isResponseNo
             };
             return answerDto;
         }
