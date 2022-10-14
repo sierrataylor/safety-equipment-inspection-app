@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SafetyEquipmentInspectionAPI.Constants;
 using SafetyEquipmentInspectionAPI.DTOs;
+using SafetyEquipmentInspectionAPI.Controllers;
 
 namespace SafetyEquipmentInspectionAPI.Controllers
 {
@@ -48,47 +49,56 @@ namespace SafetyEquipmentInspectionAPI.Controllers
 
         /// <summary>
         /// HTTP Post for submitted the answers input during an inspection.
-
         /// Will be performed once the user selects submit.
         /// </summary>
-        /// <param name="equipmentId">The ID of the item being inspected</param>
-        /// <param name="reviewer">The person performing the inspection</param>
-        /// <param name="inspectionDate">Date of inspection</param>
-        /// <param name="answers">All the answers being submitted through the form, passed as a List</param>
+        /// <param name="equipmentId">ID of equipment being inspected</param>
+        /// <param name="reviewer">the employee performing the inspection</param>
+        /// <param name="responses">array of responses gathered from the form</param>
         /// <returns></returns>
         [HttpPost("/inspection/")]
-        public async Task SubmitInspection(string equipmentId, string reviewer, List<AnswerDto> answers)
+        public async Task SubmitInspection(string equipmentId, string reviewer, List<string> responses)
         {
-            bool hasPassedInspection = false;
-
-            //string message;
-            var inspectionCollection = _db.Collection("Inspection");
-            var equipmentCollection = _db.Collection("Equipment");
-            var equipmentBeingInspected = await equipmentCollection.Document(equipmentId).GetSnapshotAsync();
-
-            //check if the equipment extist
-            if (equipmentBeingInspected.Exists)
+            try
             {
-                //if answers are correct, boolean is set to true; else, false
-                hasPassedInspection = answers.Any(); //WIP
-                
-                //create instance of inspection and add to the database
-                InspectionDto inspectionDto = new InspectionDto
+                AnswerController answerController = new AnswerController();
+                bool hasPassedInspection = false;
+                int questionNum = 1;
+
+                var inspectionCollection = _db.Collection("Inspection");
+                var equipmentCollection = _db.Collection("Equipment");
+                var equipmentBeingInspected = await equipmentCollection.Document(equipmentId).GetSnapshotAsync();
+
+                if (equipmentBeingInspected.Exists)
                 {
-                    InspectionId = Guid.NewGuid().ToString(),
-                    EquipmentId = equipmentId,
-                    PassedInspection = hasPassedInspection,
-                    ReviewerId = reviewer,
-                    LastInspectionDate = DateTime.UtcNow //DateTime.Parse(inspectionDate)
-                };
-                //inspectionDto.LastInspectionDate = Timestamp.FromDateTime(inspectionDto.LastInspectionDate);
-                var inspectionDocument = await inspectionCollection.Document(inspectionDto.InspectionId).GetSnapshotAsync();
-                var inspectJson = JsonConvert.SerializeObject(inspectionDto);
-                Dictionary<string, object> inspectionDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(inspectJson);
-                inspectionDictionary["LastInspectionDate"] = Timestamp.FromDateTime(inspectionDto.LastInspectionDate);
-                await inspectionCollection.Document(inspectionDto.InspectionId).SetAsync(inspectionDictionary);
-                //message = JsonConvert.SerializeObject(inspectionDictionary);
+                    responses = responses.ConvertAll(r => r.ToLower());
+                    hasPassedInspection = responses.Any() & responses.Contains("no") ? false : true;
+                    foreach (string response in responses)
+                    {
+
+                        await answerController.InputAnswer(equipmentId, questionNum++, response);
+                    }
+
+                    InspectionDto inspectionDto = new InspectionDto
+                    {
+                        InspectionId = Guid.NewGuid().ToString(),
+                        EquipmentId = equipmentId,
+                        PassedInspection = hasPassedInspection,
+                        ReviewerId = reviewer,
+                        LastInspectionDate = DateTime.UtcNow 
+                    };
+                    var inspectionDocument = await inspectionCollection.Document(inspectionDto.InspectionId).GetSnapshotAsync();
+                    var inspectJson = JsonConvert.SerializeObject(inspectionDto);
+                    Dictionary<string, object> inspectionDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(inspectJson);
+                    inspectionDictionary["LastInspectionDate"] = Timestamp.FromDateTime(inspectionDto.LastInspectionDate);
+                    await inspectionCollection.Document(inspectionDto.InspectionId).SetAsync(inspectionDictionary);
+                }
+
             }
+            catch (Exception)
+            {
+
+                throw;
+            }        
         }
 
         [HttpGet("inspections/past/{equipmentId}")]
