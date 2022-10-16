@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-declare function initalizescanner(): any;
-declare function submit(): any;
 @Component({
   selector: 'app-scanner',
   templateUrl: './scanner.component.html',
@@ -11,7 +9,6 @@ export class ScannerComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    
   }
 
 }
