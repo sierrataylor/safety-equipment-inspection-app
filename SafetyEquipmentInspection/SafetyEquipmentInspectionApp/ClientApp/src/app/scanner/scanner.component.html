@@ -1,13 +1,4 @@
-<div id="container">
-    <h3>Scan QR Code </h3>
-    <a id="btn-scan-qr" onclick=initializescanner()> <img id="scannerimg" src="https://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2017/07/1499401426qr_icon.svg"> </a>
-    <canvas  id="qr-canvas"></canvas>
-    <div id="qr-result">
-        <b>Data:</b> <span id="outputData"></span>
-    </div>
-    <p> OR </p>
-    <h3>Enter Equipment ID </h3>
-    <input id="code" type="text" />
-    <br />
-    <button id="submitbtn" type="button" onclick="submit()"> Submit </button>
+<button onclick="initializeScanner()">Scan QR Code</button>
+<video id="camera"></video>
+<div id="qrcode">
 </div>
