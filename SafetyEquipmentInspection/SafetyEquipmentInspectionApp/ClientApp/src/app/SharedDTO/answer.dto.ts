@@ -3,4 +3,5 @@ export interface AnswerDto {
   equipmentId: string;
   questionNumber: string;
   response: string;
+  isResponseNo: boolean;
 }

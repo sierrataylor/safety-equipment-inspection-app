@@ -1,55 +1,23 @@
-const qrcode = window.qrcode;
-const video = document.createElement("video");
 
-qrcode.callback = res => {
-  if (res) {
-    document.getElementById("outputData").innerHTML = res;
+function initializeScanner() {
+  let scanner = new Instascan.Scanner({
+    video: document.getElementById("camera")
+  });
 
-    video.srcObject.getTracks().forEach(track => {
-      track.stop();
+  let result = document.getElementById("qrcode");
+  scanner.addListener("scan", function (content) {
+    result.innerText = content;
+    scanner.stop();
+  });
+  Instascan.Camera.getCameras()
+    .then(function (cameras) {
+      if (cameras.length > 0) {
+        scanner.start(cameras[0]);
+      } else {
+        result.innerText = "No cameras found.";
+      }
+    })
+    .catch(function (e) {
+      result.innerText = e;
     });
-  }
-};
-
-function initializescanner() {
-  const canvas = document.getElementById("qr-canvas");
-  navigator.mediaDevices
-    .getUserMedia({ video: { facingMode: "environment" } })
-    .then(function (stream) {
-      document.getElementById("scannerimg").style.display = "none";
-      canvas.style.display = "inline";
-      video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
-      video.srcObject = stream;
-      video.play();
-      tick();
-      scan();
-    });
-  
 }
-
-function tick() {
-  var canvas = document.getElementById("qr-canvas");
-  canvas.height = video.videoHeight;
-  canvas.width = video.videoWidth;
-  canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
-
-   requestAnimationFrame(tick);
-}
-
-function scan() {
-  qrcode.decode();
-}
-
-function submit()
-{
-  text = document.getElementById("code").value;
-  if (text == "") {
-    alert("input a code in order to get to form");
-  }
-  else
-  {
-    window.location.href = '/inspection-form'; 
-  }
-}
-
-
