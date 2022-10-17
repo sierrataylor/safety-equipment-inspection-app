@@ -46,7 +46,7 @@ namespace SafetyEquipmentInspectionAPI
 
         }
         [HttpPost("/employees/addEmployee")]
-        public async Task<string> AddEmployee(string employeeId, string firstName, string lastName, string email, string role)
+        public async Task<string> AddEmployee(string employeeId, string firstName, string lastName, string email, string role, string password)
         {
             try
             {
@@ -63,7 +63,8 @@ namespace SafetyEquipmentInspectionAPI
                         FirstName = firstName,
                         LastName = lastName,
                         Email = email,
-                        Role = role
+                        Role = role,
+                        Password = password
                     };
 
                     var empJson = JsonConvert.SerializeObject(employeeDto);

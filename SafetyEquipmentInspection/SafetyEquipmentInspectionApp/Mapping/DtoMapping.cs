@@ -24,7 +24,8 @@ namespace SafetyEquipmentInspectionApp.Mapping
                 FirstName = employee.FirstName,
                 LastName = employee.LastName,
                 Email = employee.Email,
-                Role = employee.Role
+                Role = employee.Role,
+                Password = employee.Password
             };
             return employeeDto;
         }
