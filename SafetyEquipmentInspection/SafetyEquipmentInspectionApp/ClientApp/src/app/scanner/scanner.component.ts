@@ -7,8 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ScannerComponent implements OnInit {
 
-  constructor(private renderer2: Renderer2,
-   @Inject(DOCUMENT) private _document: Document) { }
+  constructor() { }
 
   ngOnInit(): void {
   }
