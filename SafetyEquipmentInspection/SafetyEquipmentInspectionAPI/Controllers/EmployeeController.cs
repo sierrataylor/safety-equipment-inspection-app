@@ -25,11 +25,9 @@ namespace SafetyEquipmentInspectionAPI
                 var employeeDoc = await employeesCollection.Document(employeeId).GetSnapshotAsync();
 
                 var employee = employeeDoc.ConvertTo<EmployeeDto>();
-                var employeeJson = JsonConvert.SerializeObject(employee);
 
                 return employeeDoc.Exists ?
-
-                    JsonConvert.SerializeObject(new { employee = employeeJson }) :
+                    JsonConvert.SerializeObject(employee, new JsonSerializerSettings { Formatting = Formatting.Indented }) :
                     $"Employee {employeeId} not found";
             }
             catch (Exception ex)
