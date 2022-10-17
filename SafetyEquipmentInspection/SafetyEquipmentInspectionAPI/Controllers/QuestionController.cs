@@ -1,6 +1,7 @@
 ﻿using Google.Cloud.Firestore;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using SafetyEquipmentInspectionAPI.Constants;
 using SafetyEquipmentInspectionAPI.DTOs;
 
@@ -58,7 +59,8 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 if (!questionDoc.Exists)
                 {
                     await questionsCollection.Document(questionDto.QuestionId).SetAsync(questionDict);
-                    message = JsonConvert.SerializeObject(new { addedQuestion = questionDto });
+                    var settings = new JsonSerializerSettings { Formatting = Formatting.Indented, ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() } };
+                    message = JsonConvert.SerializeObject(questionDto, settings);
                 }
                 else
                 {

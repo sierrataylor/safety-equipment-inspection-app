@@ -1,6 +1,7 @@
 ﻿using Google.Cloud.Firestore;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using SafetyEquipmentInspectionAPI.Constants;
 using SafetyEquipmentInspectionAPI.DTOs;
 
@@ -25,10 +26,15 @@ namespace SafetyEquipmentInspectionAPI
                 var employeeDoc = await employeesCollection.Document(employeeId).GetSnapshotAsync();
 
                 var employee = employeeDoc.ConvertTo<EmployeeDto>();
-
+                var settings = new JsonSerializerSettings { 
+                    Formatting = Formatting.Indented, 
+                    ContractResolver = new DefaultContractResolver { 
+                        NamingStrategy = new CamelCaseNamingStrategy() 
+                    } 
+                };
 
                 return employeeDoc.Exists ?
-                    JsonConvert.SerializeObject(employee, new JsonSerializerSettings { Formatting = Formatting.Indented }) :
+                    JsonConvert.SerializeObject(employee, settings) :
 
                     $"Employee {employeeId} not found";
             }
@@ -63,7 +69,13 @@ namespace SafetyEquipmentInspectionAPI
                     var empJson = JsonConvert.SerializeObject(employeeDto);
                     Dictionary<string, object> employeeDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(empJson);
                     await employeesCollection.Document(employeeDto.EmployeeId).SetAsync(employeeDict);
-                    message = JsonConvert.SerializeObject(employeeDict);
+                    var settings = new JsonSerializerSettings { 
+                        Formatting = Formatting.Indented, 
+                        ContractResolver = new DefaultContractResolver { 
+                            NamingStrategy = new CamelCaseNamingStrategy() 
+                        } 
+                    };
+                    message = JsonConvert.SerializeObject(employeeDict, settings);
                 }
                 else
                 {
