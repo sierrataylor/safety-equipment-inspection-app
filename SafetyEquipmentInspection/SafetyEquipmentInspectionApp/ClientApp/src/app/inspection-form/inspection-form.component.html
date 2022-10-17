@@ -25,11 +25,6 @@
     <div class="alert alert-danger" *ngIf="!equipmentFloor.valid && equipmentFloor.touched">Floor is required</div>
   </div>
   <div class="form-group">
-    <label for="inspection-date">Inspection Date</label>
-    <input required type="date" id="inspection-date" ngModel name="inspectionDate" #inspectionDate="ngModel" value="" />
-    <div class="alert alert-danger" *ngIf="!inspectionDate.valid && inspectionDate.touched">Inspection Date is required</div>
-  </div>
-  <div class="form-group">
     <label for="employee-name">Employee Name</label>
     <input required type="text" id="employee-name" ngModel name="employeeName" #employeeName="ngModel" value="" />
     <div class="alert alert-danger" *ngIf="!employeeName.valid && employeeName.touched">Employee Name is required</div>
