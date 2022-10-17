@@ -26,8 +26,10 @@ namespace SafetyEquipmentInspectionAPI
 
                 var employee = employeeDoc.ConvertTo<EmployeeDto>();
 
+
                 return employeeDoc.Exists ?
                     JsonConvert.SerializeObject(employee, new JsonSerializerSettings { Formatting = Formatting.Indented }) :
+
                     $"Employee {employeeId} not found";
             }
             catch (Exception ex)
