@@ -6,5 +6,6 @@
         public virtual string EquipmentId { get; set; }
         public virtual int QuestionNumber { get; set; }
         public virtual string Response { get; set; }
+        public virtual bool isResponseNo { get; set; }
     }
 }

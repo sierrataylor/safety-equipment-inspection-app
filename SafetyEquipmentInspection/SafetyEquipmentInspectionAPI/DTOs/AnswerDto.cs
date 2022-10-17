@@ -13,5 +13,7 @@ namespace SafetyEquipmentInspectionAPI.DTOs
         public int QuestionNumber { get; set; }
         [FirestoreProperty]
         public string Response { get; set; }
+        [FirestoreProperty]
+        public bool isResponseNo { get; set; }
     }
 }
