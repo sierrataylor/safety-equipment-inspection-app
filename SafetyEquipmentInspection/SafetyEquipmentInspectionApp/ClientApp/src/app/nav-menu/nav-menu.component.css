@@ -5,7 +5,10 @@ a.navbar-brand {
   font-family: 'LatoWeb';
   color: #E9E8DD;
 }
-
+#navimg {
+    width: 6%;
+    padding-right: 10px;
+}
 html {
   font-size: 14px;
 }

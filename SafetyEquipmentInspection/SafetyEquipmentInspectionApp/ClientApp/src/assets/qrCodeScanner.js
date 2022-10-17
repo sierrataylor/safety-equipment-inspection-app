@@ -1,3 +1,4 @@
+
 function initializeScanner() {
   let scanner = new Instascan.Scanner({
     video: document.getElementById("camera")
@@ -20,3 +21,16 @@ function initializeScanner() {
       result.innerText = e;
     });
 }
+
+
+function submit() {
+  let inputval = document.getElementById("code").value;
+  if (inputval == "") {
+    alert("You need to an Equipment Id in order to continue");
+  }
+  else
+  {
+    window.location.href = '/inspection-form'; 
+  }
+}
+

@@ -1,0 +1,17 @@
+
+h3, p {
+    text-align: center;
+}
+p {
+    padding-top: 10px;
+    font-size: 18px;
+}
+.container {
+   margin: 0;
+   text-align: center;
+}
+button {
+    width: 15%;
+    font-size: 18px;
+}
+
