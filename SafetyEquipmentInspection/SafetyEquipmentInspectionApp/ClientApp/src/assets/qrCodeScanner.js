@@ -1,3 +1,4 @@
+
 function initializeScanner() {
   let scanner = new Instascan.Scanner({
     video: document.getElementById("camera")

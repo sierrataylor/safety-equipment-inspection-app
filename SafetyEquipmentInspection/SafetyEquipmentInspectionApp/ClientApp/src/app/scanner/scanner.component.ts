@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 @Component({
   selector: 'app-scanner',
   templateUrl: './scanner.component.html',
@@ -6,7 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ScannerComponent implements OnInit {
 
-  constructor() { }
+  constructor(private renderer2: Renderer2,
+   @Inject(DOCUMENT) private _document: Document) { }
 
   ngOnInit(): void {
   }
