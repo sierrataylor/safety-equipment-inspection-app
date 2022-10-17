@@ -1,10 +1,10 @@
 ﻿using Google.Cloud.Firestore;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using SafetyEquipmentInspectionAPI.Constants;
 using SafetyEquipmentInspectionAPI.DTOs;
 using SafetyEquipmentInspectionAPI.Interfaces;
-using System.Web;
 
 namespace SafetyEquipmentInspectionAPI.Controllers
 {
@@ -32,7 +32,8 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 {
                     //if document exists, use FireStore ConvertTo function to convert it to a DTO
                     var equipmentItem = equipmentDocument.ConvertTo<EquipmentDto>();
-                    var resultJson = JsonConvert.SerializeObject(equipmentItem);
+                    var settings = new JsonSerializerSettings { Formatting = Formatting.Indented, ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() } };
+                    var resultJson = JsonConvert.SerializeObject(equipmentItem, settings);
                     //return JSON of the added item
                     message = resultJson;
                 }
@@ -45,7 +46,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             }
             catch (Exception ex)
             {
-                //if document 
+                //if document
                 return JsonConvert.SerializeObject(new { error = ex.Message });
 
             }
@@ -55,7 +56,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
         public async Task<List<EquipmentDto>> GetListItems(string equipmentType)
         {
             try
-            {            
+            {
                 List<EquipmentDto> equipmentItems = new List<EquipmentDto>();
                 var equipmentCollection = _db.Collection("Equipment");
                 var getAllItemsQuery = await equipmentCollection.WhereEqualTo("EquipmentType", equipmentType).GetSnapshotAsync();
@@ -70,7 +71,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
 
                 return equipmentItems;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -124,7 +125,6 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 var equipmentCollection = _db.Collection("Equipment");
                 var itemDocToBeUpdated = await equipmentCollection.Document(equipmentId).GetSnapshotAsync();
 
-
                 if (itemDocToBeUpdated.Exists)
                 {
                     EquipmentDto equipmentDto = new EquipmentDto
@@ -140,7 +140,6 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                     var updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(dtoJson);
                     await equipmentCollection.Document(equipmentId).UpdateAsync(updatesDictionary);
                 };
-
                 return JsonConvert.SerializeObject(new { message = $"Update of item {equipmentId} successful" });
             }
             catch (Exception)
