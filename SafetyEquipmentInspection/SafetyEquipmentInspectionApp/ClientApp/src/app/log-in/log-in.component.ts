@@ -10,7 +10,7 @@ import { EmployeeDto } from '../SharedDTO/employee.dto';
 })
 export class LogInComponent implements OnInit {
 
-  Employee: EmployeeDto | undefined;
+  public Employee: EmployeeDto | undefined;
   employeeId: string = "";
   employeePassword: string = "";
 
@@ -22,7 +22,11 @@ export class LogInComponent implements OnInit {
 
   LogInUser() {
     this.GetEmployee(this.employeeId);
-    
+    if (this.Employee?.password == this.employeePassword) {
+      //log user in and send to dashboard page
+    } else {
+      //alert log in failed and clear fields
+    }
   }
 
   GetEmployee(employeeId: any) {
