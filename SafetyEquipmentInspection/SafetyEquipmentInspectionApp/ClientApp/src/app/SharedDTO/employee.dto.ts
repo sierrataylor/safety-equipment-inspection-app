@@ -4,4 +4,5 @@ export interface EmployeeDto {
   lastName: string;
   email: string;
   role: string;
+  password: string;
 }
