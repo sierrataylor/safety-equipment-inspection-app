@@ -1,6 +1,7 @@
 ﻿using Google.Cloud.Firestore;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using SafetyEquipmentInspectionAPI.Constants;
 using SafetyEquipmentInspectionAPI.DTOs;
 
@@ -26,8 +27,17 @@ namespace SafetyEquipmentInspectionAPI
 
                 var employee = employeeDoc.ConvertTo<EmployeeDto>();
 
+                var settings = new JsonSerializerSettings { 
+                    Formatting = Formatting.Indented, 
+                    ContractResolver = new DefaultContractResolver { 
+                        NamingStrategy = new CamelCaseNamingStrategy() 
+                    } 
+                };
+
                 return employeeDoc.Exists ?
-                    JsonConvert.SerializeObject(employee, new JsonSerializerSettings { Formatting = Formatting.Indented }) :
+                    JsonConvert.SerializeObject(employee, settings) :
+
+
                     $"Employee {employeeId} not found";
             }
             catch (Exception ex)
@@ -38,7 +48,9 @@ namespace SafetyEquipmentInspectionAPI
 
         }
         [HttpPost("/employees/addEmployee")]
-        public async Task<string> AddEmployee(string employeeId, string firstName, string lastName, string email, string role)
+
+        public async Task<string> AddEmployee(string employeeId, string firstName, string lastName, string email, string role, string password)
+
         {
             try
             {
@@ -55,13 +67,20 @@ namespace SafetyEquipmentInspectionAPI
                         FirstName = firstName,
                         LastName = lastName,
                         Email = email,
-                        Role = role
+                        Role = role,
+                        Password = password
                     };
 
                     var empJson = JsonConvert.SerializeObject(employeeDto);
                     Dictionary<string, object> employeeDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(empJson);
                     await employeesCollection.Document(employeeDto.EmployeeId).SetAsync(employeeDict);
-                    message = JsonConvert.SerializeObject(employeeDict);
+                    var settings = new JsonSerializerSettings { 
+                        Formatting = Formatting.Indented, 
+                        ContractResolver = new DefaultContractResolver { 
+                            NamingStrategy = new CamelCaseNamingStrategy() 
+                        } 
+                    };
+                    message = JsonConvert.SerializeObject(employeeDict, settings);
                 }
                 else
                 {

@@ -24,7 +24,6 @@ export class EquipmentTableComponent implements OnInit {
   GetEquipmentList(equipmentType: any) {
     return this.service.GetEquipmentList(equipmentType).subscribe(data => {
       this.equipments = data;
-      console.log(this.equipments);
     });
   }
 

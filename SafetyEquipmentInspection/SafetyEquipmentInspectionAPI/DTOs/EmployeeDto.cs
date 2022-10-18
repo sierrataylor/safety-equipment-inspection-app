@@ -15,5 +15,7 @@ namespace SafetyEquipmentInspectionAPI.DTOs
         public string Email { get; set; }
         [FirestoreProperty]
         public string Role { get; set; }
+        [FirestoreProperty]
+        public string Password { get; set; }
     }
 }

@@ -25,24 +25,18 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             {
                 //get Equipment collection from NoSQL db
                 var equipmentCollection = _db.Collection("Equipment");
-                string message;
                 //query collection for document with an EquipmentId equal to id and get async snapshot of query result
                 var equipmentDocument = await equipmentCollection.Document(id).GetSnapshotAsync();
-                if (equipmentDocument.Exists)
-                {
-                    //if document exists, use FireStore ConvertTo function to convert it to a DTO
-                    var equipmentItem = equipmentDocument.ConvertTo<EquipmentDto>();
-                    var settings = new JsonSerializerSettings { Formatting = Formatting.Indented, ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() } };
-                    var resultJson = JsonConvert.SerializeObject(equipmentItem, settings);
-                    //return JSON of the added item
-                    message = resultJson;
-                }
-                else
-                {
-                    //if query.Documents has a size of 0, then the document was not found
-                    message = $"Item with ID {id} not found";
-                }
-                return message;
+                //if document exists, use FireStore ConvertTo function to convert it to a DTO
+                var equipmentItem = equipmentDocument.ConvertTo<EquipmentDto>();
+                var settings = new JsonSerializerSettings { 
+                    Formatting = Formatting.Indented, 
+                    ContractResolver = new DefaultContractResolver { 
+                        NamingStrategy = new CamelCaseNamingStrategy() 
+                    } 
+                };
+                return equipmentDocument.Exists ? JsonConvert.SerializeObject(equipmentItem, settings) :
+                $"Item with ID {id} not found";
             }
             catch (Exception ex)
             {
@@ -92,15 +86,15 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 };
                 string message;
                 var equipmentCollection = _db.Collection("Equipment");
-                var dtoJson = JsonConvert.SerializeObject(equipmentDto);
-                var itemDocDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(dtoJson);
+                var equipmentDtoJson = JsonConvert.SerializeObject(equipmentDto);
+                var itemDocDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(equipmentDtoJson);
                 //check if document already exists with the equipment ID
                 var doc = await equipmentCollection.Document(equipmentDto.EquipmentId.ToString()).GetSnapshotAsync();
 
                 if (!doc.Exists)
                 {
                     var docAdded = await equipmentCollection.Document(equipmentDto.EquipmentId.ToString()).SetAsync(itemDocDictionary);
-                    message = JsonConvert.SerializeObject(new { message = $"Successfully added item {equipmentDto.EquipmentId}", item = dtoJson }, Formatting.Indented);
+                    message = JsonConvert.SerializeObject(new { message = $"Successfully added item {equipmentDto.EquipmentId}", item = equipmentDtoJson }, Formatting.Indented);
                 }
                 else
                 {
