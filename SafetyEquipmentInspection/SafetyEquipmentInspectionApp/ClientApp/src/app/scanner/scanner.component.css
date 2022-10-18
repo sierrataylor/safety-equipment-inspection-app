@@ -1,24 +1,17 @@
-#scannerimg {
-  height: 10em;
-  padding: 15px;
-  margin: 15px;
-  background: white;
-  cursor: pointer;
+
+h3, p {
+    text-align: center;
 }
-#qr-canvas {
-  margin: auto;
-  width: calc(100% - 20px);
-  max-width: 400px;
-  display:none;
+p {
+    padding-top: 10px;
+    font-size: 18px;
 }
-#qr-result {
-  font-size: 1.2em;
-  margin: 20px auto;
-  padding: 20px;
-  max-width: 700px;
-  background-color: white;
+.container {
+   margin: 0;
+   text-align: center;
 }
-#submitbtn {
-   margin-top: 20px;
-   width: 10%;
+button {
+    width: 15%;
+    font-size: 18px;
 }
+

@@ -20,7 +20,6 @@ export class InspectionFormComponent implements OnInit {
   GetEquipmentItem(equipmentId: any) {
     return this.service.GetEquipmentItem(equipmentId).subscribe(data => {
       this.EquipmentItem = data;
-      console.log(this.EquipmentItem);
     })
   }
 }

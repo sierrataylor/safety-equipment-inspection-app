@@ -25,7 +25,8 @@ namespace SafetyEquipmentInspectionApp.Mapping
                 FirstName = employeeDto.FirstName,
                 LastName = employeeDto.LastName,
                 Email = employeeDto.Email,
-                Role = employeeDto.Role
+                Role = employeeDto.Role,
+                Password = employeeDto.Password
             };
             return employee;
         }
@@ -47,7 +48,8 @@ namespace SafetyEquipmentInspectionApp.Mapping
                 AnswerId = answerDto.AnswerId.ToString(),
                 QuestionNumber = answerDto.QuestionNumber,
                 EquipmentId = answerDto.EquipmentId,
-                Response = answerDto.Response
+                Response = answerDto.Response,
+                isResponseNo = answerDto.isResponseNo
             };
             return answer;
         }
