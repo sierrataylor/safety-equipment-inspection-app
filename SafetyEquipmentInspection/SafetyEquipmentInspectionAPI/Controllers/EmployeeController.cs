@@ -115,7 +115,7 @@ namespace SafetyEquipmentInspectionAPI
         }
 
         [HttpPut("employees/edit/{employeeId}")]
-        public async Task<string> UpdateEmployee(string employeeId, string firstName, string lastName, string role, string email)
+        public async Task<string> UpdateEmployee(string employeeId, string firstName, string lastName, string role, string email, string password)
         {
             try
             {
@@ -129,7 +129,8 @@ namespace SafetyEquipmentInspectionAPI
                         FirstName = firstName,
                         LastName = lastName,
                         Email = email,
-                        Role = role
+                        Role = role,
+                        Password = password
                     };
                     var updateJson = JsonConvert.SerializeObject(employeeDto);
                     Dictionary<string, object> updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(updateJson);
