@@ -26,6 +26,7 @@ namespace SafetyEquipmentInspectionAPI
                 var employeeDoc = await employeesCollection.Document(employeeId).GetSnapshotAsync();
 
                 var employee = employeeDoc.ConvertTo<EmployeeDto>();
+
                 var settings = new JsonSerializerSettings { 
                     Formatting = Formatting.Indented, 
                     ContractResolver = new DefaultContractResolver { 
@@ -35,6 +36,7 @@ namespace SafetyEquipmentInspectionAPI
 
                 return employeeDoc.Exists ?
                     JsonConvert.SerializeObject(employee, settings) :
+
 
                     $"Employee {employeeId} not found";
             }
@@ -46,7 +48,9 @@ namespace SafetyEquipmentInspectionAPI
 
         }
         [HttpPost("/employees/addEmployee")]
+
         public async Task<string> AddEmployee(string employeeId, string firstName, string lastName, string email, string role, string password)
+
         {
             try
             {
