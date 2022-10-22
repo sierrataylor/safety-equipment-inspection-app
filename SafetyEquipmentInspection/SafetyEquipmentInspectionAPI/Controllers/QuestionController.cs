@@ -23,11 +23,11 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             try
             {
                 List<QuestionDto> questions = new List<QuestionDto>();
-                var questionCollection = _db.Collection("Questions");
-                var questionQuery = await questionCollection.WhereEqualTo("EquipmentType", equipmentType).GetSnapshotAsync();
-                foreach (var questionDoc in questionQuery)
+                CollectionReference questionCollection = _db.Collection("Questions");
+                QuerySnapshot questionQuery = await questionCollection.WhereEqualTo("EquipmentType", equipmentType).GetSnapshotAsync();
+                foreach (DocumentSnapshot questionDoc in questionQuery)
                 {
-                    var question = questionDoc.ConvertTo<QuestionDto>();
+                    QuestionDto question = questionDoc.ConvertTo<QuestionDto>();
                     questions.Add(question);
                 }
                 return questions;
@@ -44,7 +44,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
         {
             try
             {
-                QuestionDto questionDto = new QuestionDto
+                QuestionDto questionDto = new()
                 {
                     QuestionId = Guid.NewGuid().ToString(),
                     EquipmentType = equipmentType,
@@ -52,14 +52,19 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                     QuestionNumber = questionNum
                 };
                 string message;
-                var questionsCollection = _db.Collection("Questions");
-                var questionJson = JsonConvert.SerializeObject(questionDto);
-                var questionDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(questionJson);
-                var questionDoc = await questionsCollection.Document(questionDto.QuestionId).GetSnapshotAsync();
+                CollectionReference questionsCollection = _db.Collection("Questions");
+                string questionJson = JsonConvert.SerializeObject(questionDto);
+                Dictionary<string, object> questionDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(questionJson);
+                DocumentSnapshot questionDoc = await questionsCollection.Document(questionDto.QuestionId).GetSnapshotAsync();
                 if (!questionDoc.Exists)
                 {
                     await questionsCollection.Document(questionDto.QuestionId).SetAsync(questionDict);
-                    var settings = new JsonSerializerSettings { Formatting = Formatting.Indented, ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() } };
+                    JsonSerializerSettings settings = new JsonSerializerSettings { 
+                        Formatting = Formatting.Indented, 
+                        ContractResolver = new DefaultContractResolver { 
+                            NamingStrategy = new CamelCaseNamingStrategy() 
+                            } 
+                        };
                     message = JsonConvert.SerializeObject(questionDto, settings);
                 }
                 else
@@ -83,11 +88,11 @@ namespace SafetyEquipmentInspectionAPI.Controllers
         {
             try
             {
-                var questionsCollection = _db.Collection("Questions");
-                var questiontoBeUpdated = await questionsCollection.Document(questionDto.QuestionId).GetSnapshotAsync();
+                CollectionReference questionsCollection = _db.Collection("Questions");
+                DocumentSnapshot questiontoBeUpdated = await questionsCollection.Document(questionDto.QuestionId).GetSnapshotAsync();
                 if (questiontoBeUpdated.Exists)
                 {
-                    var updateJson = JsonConvert.SerializeObject(questionDto);
+                    string updateJson = JsonConvert.SerializeObject(questionDto);
                     Dictionary<string, object> updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(updateJson);
                     await questionsCollection.Document(questionDto.QuestionId).UpdateAsync(updatesDictionary);
                     return JsonConvert.SerializeObject(new { message = $"Update of Question {questionDto.Field} with ID {questionDto.QuestionId} successfully" });
@@ -110,13 +115,13 @@ namespace SafetyEquipmentInspectionAPI.Controllers
         {
             try
             {
-                var questionsCollection = _db.Collection("Questions");
-                var questiontoBeDeleted = await questionsCollection.Document(questionId).GetSnapshotAsync();
+                CollectionReference questionsCollection = _db.Collection("Questions");
+                DocumentSnapshot questiontoBeDeleted = await questionsCollection.Document(questionId).GetSnapshotAsync();
                 if (questiontoBeDeleted.Exists)
                 {
                     Dictionary<string, object> result = questiontoBeDeleted.ToDictionary();
-                    var questionJson = JsonConvert.SerializeObject(result);
-                    var questionDataTransferObj = JsonConvert.DeserializeObject<QuestionDto>(questionJson);
+                    string questionJson = JsonConvert.SerializeObject(result);
+                    QuestionDto questionDataTransferObj = JsonConvert.DeserializeObject<QuestionDto>(questionJson);
                     await questionsCollection.Document(questionId).DeleteAsync();
                     return $"Question {questionDataTransferObj.Field} for {questionDataTransferObj.EquipmentType} deleted";
                 }
