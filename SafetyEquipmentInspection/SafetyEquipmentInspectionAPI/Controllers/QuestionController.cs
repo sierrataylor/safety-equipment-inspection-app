@@ -16,6 +16,14 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             Environment.SetEnvironmentVariable(FirestoreConstants.GoogleApplicationCredentials, FirestoreConstants.GoogleApplicationCredentialsPath);
             _db = FirestoreDb.Create(FirestoreConstants.ProjectId);
         }
+        JsonSerializerSettings settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented,
+            ContractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy()
+            }
+        };
 
         [HttpGet("inspection/{equipmentId}/")]
         public async Task<List<QuestionDto>> GetAllQuestions(string equipmentType)
@@ -59,13 +67,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 if (!questionDoc.Exists)
                 {
                     await questionsCollection.Document(questionDto.QuestionId).SetAsync(questionDict);
-                    JsonSerializerSettings settings = new JsonSerializerSettings { 
-                        Formatting = Formatting.Indented, 
-                        ContractResolver = new DefaultContractResolver { 
-                            NamingStrategy = new CamelCaseNamingStrategy() 
-                            } 
-                        };
-                    message = JsonConvert.SerializeObject(questionDto, settings);
+                    message = JsonConvert.SerializeObject(questionDto, settings:settings);
                 }
                 else
                 {
@@ -84,18 +86,23 @@ namespace SafetyEquipmentInspectionAPI.Controllers
 
         [HttpPut("admin/questions/editQuestion/{questionId}")]
 
-        public async Task<string> UpdateQuestion(QuestionDto questionDto)
+        public async Task<string> UpdateQuestion(string questionId, string equipmentType, int questionNum, string field)
         {
             try
             {
                 CollectionReference questionsCollection = _db.Collection("Questions");
-                DocumentSnapshot questiontoBeUpdated = await questionsCollection.Document(questionDto.QuestionId).GetSnapshotAsync();
+                DocumentSnapshot questiontoBeUpdated = await questionsCollection.Document(questionId).GetSnapshotAsync();
                 if (questiontoBeUpdated.Exists)
                 {
-                    string updateJson = JsonConvert.SerializeObject(questionDto);
+                    QuestionDto questionUpdates = questiontoBeUpdated.ConvertTo<QuestionDto>();
+                    questionUpdates.QuestionId = questionId;
+                    questionUpdates.EquipmentType = equipmentType;
+                    questionUpdates.QuestionNumber = questionNum;
+                    questionUpdates.Field = field;
+                    string updateJson = JsonConvert.SerializeObject(questionUpdates);
                     Dictionary<string, object> updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(updateJson);
-                    await questionsCollection.Document(questionDto.QuestionId).UpdateAsync(updatesDictionary);
-                    return JsonConvert.SerializeObject(new { message = $"Update of Question {questionDto.Field} with ID {questionDto.QuestionId} successfully" });
+                    await questionsCollection.Document(questionId).UpdateAsync(updatesDictionary);
+                    return JsonConvert.SerializeObject(new { message = $"Update of Question {field} with ID {questionId} successfully" });
                 }
                 else
                 {
