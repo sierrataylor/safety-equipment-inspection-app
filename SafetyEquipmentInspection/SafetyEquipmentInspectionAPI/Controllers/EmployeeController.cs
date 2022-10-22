@@ -16,6 +16,14 @@ namespace SafetyEquipmentInspectionAPI
             Environment.SetEnvironmentVariable(FirestoreConstants.GoogleApplicationCredentials, FirestoreConstants.GoogleApplicationCredentialsPath);
             _db = FirestoreDb.Create(FirestoreConstants.ProjectId);
         }
+        JsonSerializerSettings settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented,
+            ContractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy()
+            }
+        };
 
         [HttpGet("/employees/employee/{employeeId}")]
         public async Task<string> GetEmployee(string employeeId)
@@ -26,14 +34,6 @@ namespace SafetyEquipmentInspectionAPI
                 DocumentSnapshot employeeDoc = await employeesCollection.Document(employeeId).GetSnapshotAsync();
 
                 EmployeeDto employee = employeeDoc.ConvertTo<EmployeeDto>();
-
-                JsonSerializerSettings settings = new JsonSerializerSettings { 
-                    Formatting = Formatting.Indented, 
-                    ContractResolver = new DefaultContractResolver { 
-                        NamingStrategy = new CamelCaseNamingStrategy() 
-                    } 
-                };
-
                 return employeeDoc.Exists ?
                     JsonConvert.SerializeObject(employee, settings) :
 
@@ -48,7 +48,6 @@ namespace SafetyEquipmentInspectionAPI
 
         }
         [HttpPost("/employees/addEmployee")]
-
         public async Task<string> AddEmployee(string employeeId, string firstName, string lastName, string email, string role, string password)
 
         {
@@ -74,12 +73,6 @@ namespace SafetyEquipmentInspectionAPI
                     string empJson = JsonConvert.SerializeObject(employeeDto);
                     Dictionary<string, object> employeeDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(empJson);
                     await employeesCollection.Document(employeeDto.EmployeeId).SetAsync(employeeDict);
-                    JsonSerializerSettings settings = new JsonSerializerSettings { 
-                        Formatting = Formatting.Indented, 
-                        ContractResolver = new DefaultContractResolver { 
-                            NamingStrategy = new CamelCaseNamingStrategy() 
-                        } 
-                    };
                     message = JsonConvert.SerializeObject(employeeDict, settings);
                 }
                 else

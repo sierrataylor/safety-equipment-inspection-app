@@ -18,6 +18,14 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             _db = FirestoreDb.Create(FirestoreConstants.ProjectId);
         }
 
+        JsonSerializerSettings settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented,
+            ContractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy()
+            }
+        };
         [HttpGet("/equipment/item/{id}")]
         public async Task<string> GetItem(string id)
         {
@@ -29,12 +37,6 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 DocumentSnapshot equipmentDocument = await equipmentCollection.Document(id).GetSnapshotAsync();
                 //if document exists, use FireStore ConvertTo function to convert it to a DTO
                 EquipmentDto equipmentItem = equipmentDocument.ConvertTo<EquipmentDto>();
-                JsonSerializerSettings settings = new JsonSerializerSettings { 
-                    Formatting = Formatting.Indented, 
-                    ContractResolver = new DefaultContractResolver { 
-                        NamingStrategy = new CamelCaseNamingStrategy() 
-                    } 
-                };
                 return equipmentDocument.Exists ? JsonConvert.SerializeObject(equipmentItem, settings) :
                 $"Item with ID {id} not found";
             }
@@ -86,7 +88,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 };
                 string message;
                 CollectionReference equipmentCollection = _db.Collection("Equipment");
-                string equipmentDtoJson = JsonConvert.SerializeObject(equipmentDto);
+                string equipmentDtoJson = JsonConvert.SerializeObject(equipmentDto, settings);
                 Dictionary<string, object> itemDocDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(equipmentDtoJson);
                 //check if document already exists with the equipment ID
                 DocumentSnapshot doc = await equipmentCollection.Document(equipmentDto.EquipmentId.ToString()).GetSnapshotAsync();
@@ -94,7 +96,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 if (!doc.Exists)
                 {
                     WriteResult docAdded = await equipmentCollection.Document(equipmentDto.EquipmentId.ToString()).SetAsync(itemDocDictionary);
-                    message = JsonConvert.SerializeObject(new { message = $"Successfully added item {equipmentDto.EquipmentId}", item = equipmentDtoJson }, Formatting.Indented);
+                    message = JsonConvert.SerializeObject(new { message = $"Successfully added item {equipmentDto.EquipmentId}", item = equipmentDtoJson }, settings);
                 }
                 else
                 {

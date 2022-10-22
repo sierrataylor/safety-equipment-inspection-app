@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using SafetyEquipmentInspectionAPI.Constants;
 using SafetyEquipmentInspectionAPI.DTOs;
 using SafetyEquipmentInspectionAPI.Controllers;
+using Newtonsoft.Json.Serialization;
 
 namespace SafetyEquipmentInspectionAPI.Controllers
 {
@@ -18,6 +19,14 @@ namespace SafetyEquipmentInspectionAPI.Controllers
 
         }
 
+            JsonSerializerSettings settings = new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new CamelCaseNamingStrategy()
+                }
+            };
         /// <summary>
         /// Generates inspections based on equipment type,
         /// which is taken from the equipment ID.
@@ -87,7 +96,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                         LastInspectionDate = DateTime.UtcNow 
                     };
                     DocumentSnapshot inspectionDocument = await inspectionCollection.Document(inspectionDto.InspectionId).GetSnapshotAsync();
-                    string inspectJson = JsonConvert.SerializeObject(inspectionDto);
+                    string inspectJson = JsonConvert.SerializeObject(inspectionDto, settings);
                     Dictionary<string, object> inspectionDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(inspectJson);
                     inspectionDictionary["LastInspectionDate"] = Timestamp.FromDateTime(inspectionDto.LastInspectionDate);
                     await inspectionCollection.Document(inspectionDto.InspectionId).SetAsync(inspectionDictionary);

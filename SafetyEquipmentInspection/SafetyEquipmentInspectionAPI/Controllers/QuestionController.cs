@@ -16,6 +16,14 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             Environment.SetEnvironmentVariable(FirestoreConstants.GoogleApplicationCredentials, FirestoreConstants.GoogleApplicationCredentialsPath);
             _db = FirestoreDb.Create(FirestoreConstants.ProjectId);
         }
+        JsonSerializerSettings settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented,
+            ContractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy()
+            }
+        };
 
         [HttpGet("inspection/{equipmentId}/")]
         public async Task<List<QuestionDto>> GetAllQuestions(string equipmentType)
@@ -59,13 +67,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 if (!questionDoc.Exists)
                 {
                     await questionsCollection.Document(questionDto.QuestionId).SetAsync(questionDict);
-                    JsonSerializerSettings settings = new JsonSerializerSettings { 
-                        Formatting = Formatting.Indented, 
-                        ContractResolver = new DefaultContractResolver { 
-                            NamingStrategy = new CamelCaseNamingStrategy() 
-                            } 
-                        };
-                    message = JsonConvert.SerializeObject(questionDto, settings);
+                    message = JsonConvert.SerializeObject(questionDto, settings:settings);
                 }
                 else
                 {
