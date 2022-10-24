@@ -4,6 +4,7 @@ import { HttpClientModule, HttpResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { EquipmentDto } from './SharedDTO/equipment.dto';
+import { EmployeeDto } from './SharedDTO/employee.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -69,8 +70,8 @@ export class SharedService {
   }
   //Employee API Methods
 
-  GetEmployee(employeeId: string) {
-    return this.http.get(this.APIUrl + "/employees/employee/" + employeeId);
+  GetEmployee(employeeId: string): Observable<EmployeeDto>{
+    return this.http.get<EmployeeDto>(this.APIUrl + "employees/employee/" + employeeId);
   }
 
   AddEmployee(employeeId: string, firstName: string, lastname: string, email: string, role: string) {

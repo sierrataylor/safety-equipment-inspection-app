@@ -2,19 +2,23 @@
   <div class="log-in-container">
     <h1>Log In</h1>
     <div class="log-in-inputs">
-      <form class="log-in-form" id="log-in-form">
-        <label for="employee-id">Employee ID:</label><br>
-        <input type="text" id="employee-id" name="employee-id"><br>
-        <label for="employee-password">Password:</label><br>
-        <input type="password" id="employee-password" name="employee-password"><br />
+      <form class="log-in-form" id="log-in-form" [formGroup]="loginForm" (ngSubmit)="LogInUser()">
+        <div class="form-group">
+          <label for="employee-id">Employee ID:</label><br>
+          <input required type="text" id="employee-id" name="employeeId" formControlName="employeeId"><br>
+          <span class="text-danger" *ngIf="loginForm.controls['employeeId'].dirty && loginForm.hasError('required', 'employeeId')">*EmployeeId is required</span>
+        </div>
+        <div class="form-group">
+          <label for="employee-password">Password:</label><br>
+          <input required type="password" id="employee-password" name="employeePassword" formControlName="employeePassword"><br />
+          <span class="text-danger" *ngIf="loginForm.controls['employeePassword'].dirty && loginForm.hasError('required', 'employeePassword')">*Password is required</span>
+        </div>
         <br />
-        <input class="log-in-submit" type="submit" value="Submit"><br />
-        <div
-            class="forgot-password"
-            [routerLinkActive]="['link-active']"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            <a class="forgot-password text-dark" [routerLink]="['/']">Home</a> <!--hey what is this for? is this the "forgot passcode?"-->
+        <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary mt-3">Login</button><br />
+        <div class="forgot-password"
+             [routerLinkActive]="['link-active']"
+             [routerLinkActiveOptions]="{ exact: true }">
+          <a class="forgot-password text-dark" [routerLink]="['/']">Forgot Password</a>
         </div>
       </form>
     </div>

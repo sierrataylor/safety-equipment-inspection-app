@@ -28,22 +28,35 @@ which should clone the repository into a folder of your choice
 
 2. Once you have installed *npm*, navigate to the folder containing the project 
 
-3. Navigate to the folder containing the **SafetyEquipmentInspectionApp** project and you should find package.json in the root of the project. Run 
+3. Navigate to the folder containing the **SafetyEquipmentInspectionApp** project and you should find package.json in the root of the project. 
+```
+cd <folder_path>/SafetyEquipmentInspection/SafetyEquipmentInspectionApp/
+```
+Run 
 ```
 npm install package.json
 ```
 to install the necessary dependencies.
-
+	
 4. To run the app:
  - Windows: Press F5 in the Visual Studio window to start the application with debugging
- - Mac: Type this command to start the front end before running the application in Visual Studio.
+ - Mac: Run the application in Visual Studio. 
+ In your terminal or command prompt, navigate to the folder containing the source code for the Angular front-end application. 
+ ```
+ cd SafetyEquipmentInspection/SafetyEquipmentInspectionApp/ClientApp/src
+ ```
+ Then type this command in the terminal to start the front end before running the application in Visual Studio.
  ```
  npm start
  ```
-
  
  ### Configuration
- to be added
- 
+To configure Visual Studio to run both the API and the front-end: 
+1. Open the application in Visual Studio and right-click the solution file (SafetyEquipmentInspection.sln). 
+2. Select *Select Startup Projects...* or *Properties*. 
+3. In the Startup Project menu, select *Multiple startup projects* and at this point you should see both the API and Angular application projects enabled for selection. 
+4. Select *Start* as the action for both and click *Apply". 
+5. Now when you run the project, two windows should open.
+
  ### Tests
  to be added

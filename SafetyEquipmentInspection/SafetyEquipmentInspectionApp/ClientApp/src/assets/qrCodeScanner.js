@@ -22,6 +22,7 @@ function initializeScanner() {
     });
 }
 
+
 function submit() {
   let inputval = document.getElementById("code").value;
   if (inputval == "") {
@@ -32,3 +33,4 @@ function submit() {
     window.location.href = '/inspection-form'; 
   }
 }
+
