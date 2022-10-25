@@ -19,7 +19,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
         [HttpPost("/inspections/answers/{equipmentId}/{questionNumber}")]
         public async Task InputAnswer(string equipmentId, int questionNum, string response)
         {
-            var answerCollection = _db.Collection("Answers");
+            CollectionReference answerCollection = _db.Collection("Answers");
             AnswerDto answer = new AnswerDto
             {
                 AnswerId = new Guid(equipmentId),
@@ -28,8 +28,8 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 Response = response,
                 isResponseNo = response.ToLower() == "yes" ? false : true           
             };
-            var answerJson = JsonConvert.SerializeObject(answer);
-            var answerDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(answerJson);
+            string answerJson = JsonConvert.SerializeObject(answer);
+            Dictionary<string, object> answerDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(answerJson);
             await answerCollection.Document(answer.AnswerId.ToString()).SetAsync(answerDict);
         }
     }

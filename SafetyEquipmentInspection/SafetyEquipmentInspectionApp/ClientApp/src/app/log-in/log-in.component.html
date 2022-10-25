@@ -2,17 +2,19 @@
   <div class="log-in-container">
     <h1>Log In</h1>
     <div class="log-in-inputs">
-      <form class="log-in-form" id="log-in-form">
+      <form class="log-in-form" id="log-in-form" [formGroup]="loginForm" (ngSubmit)="LogInUser()">
         <div class="form-group">
           <label for="employee-id">Employee ID:</label><br>
-          <input required type="text" id="employee-id" name="employeeId" [(ngModel)]="employeeId"><br>
+          <input required type="text" id="employee-id" name="employeeId" formControlName="employeeId"><br>
+          <span class="text-danger" *ngIf="loginForm.controls['employeeId'].dirty && loginForm.hasError('required', 'employeeId')">*EmployeeId is required</span>
         </div>
         <div class="form-group">
           <label for="employee-password">Password:</label><br>
-          <input required type="password" id="employee-password" name="employeePassword" [(ngModel)]="employeePassword"><br />
+          <input required type="password" id="employee-password" name="employeePassword" formControlName="employeePassword"><br />
+          <span class="text-danger" *ngIf="loginForm.controls['employeePassword'].dirty && loginForm.hasError('required', 'employeePassword')">*Password is required</span>
         </div>
         <br />
-        <input class="log-in-submit" type="submit" value="Submit" (click)="LogInUser()"><br />
+        <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary mt-3">Login</button><br />
         <div class="forgot-password"
              [routerLinkActive]="['link-active']"
              [routerLinkActiveOptions]="{ exact: true }">

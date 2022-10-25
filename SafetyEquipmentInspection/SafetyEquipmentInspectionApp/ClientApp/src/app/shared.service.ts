@@ -65,7 +65,9 @@ export class SharedService {
 
     return this.http.post(this.APIUrl + "/inspection/", InspectionData);
   }
-
+  GetInspectionsList() {
+    return this.http.get(this.APIUrl + "/inspection/")
+  }
   //Employee API Methods
 
   GetEmployee(employeeId: string): Observable<EmployeeDto>{
