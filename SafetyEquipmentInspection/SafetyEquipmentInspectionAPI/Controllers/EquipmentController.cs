@@ -32,13 +32,11 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             try
             {
                 //get Equipment collection from NoSQL db
-
                 CollectionReference equipmentCollection = _db.Collection("Equipment");
                 //query collection for document with an EquipmentId equal to id and get async snapshot of query result
                 DocumentSnapshot equipmentDocument = await equipmentCollection.Document(id).GetSnapshotAsync();
                 //if document exists, use FireStore ConvertTo function to convert it to a DTO
                 EquipmentDto equipmentItem = equipmentDocument.ConvertTo<EquipmentDto>();
-
                 return equipmentDocument.Exists ? JsonConvert.SerializeObject(equipmentItem, settings) :
                 $"Item with ID {id} not found";
             }
@@ -50,14 +48,16 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             }
         }
 
-        [HttpGet("equipment/items/{equipmentType}")]
-        public async Task<List<EquipmentDto>> GetListItems(string equipmentType)
+        [HttpGet("equipment/items/")]
+        public async Task<List<EquipmentDto>> GetListItems(string equipmentType = "")
         {
             try
             {
                 List<EquipmentDto> equipmentItems = new List<EquipmentDto>();
                 CollectionReference equipmentCollection = _db.Collection("Equipment");
-                QuerySnapshot getAllItemsQuery = await equipmentCollection.WhereEqualTo("EquipmentType", equipmentType).GetSnapshotAsync();
+                QuerySnapshot getAllItemsQuery = !String.IsNullOrEmpty(equipmentType) ?
+                    await equipmentCollection.WhereEqualTo("EquipmentType", equipmentType).GetSnapshotAsync() :
+                    await equipmentCollection.GetSnapshotAsync();
                 if (getAllItemsQuery.Any())
                 {
                     foreach (DocumentSnapshot item in getAllItemsQuery.Documents)
@@ -89,20 +89,16 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                     Location = location.ToUpper()
                 };
                 string message;
-
                 CollectionReference equipmentCollection = _db.Collection("Equipment");
                 string equipmentDtoJson = JsonConvert.SerializeObject(equipmentDto, settings);
                 Dictionary<string, object> itemDocDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(equipmentDtoJson);
-
                 //check if document already exists with the equipment ID
                 DocumentSnapshot doc = await equipmentCollection.Document(equipmentDto.EquipmentId.ToString()).GetSnapshotAsync();
 
                 if (!doc.Exists)
                 {
-
                     WriteResult docAdded = await equipmentCollection.Document(equipmentDto.EquipmentId.ToString()).SetAsync(itemDocDictionary);
                     message = JsonConvert.SerializeObject(new { message = $"Successfully added item {equipmentDto.EquipmentId}", item = equipmentDtoJson }, settings);
-
                 }
                 else
                 {
