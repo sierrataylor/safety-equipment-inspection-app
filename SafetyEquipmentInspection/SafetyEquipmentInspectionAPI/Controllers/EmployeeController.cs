@@ -30,8 +30,10 @@ namespace SafetyEquipmentInspectionAPI
         {
             try
             {
+
                 CollectionReference employeesCollection = _db.Collection("Employee");
                 DocumentSnapshot employeeDoc = await employeesCollection.Document(employeeId).GetSnapshotAsync();
+
 
                 EmployeeDto employee = employeeDoc.ConvertTo<EmployeeDto>();
                 return employeeDoc.Exists ?
@@ -48,6 +50,7 @@ namespace SafetyEquipmentInspectionAPI
 
         }
         [HttpPost("/employees/addEmployee")]
+
         public async Task<string> AddEmployee(string employeeId, string firstName, string lastName, string email, string role, string password)
 
         {
