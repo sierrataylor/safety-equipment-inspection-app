@@ -49,11 +49,10 @@ export class SharedService {
     return this.http.put(this.APIUrl + "equipment/updateItem/" + equipmentId, EquipmentItem);
   }
 
-  DeleteEquipmentItem(equipmentId: string) {
-    return this.http.delete(this.APIUrl + "equipment/deleteItem/" + equipmentId);
+  async DeleteEquipmentItem(equipmentId: string) {
+    console.log("Deleting equipment item.");
+    await this.http.delete(this.APIUrl + "equipment/deleteItem/" + equipmentId, {responseType: "text"}).toPromise();
   }
-
-  //Inspection API Methods
 
   AddInspection(equipmentId: string, inspectionDate: string, result: string, reviewer: string) {
     let InspectionData: any= {
@@ -98,7 +97,7 @@ export class SharedService {
   }
 
   DeleteEmployee(employeeId: string) {
-    return this.http.delete(this.APIUrl + "employees/delete/" + employeeId);
+    return this.http.delete(this.APIUrl + "employees/delete/" + employeeId).subscribe;
   }
 
   GetEmployeeList() {
