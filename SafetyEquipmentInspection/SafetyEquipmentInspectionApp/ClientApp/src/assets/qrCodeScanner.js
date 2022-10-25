@@ -1,12 +1,19 @@
+var expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
+var regex;
 
 function initializeScanner() {
+  console.log("Worked!");
   let scanner = new Instascan.Scanner({
     video: document.getElementById("camera")
   });
 
+  regex = new RegExp(expression);
+
   let result = document.getElementById("qrcode");
   scanner.addListener("scan", function (content) {
-    result.innerText = content;
+    if (content.match(regex)) {
+      window.location.replace(content);
+    }
     scanner.stop();
   });
   Instascan.Camera.getCameras()
@@ -22,7 +29,6 @@ function initializeScanner() {
     });
 }
 
-
 function submit() {
   let inputval = document.getElementById("code").value;
   if (inputval == "") {
@@ -30,7 +36,7 @@ function submit() {
   }
   else
   {
-    window.location.href = '/inspection-form'; 
+    window.location.href = '/inspection-form';
   }
 }
 

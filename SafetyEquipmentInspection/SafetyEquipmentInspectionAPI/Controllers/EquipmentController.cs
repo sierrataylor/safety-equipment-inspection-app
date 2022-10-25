@@ -159,9 +159,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 //query collection for document with an EquipmentId equal to id and get async snapshot of query result
                 QuerySnapshot query = await equipmentcollection.WhereEqualTo("EquipmentId", id.ToString()).GetSnapshotAsync();
                 await equipmentcollection.Document(query.Documents[0].Id).DeleteAsync();
-                return $"Deletion of {query.Documents[0].Id} successful";
-
-
+                return $"Deletion of {query.Documents[0].Id} successful.";
             }
             catch (Exception ex)
             {
