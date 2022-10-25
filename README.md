@@ -55,7 +55,7 @@ To configure Visual Studio to run both the API and the front-end:
 1. Open the application in Visual Studio and right-click the solution file (SafetyEquipmentInspection.sln). 
 2. Select *Select Startup Projects...* or *Properties*. 
 3. In the Startup Project menu, select *Multiple startup projects* and at this point you should see both the API and Angular application projects enabled for selection. 
-4. Select *Start* as the action for both and click *Apply". 
+4. Select *Start* as the action for both and click *Apply*. 
 5. Now when you run the project, two windows should open.
 
  ### Tests
