@@ -67,7 +67,9 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 if (!questionDoc.Exists)
                 {
                     await questionsCollection.Document(questionDto.QuestionId).SetAsync(questionDict);
+
                     message = JsonConvert.SerializeObject(questionDto, settings:settings);
+
                 }
                 else
                 {
