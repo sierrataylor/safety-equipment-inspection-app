@@ -17,10 +17,10 @@ export class EquipmentTableComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.GetEquipmentList("fire extinguisher");
+    this.GetEquipmentList();
   }
 
-  GetEquipmentList(equipmentType: any) {
+  GetEquipmentList(equipmentType: any = "") {
     return this.service.GetEquipmentList(equipmentType).subscribe(data => {
       this.equipments = data;
     });
@@ -28,7 +28,7 @@ export class EquipmentTableComponent implements OnInit {
 
   async DeleteEquipmentItem(equipmentId: any) {
     await this.service.DeleteEquipmentItem(equipmentId);
-    this.GetEquipmentList("fire extinguisher");
+    this.GetEquipmentList("");
   }
 
 }
