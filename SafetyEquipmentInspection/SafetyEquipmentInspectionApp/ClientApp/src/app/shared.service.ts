@@ -22,8 +22,9 @@ export class SharedService {
     return this.http.get<EquipmentDto>(this.APIUrl + "equipment/item/" + equipmentId);
   }
 
-  GetEquipmentList(equipmentType: string): Observable<EquipmentDto[]>{
-    return this.http.get<EquipmentDto[]> (this.APIUrl + "equipment/items/" + equipmentType);
+  GetEquipmentList(equipmentType: string = ""): Observable<EquipmentDto[]>{
+    return equipmentType ? this.http.get<EquipmentDto[]>(this.APIUrl + "equipment/items/" + equipmentType) :
+      this.http.get<EquipmentDto[]>(this.APIUrl + "equipment/items/");
   }
 
   AddEquipmentItem(equipmentType: string, building: string, floor: number, location: string) {
