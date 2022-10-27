@@ -43,7 +43,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             catch (Exception ex)
             {
                 //if document
-                return JsonConvert.SerializeObject(new { error = ex.Message });
+                return $"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception.";
 
             }
         }
@@ -69,9 +69,9 @@ namespace SafetyEquipmentInspectionAPI.Controllers
 
                 return equipmentItems;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception($"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception.");
             }
         }
 
@@ -110,7 +110,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             catch (Exception ex)
             {
 
-                return JsonConvert.SerializeObject(new { error = ex.Message });
+                return $"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception.";
             }
 
         }
@@ -140,10 +140,10 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 };
                 return JsonConvert.SerializeObject(new { message = $"Update of item {equipmentId} successful" });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw new Exception($"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception.");
             }
 
         }
@@ -163,7 +163,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             }
             catch (Exception ex)
             {
-                return JsonConvert.SerializeObject(new { id = id, error = ex.Message });
+                return $"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception.";
             }
         }
     }
