@@ -19,18 +19,27 @@ namespace SafetyEquipmentInspectionAPI.Controllers
         [HttpPost("/inspections/answers/{equipmentId}/{questionNumber}")]
         public async Task InputAnswer(string equipmentId, int questionNum, string response)
         {
-            CollectionReference answerCollection = _db.Collection("Answers");
-            AnswerDto answer = new AnswerDto
+            try
             {
-                AnswerId = new Guid(equipmentId),
-                EquipmentId = equipmentId,
-                QuestionNumber = questionNum,
-                Response = response,
-                isResponseNo = response.ToLower() == "yes" ? false : true           
-            };
-            string answerJson = JsonConvert.SerializeObject(answer);
-            Dictionary<string, object> answerDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(answerJson);
-            await answerCollection.Document(answer.AnswerId.ToString()).SetAsync(answerDict);
+                CollectionReference answerCollection = _db.Collection("Answers");
+                AnswerDto answer = new AnswerDto
+                {
+                    AnswerId = new Guid(equipmentId),
+                    EquipmentId = equipmentId,
+                    QuestionNumber = questionNum,
+                    Response = response,
+                    isResponseNo = response.ToLower() == "yes" ? false : true           
+                };
+                string answerJson = JsonConvert.SerializeObject(answer);
+                Dictionary<string, object> answerDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(answerJson);
+                await answerCollection.Document(answer.AnswerId.ToString()).SetAsync(answerDict);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception($"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception.");
+            }
         }
     }
 }
