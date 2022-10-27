@@ -1,0 +1,17 @@
+h1 {
+    font-family: 'LatoWeb';
+    padding: 15px 0px;
+}
+
+.log-in-container {
+    padding-left: 10%;
+}
+
+.log-in-form {
+    font-family: 'LatoWeb';
+    font-weight: 300;
+}
+
+.log-in-submit {
+    margin-bottom: 10px;
+}

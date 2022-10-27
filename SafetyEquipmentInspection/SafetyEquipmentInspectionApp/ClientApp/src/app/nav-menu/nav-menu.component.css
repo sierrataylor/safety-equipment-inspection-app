@@ -2,6 +2,27 @@ a.navbar-brand {
   white-space: normal;
   text-align: center;
   word-break: break-all;
+  font-family: 'LatoWeb';
+  color: #E9E8DD;
+}
+
+#navimg {
+    width: 50px;
+    padding-right: 10px;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+nav {
+  background-color: #6c98ba;
+  width: 100%;
+}
+#nav-menu-dashboard, #nav-menu-signout {
+  color: #E9E8DD !important;
+  display: flex;
+  justify-content: center;
 }
 
 html {
@@ -13,6 +34,22 @@ html {
   }
 }
 
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+@media only screen and (max-width: 768px) {
+  div.container {
+    max-width: 570px !important;
+  }
 }
+
+
+/*mobile view*/
+@media only screen and (max-width: 480px) {
+  img#navimg {
+    display: none;
+  }
+  a.navbar-brand {
+      font-size: 15px;
+  }
+}
+
+
+

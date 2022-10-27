@@ -1,0 +1,27 @@
+
+ <h2>Past Scans</h2>
+ <div>
+     <table class="table table-striped">
+         <thead>
+             <tr>
+                 <th>Equipment ID</th>
+                 <th>Last Inspection Date</th>
+                 <th>Inspection Results</th>
+             </tr>
+         </thead>
+         <tbody>
+             <tr *ngFor="let dataItem of inspections">
+                 <td>{{dataItem.equipmentId}}</td>
+                 <td>{{dataItem. lastInspectionDate}}</td>
+                 <td>{{dataItem.inspectionResults}}</td>
+                 <td>
+                     <button type="button" class="btn btn bg-light">i</button>
+                     <button type="button" class="btn btn bg-light">Edit</button>
+                     <button type="button" class="btn btn bg-light">Delete</button>
+                 </td>
+             </tr>
+         </tbody>
+     </table>
+ </div>
+  
+

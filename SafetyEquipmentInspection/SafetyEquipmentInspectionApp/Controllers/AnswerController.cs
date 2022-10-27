@@ -1,4 +1,4 @@
-﻿namespace safety_equipment_inspection_app.Controllers
+﻿namespace SafetyEquipmentInspectionApp.Controllers
 {
     public class AnswerController
     {

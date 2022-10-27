@@ -1,19 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-	<TargetFramework>net6.0</TargetFramework>
-	<ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
 
-  <ItemGroup>
-	<PackageReference Include="Google.Cloud.Firestore" Version="3.0.0" />
-	<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Google.Cloud.Firestore" Version="3.0.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Content Update="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
+	<ItemGroup>
+		<Content Update="appsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Update="firestoreCredentials.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 
 </Project>

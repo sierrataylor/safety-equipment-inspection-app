@@ -1,5 +1,154 @@
 /* You can add global styles to this file, and also import other style files */
 
+/* additon of font Lato*/
+/* Webfont: Lato-Black */
+@font-face {
+  font-family: 'LatoWebBlack';
+  src: url('assets/Lato/Lato-Black.woff') format('woff');
+  font-style: normal;
+  font-weight: normal;
+}
+
+/* Webfont: Lato-BlackItalic */
+@font-face {
+  font-family: 'LatoWebBlack';
+  src: url('assets/Lato/Lato-BlackItalic.woff') format('woff');
+  font-style: italic;
+  font-weight: normal;
+}
+
+/* Webfont: Lato-Bold */
+@font-face {
+  font-family: 'LatoWebBold';
+  src: url('assets/Lato/Lato-Bold.woff') format('woff');
+  font-style: normal;
+  font-weight: normal;
+}
+
+/* Webfont: Lato-BoldItalic */
+@font-face {
+  font-family: 'LatoWebBold';
+  src: url('assets/Lato/Lato-BoldItalic.woff') format('woff');
+  font-style: italic;
+  font-weight: normal;
+}
+
+/* Webfont: Lato-Hairline */
+@font-face {
+  font-family: 'LatoWebHairline';
+  src: url('assets/Lato/Lato-Hairline.woff') format('woff');
+  font-style: normal;
+  font-weight: normal;
+}
+
+/* Webfont: Lato-HairlineItalic */
+@font-face {
+  font-family: 'LatoWebHairline';
+  src: url('assets/Lato/Lato-HairlineItalic.woff') format('woff');
+  font-style: italic;
+  font-weight: normal;
+}
+
+/* Webfont: Lato-Heavy */
+@font-face {
+  font-family: 'LatoWebHeavy';
+  src: url('assets/Lato/Lato-Heavy.woff') format('woff');
+  font-style: normal;
+  font-weight: normal;
+}
+
+/* Webfont: Lato-HeavyItalic */
+@font-face {
+  font-family: 'LatoWebHeavy';
+  src: url('assets/Lato/Lato-HeavyItalic.woff') format('woff');
+  font-style: italic;
+  font-weight: normal;
+}
+
+/* Webfont: Lato-Italic */
+@font-face {
+  font-family: 'LatoWeb';
+  src: url('assets/Lato/Lato-Italic.woff') format('woff');
+  font-style: italic;
+  font-weight: normal;
+}
+
+/* Webfont: Lato-Light */
+@font-face {
+  font-family: 'LatoWebLight';
+  src: url('assets/Lato/Lato-Light.woff') format('woff');
+  font-style: normal;
+  font-weight: normal;
+}
+
+/* Webfont: Lato-LightItalic */
+@font-face {
+  font-family: 'LatoWebLight';
+  src: url('assets/Lato/Lato-LightItalic.woff') format('woff');
+  font-style: italic;
+  font-weight: normal;
+}
+
+/* Webfont: Lato-Medium */
+@font-face {
+  font-family: 'LatoWebMedium';
+  src: url('assets/Lato/Lato-Medium.woff') format('woff');
+  font-style: normal;
+  font-weight: normal;
+}
+
+/* Webfont: Lato-MediumItalic */
+@font-face {
+  font-family: 'LatoWebMedium';
+  src: url('assets/Lato/Lato-MediumItalic.woff') format('woff');
+  font-style: italic;
+  font-weight: normal;
+}
+
+/* Webfont: Lato-Regular */
+@font-face {
+  font-family: 'LatoWeb';
+  src: url('assets/Lato/Lato-Regular.woff') format('woff');
+  font-style: normal;
+  font-weight: normal;
+}
+
+/* Webfont: Lato-Semibold */
+@font-face {
+  font-family: 'LatoWebSemibold';
+  src: url('assets/Lato/Lato-Semibold.woff') format('woff');
+  font-style: normal;
+  font-weight: normal;
+}
+
+/* Webfont: Lato-SemiboldItalic */
+@font-face {
+  font-family: 'LatoWebSemibold';
+  src: url('assets/Lato/Lato-SemiboldItalic.woff') format('woff');
+  font-style: italic;
+  font-weight: normal;
+}
+
+/* Webfont: Lato-Thin */
+@font-face {
+  font-family: 'LatoWebThin';
+  src: url('assets/Lato/Lato-Thin.woff') format('woff');
+  font-style: normal;
+  font-weight: normal;
+}
+
+/* Webfont: Lato-ThinItalic */
+@font-face {
+  font-family: 'LatoWebThin';
+  src: url('assets/Lato/Lato-ThinItalic.woff') format('woff');
+  font-style: italic;
+  font-weight: normal;
+}
+
+
+
+
+
 /* Provide sufficient contrast against white background */
 a {
   color: #0366d6;
@@ -13,4 +162,26 @@ code {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
+}
+html {
+  height: 100%;
+  background-color: #E9E8DD;
+}
+
+h1 {
+  margin: 0;
+  padding: 15px;
+}
+#container {
+  text-align: center;
+  margin: 0;
+}
+
+* {
+    font-family: 'LatoWeb' !important;
+}
+
+body {
+  background-color: #E9E8DD;
+  height: 100%;
 }

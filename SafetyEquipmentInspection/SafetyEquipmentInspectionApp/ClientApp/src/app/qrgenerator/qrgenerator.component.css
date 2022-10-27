@@ -1,0 +1,55 @@
+h3 {
+    text-align: center;
+}
+.container {
+  margin: 0;
+  text-align: center;
+}
+
+button {
+  width: 15%;
+  font-size: 18px;
+}
+html {
+  font-family: sans-serif;
+}
+
+h1 {
+  text-align: center;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+td {
+  vertical-align: top;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+}
+
+  td:first-child {
+    white-space: pre;
+    padding-right: 0.5em;
+  }
+
+input[type=number], input[type=text], textarea {
+  font-size: inherit;
+  font-family: inherit;
+}
+
+input[type=radio], input[type=checkbox] {
+  margin: 0em;
+  padding: 0em;
+}
+
+  input[type=radio] + label, input[type=checkbox] + label {
+    margin-right: 0.8em;
+    padding-left: 0.2em;
+  }
+
+hr {
+  margin: 2em 0em;
+  border: none;
+  border-top: 0.1em solid #A0A0A0;
+}

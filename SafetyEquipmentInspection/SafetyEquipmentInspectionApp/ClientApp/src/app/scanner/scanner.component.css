@@ -1,0 +1,26 @@
+
+h3, p {
+    text-align: center;
+}
+p {
+    padding-top: 10px;
+    font-size: 18px;
+}
+.container {
+   margin: 0;
+   text-align: center;
+}
+button {
+  width: 15%;
+  font-size: 18p
+}
+#scanner-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+#camera {
+    margin-bottom: 1em;
+}
+
