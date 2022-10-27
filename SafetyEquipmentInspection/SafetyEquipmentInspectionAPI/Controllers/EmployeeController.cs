@@ -16,7 +16,7 @@ namespace SafetyEquipmentInspectionAPI
             Environment.SetEnvironmentVariable(FirestoreConstants.GoogleApplicationCredentials, FirestoreConstants.GoogleApplicationCredentialsPath);
             _db = FirestoreDb.Create(FirestoreConstants.ProjectId);
         }
-        JsonSerializerSettings settings = new JsonSerializerSettings
+        readonly JsonSerializerSettings settings = new JsonSerializerSettings
         {
             Formatting = Formatting.Indented,
             ContractResolver = new DefaultContractResolver

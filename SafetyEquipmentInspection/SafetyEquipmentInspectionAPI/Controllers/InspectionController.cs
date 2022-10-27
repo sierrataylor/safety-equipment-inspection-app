@@ -5,6 +5,7 @@ using SafetyEquipmentInspectionAPI.Constants;
 using SafetyEquipmentInspectionAPI.DTOs;
 using SafetyEquipmentInspectionAPI.Controllers;
 using Newtonsoft.Json.Serialization;
+using System.Globalization;
 
 namespace SafetyEquipmentInspectionAPI.Controllers
 {
@@ -19,14 +20,14 @@ namespace SafetyEquipmentInspectionAPI.Controllers
 
         }
 
-            JsonSerializerSettings settings = new JsonSerializerSettings
+        readonly JsonSerializerSettings settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented,
+            ContractResolver = new DefaultContractResolver
             {
-                Formatting = Formatting.Indented,
-                ContractResolver = new DefaultContractResolver
-                {
-                    NamingStrategy = new CamelCaseNamingStrategy()
-                }
-            };
+                NamingStrategy = new CamelCaseNamingStrategy()
+            }
+        };
         /// <summary>
         /// Generates inspections based on equipment type,
         /// which is taken from the equipment ID.
@@ -96,7 +97,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                         LastInspectionDate = DateTime.UtcNow 
                     };
                     DocumentSnapshot inspectionDocument = await inspectionCollection.Document(inspectionDto.InspectionId).GetSnapshotAsync();
-                    string inspectJson = JsonConvert.SerializeObject(inspectionDto, settings);
+                    string inspectJson = JsonConvert.SerializeObject(inspectionDto);
                     Dictionary<string, object> inspectionDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(inspectJson);
                     inspectionDictionary["LastInspectionDate"] = Timestamp.FromDateTime(inspectionDto.LastInspectionDate);
                     await inspectionCollection.Document(inspectionDto.InspectionId).SetAsync(inspectionDictionary);
@@ -110,14 +111,16 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             }        
         }
 
-        [HttpGet("inspections/past/{equipmentId}")]
-        public async Task<List<InspectionDto>> GetPastInspections(string equipmentId)
+        [HttpGet("inspections/past/")]
+        public async Task<List<InspectionDto>> GetPastInspections(string equipmentId="")
         {
             try
             {
                 CollectionReference inspectionCollection = _db.Collection("Inspection");
                 List<InspectionDto> pastInspections = new List<InspectionDto>();
-                QuerySnapshot getInspectionsBasedOnItemIdQuery = await inspectionCollection.WhereEqualTo("EquipmentId", equipmentId).GetSnapshotAsync();
+                QuerySnapshot getInspectionsBasedOnItemIdQuery = !String.IsNullOrEmpty(equipmentId) ?
+                    await inspectionCollection.WhereEqualTo("EquipmentId", equipmentId).GetSnapshotAsync() :
+                    await inspectionCollection.GetSnapshotAsync();
                 if (getInspectionsBasedOnItemIdQuery.Any())
                 {
                     foreach (DocumentSnapshot inspectionDoc in getInspectionsBasedOnItemIdQuery.Documents)

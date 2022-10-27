@@ -5,6 +5,7 @@ import { HttpClientModule, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { EquipmentDto } from './SharedDTO/equipment.dto';
 import { EmployeeDto } from './SharedDTO/employee.dto';
+import { InspectionDto } from './SharedDTO/inspection.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +23,8 @@ export class SharedService {
     return this.http.get<EquipmentDto>(this.APIUrl + "equipment/item/" + equipmentId);
   }
 
-  GetEquipmentList(equipmentType: string): Observable<EquipmentDto[]>{
-    return this.http.get<EquipmentDto[]> (this.APIUrl + "equipment/items/" + equipmentType);
+  GetEquipmentList(equipmentType: string = ""): Observable<EquipmentDto[]>{
+    return this.http.get<EquipmentDto[]>(this.APIUrl + "equipment/items/" + equipmentType);
   }
 
   AddEquipmentItem(equipmentType: string, building: string, floor: number, location: string) {
@@ -64,8 +65,8 @@ export class SharedService {
 
     return this.http.post(this.APIUrl + "/inspection/", InspectionData);
   }
-  GetInspectionsList() {
-    return this.http.get(this.APIUrl + "/inspection/")
+  GetInspectionsList(equipmentId: any = "") {
+    return this.http.get<InspectionDto[]>(this.APIUrl + "inspections/past/" + equipmentId)
   }
   //Employee API Methods
 

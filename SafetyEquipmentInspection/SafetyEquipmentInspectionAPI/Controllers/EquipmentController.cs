@@ -18,7 +18,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             _db = FirestoreDb.Create(FirestoreConstants.ProjectId);
         }
 
-        JsonSerializerSettings settings = new JsonSerializerSettings
+        readonly JsonSerializerSettings settings = new JsonSerializerSettings
         {
             Formatting = Formatting.Indented,
             ContractResolver = new DefaultContractResolver
@@ -86,11 +86,11 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                     EquipmentType = equipmentType.ToLower(),
                     Building = building.ToUpper(),
                     Floor = floor,
-                    Location = location.ToUpper()
+                    Location = location.ToLower()
                 };
                 string message;
                 CollectionReference equipmentCollection = _db.Collection("Equipment");
-                string equipmentDtoJson = JsonConvert.SerializeObject(equipmentDto, settings);
+                string equipmentDtoJson = JsonConvert.SerializeObject(equipmentDto);
                 Dictionary<string, object> itemDocDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(equipmentDtoJson);
                 //check if document already exists with the equipment ID
                 DocumentSnapshot doc = await equipmentCollection.Document(equipmentDto.EquipmentId.ToString()).GetSnapshotAsync();
