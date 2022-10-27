@@ -1,17 +1,16 @@
-
-
-<h3>Scan Qr Code</h3>
-<video id="camera"></video>
-<div class="container" id="qrcode">
-
-    <button  id="scanbtn" onclick="initializeScanner()">Scan QR Code</button>
+<div id="scanner-container">
+    <h3>Scan Qr Code</h3>
+    <video id="camera"></video>
+    <button id="scanbtn" onclick="initializeScanner()">Scan QR Code</button>
+    <div class="container" id="qrcode">
+    </div>
+    <p> OR </p>
+    <h3> Enter Equipment Id</h3>
+    <div class="container">
+        <input id="code" type="text" />
+        <br />
+        <br />
+        <button id="submitbtn" type="button" onclick="submit()"> Submit </button>
+    </div>
 </div>
-<p> OR </p>
-<h3> Enter Equipment Id</h3>
-<div class="container">
-    <input id="code" type="text" />
-    <br />
-    <br />
-    <button id="submitbtn" type="button" onclick="submit()"> Submit </button>
 
-</div>
