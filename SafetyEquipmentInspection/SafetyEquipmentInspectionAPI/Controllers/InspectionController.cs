@@ -5,6 +5,7 @@ using SafetyEquipmentInspectionAPI.Constants;
 using SafetyEquipmentInspectionAPI.DTOs;
 using SafetyEquipmentInspectionAPI.Controllers;
 using Newtonsoft.Json.Serialization;
+using System.Globalization;
 
 namespace SafetyEquipmentInspectionAPI.Controllers
 {
@@ -110,14 +111,16 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             }        
         }
 
-        [HttpGet("inspections/past/{equipmentId}")]
-        public async Task<List<InspectionDto>> GetPastInspections(string equipmentId)
+        [HttpGet("inspections/past/")]
+        public async Task<List<InspectionDto>> GetPastInspections(string equipmentId="")
         {
             try
             {
                 CollectionReference inspectionCollection = _db.Collection("Inspection");
                 List<InspectionDto> pastInspections = new List<InspectionDto>();
-                QuerySnapshot getInspectionsBasedOnItemIdQuery = await inspectionCollection.WhereEqualTo("EquipmentId", equipmentId).GetSnapshotAsync();
+                QuerySnapshot getInspectionsBasedOnItemIdQuery = !String.IsNullOrEmpty(equipmentId) ?
+                    await inspectionCollection.WhereEqualTo("EquipmentId", equipmentId).GetSnapshotAsync() :
+                    await inspectionCollection.GetSnapshotAsync();
                 if (getInspectionsBasedOnItemIdQuery.Any())
                 {
                     foreach (DocumentSnapshot inspectionDoc in getInspectionsBasedOnItemIdQuery.Documents)
