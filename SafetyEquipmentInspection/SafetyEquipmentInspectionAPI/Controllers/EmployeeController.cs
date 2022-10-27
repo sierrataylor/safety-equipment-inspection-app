@@ -16,24 +16,26 @@ namespace SafetyEquipmentInspectionAPI
             Environment.SetEnvironmentVariable(FirestoreConstants.GoogleApplicationCredentials, FirestoreConstants.GoogleApplicationCredentialsPath);
             _db = FirestoreDb.Create(FirestoreConstants.ProjectId);
         }
+        readonly JsonSerializerSettings settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented,
+            ContractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy()
+            }
+        };
 
         [HttpGet("/employees/employee/{employeeId}")]
         public async Task<string> GetEmployee(string employeeId)
         {
             try
             {
-                var employeesCollection = _db.Collection("Employee");
-                var employeeDoc = await employeesCollection.Document(employeeId).GetSnapshotAsync();
 
-                var employee = employeeDoc.ConvertTo<EmployeeDto>();
+                CollectionReference employeesCollection = _db.Collection("Employee");
+                DocumentSnapshot employeeDoc = await employeesCollection.Document(employeeId).GetSnapshotAsync();
 
-                var settings = new JsonSerializerSettings { 
-                    Formatting = Formatting.Indented, 
-                    ContractResolver = new DefaultContractResolver { 
-                        NamingStrategy = new CamelCaseNamingStrategy() 
-                    } 
-                };
 
+                EmployeeDto employee = employeeDoc.ConvertTo<EmployeeDto>();
                 return employeeDoc.Exists ?
                     JsonConvert.SerializeObject(employee, settings) :
 
@@ -54,8 +56,8 @@ namespace SafetyEquipmentInspectionAPI
         {
             try
             {
-                var employeesCollection = _db.Collection("Employee");
-                var employeeDoc = await employeesCollection.Document(employeeId).GetSnapshotAsync();
+                CollectionReference employeesCollection = _db.Collection("Employee");
+                DocumentSnapshot employeeDoc = await employeesCollection.Document(employeeId).GetSnapshotAsync();
                 string message;
 
                 if (!employeeDoc.Exists)
@@ -71,15 +73,9 @@ namespace SafetyEquipmentInspectionAPI
                         Password = password
                     };
 
-                    var empJson = JsonConvert.SerializeObject(employeeDto);
+                    string empJson = JsonConvert.SerializeObject(employeeDto);
                     Dictionary<string, object> employeeDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(empJson);
                     await employeesCollection.Document(employeeDto.EmployeeId).SetAsync(employeeDict);
-                    var settings = new JsonSerializerSettings { 
-                        Formatting = Formatting.Indented, 
-                        ContractResolver = new DefaultContractResolver { 
-                            NamingStrategy = new CamelCaseNamingStrategy() 
-                        } 
-                    };
                     message = JsonConvert.SerializeObject(employeeDict, settings);
                 }
                 else
@@ -102,11 +98,11 @@ namespace SafetyEquipmentInspectionAPI
             try
             {
                 List<EmployeeDto> employees = new List<EmployeeDto>();
-                var employeesCollection = _db.Collection("Employee");
-                var allEmployeesDocs = await employeesCollection.GetSnapshotAsync();
-                foreach (var employeeDoc in allEmployeesDocs)
+                CollectionReference employeesCollection = _db.Collection("Employee");
+                QuerySnapshot allEmployeesDocs = await employeesCollection.GetSnapshotAsync();
+                foreach (DocumentSnapshot employeeDoc in allEmployeesDocs)
                 {
-                    var employee = employeeDoc.ConvertTo<EmployeeDto>();
+                    EmployeeDto employee = employeeDoc.ConvertTo<EmployeeDto>();
                     employees.Add(employee);
                 }
                 return employees;
@@ -123,8 +119,8 @@ namespace SafetyEquipmentInspectionAPI
         {
             try
             {
-                var employeesCollection = _db.Collection("Employee");
-                var employeeToBeUpdated = await employeesCollection.Document(employeeId).GetSnapshotAsync();
+                CollectionReference employeesCollection = _db.Collection("Employee");
+                DocumentSnapshot employeeToBeUpdated = await employeesCollection.Document(employeeId).GetSnapshotAsync();
                 if (employeeToBeUpdated.Exists)
                 {
                     EmployeeDto employeeDto = new EmployeeDto
@@ -135,7 +131,7 @@ namespace SafetyEquipmentInspectionAPI
                         Email = email,
                         Role = role
                     };
-                    var updateJson = JsonConvert.SerializeObject(employeeDto);
+                    string updateJson = JsonConvert.SerializeObject(employeeDto);
                     Dictionary<string, object> updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(updateJson);
                     await employeesCollection.Document(employeeDto.EmployeeId).UpdateAsync(updatesDictionary);
                     return JsonConvert.SerializeObject(new { message = $"Update of {employeeDto.EmployeeId} successfully" });
@@ -158,14 +154,14 @@ namespace SafetyEquipmentInspectionAPI
         {
             try
             {
-                var employeesCollection = _db.Collection("Employee");
-                var employeeDocToBeDeleted = await employeesCollection.Document(employeeId).GetSnapshotAsync();
+                CollectionReference employeesCollection = _db.Collection("Employee");
+                DocumentSnapshot employeeDocToBeDeleted = await employeesCollection.Document(employeeId).GetSnapshotAsync();
                 if (employeeDocToBeDeleted.Exists)
                 {
                     Dictionary<string, object> result = employeeDocToBeDeleted.ToDictionary();
-                    var empResultJson = JsonConvert.SerializeObject(result);
-                    var employeeDataTransferObj = JsonConvert.DeserializeObject<EmployeeDto>(empResultJson);
+                    string empResultJson = JsonConvert.SerializeObject(result);
                     await employeesCollection.Document(employeeId).DeleteAsync();
+                    EmployeeDto employeeDataTransferObj = JsonConvert.DeserializeObject<EmployeeDto>(empResultJson);
                     return $"Employee {employeeDataTransferObj.FirstName} {employeeDataTransferObj.LastName} with " +
                             $"ID {employeeDataTransferObj.EmployeeId} deleted";
                 }
