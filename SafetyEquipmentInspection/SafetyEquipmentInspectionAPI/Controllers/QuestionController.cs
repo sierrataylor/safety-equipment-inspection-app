@@ -40,10 +40,10 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 }
                 return questions;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw new Exception($"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception.");
             }
         }
 
@@ -73,7 +73,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 }
                 else
                 {
-                    message = $"This question already exists for this item";
+                    message = $"This question, {field}, already exists for this item. Please add a different questions";
                 }
                 return message;
 
@@ -82,7 +82,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             {
 
 
-                return JsonConvert.SerializeObject(new { error = ex.Message });
+                return $"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception.";
             }
         }
 
@@ -126,23 +126,24 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             {
                 CollectionReference questionsCollection = _db.Collection("Questions");
                 DocumentSnapshot questiontoBeDeleted = await questionsCollection.Document(questionId).GetSnapshotAsync();
+
+                QuestionDto questionDataTransferObj = questiontoBeDeleted.ConvertTo<QuestionDto>();
+
                 if (questiontoBeDeleted.Exists)
                 {
-                    Dictionary<string, object> result = questiontoBeDeleted.ToDictionary();
-                    string questionJson = JsonConvert.SerializeObject(result);
-                    QuestionDto questionDataTransferObj = JsonConvert.DeserializeObject<QuestionDto>(questionJson);
+
                     await questionsCollection.Document(questionId).DeleteAsync();
                     return $"Question {questionDataTransferObj.Field} for {questionDataTransferObj.EquipmentType} deleted";
                 }
                 else
                 {
-                    return "Question not found";
+                    return $"This question, {questionDataTransferObj.Field}, was not found. It may have already been deleted, or you may have entered an invalid ID.";
                 }
 
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return $"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception.";
             }
         }
     }
