@@ -118,7 +118,9 @@ namespace SafetyEquipmentInspectionAPI
             try
             {
                 CollectionReference employeesCollection = _db.Collection("Employee");
+
                 DocumentSnapshot employeeToBeUpdated = await employeesCollection.Document(currentEmployeeId).GetSnapshotAsync();
+
                 if (employeeToBeUpdated.Exists)
                 {
                     EmployeeDto employeeDto = new EmployeeDto
