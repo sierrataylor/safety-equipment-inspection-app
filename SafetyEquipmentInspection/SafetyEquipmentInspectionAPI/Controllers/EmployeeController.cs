@@ -113,7 +113,7 @@ namespace SafetyEquipmentInspectionAPI
         }
 
         [HttpPut("employees/edit/{employeeId}")]
-        public async Task<string> UpdateEmployee(string currentEmployeeId, string firstName, string lastName, string role, string email, string updatedEmployeeId = null)
+        public async Task<string> UpdateEmployee(string currentEmployeeId, string firstName, string lastName, string role, string email, string password, string updatedEmployeeId = null)
         {
             try
             {
@@ -123,15 +123,14 @@ namespace SafetyEquipmentInspectionAPI
 
                 if (employeeToBeUpdated.Exists)
                 {
-                    EmployeeDto employeeDto = new EmployeeDto
-                    {
-                        EmployeeId = !String.IsNullOrEmpty(updatedEmployeeId) ? updatedEmployeeId : currentEmployeeId,
-                        FirstName = firstName,
-                        LastName = lastName,
-                        Email = email,
-                        Role = role,
-                        Password = password
-                    };
+
+                    EmployeeDto employeeDto = employeeToBeUpdated.ConvertTo<EmployeeDto>();
+                    employeeDto.EmployeeId = !String.IsNullOrEmpty(updatedEmployeeId) ? updatedEmployeeId : currentEmployeeId;
+                    employeeDto.FirstName = firstName;
+                    employeeDto.LastName = lastName;
+                    employeeDto.Email = email;
+                    employeeDto.Role = role;
+                    employeeDto.Password = password;
                     string updateJson = JsonConvert.SerializeObject(employeeDto);
                     Dictionary<string, object> updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(updateJson);
                     await employeesCollection.Document(employeeDto.EmployeeId).UpdateAsync(updatesDictionary);
