@@ -19,6 +19,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
         [HttpPost("/inspections/answers/{equipmentId}/{questionNumber}")]
         public async Task InputAnswer(string equipmentId, int questionNum, string response)
         {
+
             try
             {
                 CollectionReference answerCollection = _db.Collection("Answers");
@@ -40,6 +41,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
 
                 throw new Exception($"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception.");
             }
+
         }
     }
 }
