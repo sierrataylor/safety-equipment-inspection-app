@@ -14,7 +14,7 @@
           <span class="text-danger" *ngIf="loginForm.controls['employeePassword'].dirty && loginForm.hasError('required', 'employeePassword')">*Password is required</span>
         </div>
         <br />
-        <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary mt-3">Login</button><br />
+        <button type="submit" [disabled]="loginForm.valid" class="btn btn-primary mt-3" [routerLink]="['/dashboard']">Login</button><br />
         <div class="forgot-password"
              [routerLinkActive]="['link-active']"
              [routerLinkActiveOptions]="{ exact: true }">
