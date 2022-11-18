@@ -165,6 +165,7 @@ code {
 }
 html {
   height: 100%;
+  background-color: #E9E8DD;
 }
 
 h1 {
@@ -174,4 +175,13 @@ h1 {
 #container {
   text-align: center;
   margin: 0;
+}
+
+* {
+    font-family: 'LatoWeb' !important;
+}
+
+body {
+  background-color: #E9E8DD;
+  height: 100%;
 }

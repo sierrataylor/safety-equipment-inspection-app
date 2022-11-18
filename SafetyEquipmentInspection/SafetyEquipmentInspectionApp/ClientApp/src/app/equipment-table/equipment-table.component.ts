@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { SharedService } from 'src/app/shared.service';
 import { EquipmentDto } from '../SharedDTO/equipment.dto';
 
@@ -18,13 +17,18 @@ export class EquipmentTableComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.GetEquipmentList("fire extinguisher");
+    this.GetEquipmentList();
   }
 
-  GetEquipmentList(equipmentType: any) {
+  GetEquipmentList(equipmentType: any = "") {
     return this.service.GetEquipmentList(equipmentType).subscribe(data => {
       this.equipments = data;
     });
+  }
+
+  async DeleteEquipmentItem(equipmentId: any) {
+    await this.service.DeleteEquipmentItem(equipmentId);
+    this.GetEquipmentList("");
   }
 
 }

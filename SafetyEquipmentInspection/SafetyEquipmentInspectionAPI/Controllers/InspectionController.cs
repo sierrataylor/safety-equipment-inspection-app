@@ -4,6 +4,8 @@ using Newtonsoft.Json;
 using SafetyEquipmentInspectionAPI.Constants;
 using SafetyEquipmentInspectionAPI.DTOs;
 using SafetyEquipmentInspectionAPI.Controllers;
+using Newtonsoft.Json.Serialization;
+using System.Globalization;
 
 namespace SafetyEquipmentInspectionAPI.Controllers
 {
@@ -18,6 +20,14 @@ namespace SafetyEquipmentInspectionAPI.Controllers
 
         }
 
+        readonly JsonSerializerSettings settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented,
+            ContractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy()
+            }
+        };
         /// <summary>
         /// Generates inspections based on equipment type,
         /// which is taken from the equipment ID.
@@ -29,22 +39,32 @@ namespace SafetyEquipmentInspectionAPI.Controllers
         [HttpPost("inspection/{equipmentId}")]
         public async Task<List<string>> GenerateInspectionForm(string equipmentId)
         {
-            CollectionReference questions = _db.Collection("Questions");
-            CollectionReference equipment = _db.Collection("Equipment");
-            //get item by ID
-            DocumentSnapshot equipmentDoc = await equipment.Document(equipmentId).GetSnapshotAsync();
-            EquipmentDto equipmentItemObj = equipmentDoc.ConvertTo<EquipmentDto>();
-            string equipmentType = equipmentItemObj.EquipmentType;
-            //get question by that item's type
-            QuerySnapshot questionsByEquipmentType = await questions.WhereEqualTo("EquipmentType", equipmentType).GetSnapshotAsync();
-            List<string> inspectionFormQuestions = new List<string>();
-            //add question from each document to questions list
-            foreach (DocumentSnapshot formQuestion in questionsByEquipmentType.Documents)
+
+            try
             {
-                QuestionDto question = formQuestion.ConvertTo<QuestionDto>();
-                inspectionFormQuestions.Add(question.Field);
+                CollectionReference questions = _db.Collection("Questions");
+                CollectionReference equipment = _db.Collection("Equipment");
+                //get item by ID
+                DocumentSnapshot equipmentDoc = await equipment.Document(equipmentId).GetSnapshotAsync();
+                EquipmentDto equipmentItemObj = equipmentDoc.ConvertTo<EquipmentDto>();
+                string equipmentType = equipmentItemObj.EquipmentType;
+                //get question by that item's type
+                QuerySnapshot questionsByEquipmentType = await questions.WhereEqualTo("EquipmentType", equipmentType).GetSnapshotAsync();
+                List<string> inspectionFormQuestions = new List<string>();
+                //add question from each document to questions list
+                foreach (DocumentSnapshot formQuestion in questionsByEquipmentType.Documents)
+                {
+                    QuestionDto question = formQuestion.ConvertTo<QuestionDto>();
+                    inspectionFormQuestions.Add(question.Field);
+                }
+                return inspectionFormQuestions;
             }
-            return inspectionFormQuestions;
+            catch (Exception ex)
+            {
+
+                throw new Exception($"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception.");
+            }
+ 
         }
 
         /// <summary>
@@ -94,21 +114,23 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw new Exception($"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception.");
             }        
         }
 
-        [HttpGet("inspections/past/{equipmentId}")]
-        public async Task<List<InspectionDto>> GetPastInspections(string equipmentId)
+        [HttpGet("inspections/past/")]
+        public async Task<List<InspectionDto>> GetPastInspections(string equipmentId="")
         {
             try
             {
                 CollectionReference inspectionCollection = _db.Collection("Inspection");
                 List<InspectionDto> pastInspections = new List<InspectionDto>();
-                QuerySnapshot getInspectionsBasedOnItemIdQuery = await inspectionCollection.WhereEqualTo("EquipmentId", equipmentId).GetSnapshotAsync();
+                QuerySnapshot getInspectionsBasedOnItemIdQuery = !String.IsNullOrEmpty(equipmentId) ?
+                    await inspectionCollection.WhereEqualTo("EquipmentId", equipmentId).GetSnapshotAsync() :
+                    await inspectionCollection.GetSnapshotAsync();
                 if (getInspectionsBasedOnItemIdQuery.Any())
                 {
                     foreach (DocumentSnapshot inspectionDoc in getInspectionsBasedOnItemIdQuery.Documents)
@@ -120,10 +142,10 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 return pastInspections;
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw new Exception($"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception.");
             }
         }
     }

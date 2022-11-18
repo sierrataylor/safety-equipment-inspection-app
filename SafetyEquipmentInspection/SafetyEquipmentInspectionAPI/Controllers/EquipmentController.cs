@@ -18,6 +18,14 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             _db = FirestoreDb.Create(FirestoreConstants.ProjectId);
         }
 
+        readonly JsonSerializerSettings settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented,
+            ContractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy()
+            }
+        };
         [HttpGet("/equipment/item/{id}")]
         public async Task<string> GetItem(string id)
         {
@@ -29,31 +37,27 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 DocumentSnapshot equipmentDocument = await equipmentCollection.Document(id).GetSnapshotAsync();
                 //if document exists, use FireStore ConvertTo function to convert it to a DTO
                 EquipmentDto equipmentItem = equipmentDocument.ConvertTo<EquipmentDto>();
-                JsonSerializerSettings settings = new JsonSerializerSettings { 
-                    Formatting = Formatting.Indented, 
-                    ContractResolver = new DefaultContractResolver { 
-                        NamingStrategy = new CamelCaseNamingStrategy() 
-                    } 
-                };
                 return equipmentDocument.Exists ? JsonConvert.SerializeObject(equipmentItem, settings) :
-                $"Item with ID {id} not found";
+                $"Item with ID {id} not found and may not be in the database. Try viewing the equipment list to check if this item is in the database, then try again with a valid ID.";
             }
             catch (Exception ex)
             {
                 //if document
-                return JsonConvert.SerializeObject(new { error = ex.Message });
+                return $"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception.";
 
             }
         }
 
-        [HttpGet("equipment/items/{equipmentType}")]
-        public async Task<List<EquipmentDto>> GetListItems(string equipmentType)
+        [HttpGet("equipment/items/")]
+        public async Task<List<EquipmentDto>> GetListItems(string equipmentType = "")
         {
             try
             {
                 List<EquipmentDto> equipmentItems = new List<EquipmentDto>();
                 CollectionReference equipmentCollection = _db.Collection("Equipment");
-                QuerySnapshot getAllItemsQuery = await equipmentCollection.WhereEqualTo("EquipmentType", equipmentType).GetSnapshotAsync();
+                QuerySnapshot getAllItemsQuery = !String.IsNullOrEmpty(equipmentType) ?
+                    await equipmentCollection.WhereEqualTo("EquipmentType", equipmentType).GetSnapshotAsync() :
+                    await equipmentCollection.GetSnapshotAsync();
                 if (getAllItemsQuery.Any())
                 {
                     foreach (DocumentSnapshot item in getAllItemsQuery.Documents)
@@ -65,9 +69,9 @@ namespace SafetyEquipmentInspectionAPI.Controllers
 
                 return equipmentItems;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception($"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception.");
             }
         }
 
@@ -82,23 +86,23 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                     EquipmentType = equipmentType.ToLower(),
                     Building = building.ToUpper(),
                     Floor = floor,
-                    Location = location.ToUpper()
+                    Location = location.ToLower()
                 };
                 string message;
                 CollectionReference equipmentCollection = _db.Collection("Equipment");
                 string equipmentDtoJson = JsonConvert.SerializeObject(equipmentDto);
                 Dictionary<string, object> itemDocDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(equipmentDtoJson);
                 //check if document already exists with the equipment ID
-                DocumentSnapshot doc = await equipmentCollection.Document(equipmentDto.EquipmentId.ToString()).GetSnapshotAsync();
+                DocumentSnapshot itemDoc = await equipmentCollection.Document(equipmentDto.EquipmentId.ToString()).GetSnapshotAsync();
 
-                if (!doc.Exists)
+                if (!itemDoc.Exists)
                 {
                     WriteResult docAdded = await equipmentCollection.Document(equipmentDto.EquipmentId.ToString()).SetAsync(itemDocDictionary);
-                    message = JsonConvert.SerializeObject(new { message = $"Successfully added item {equipmentDto.EquipmentId}", item = equipmentDtoJson }, Formatting.Indented);
+                    message = JsonConvert.SerializeObject(new { message = $"Successfully added item {equipmentDto.EquipmentId}", item = equipmentDtoJson }, settings);
                 }
                 else
                 {
-                    message = $"Item {equipmentDto.EquipmentId} already in Equipment";
+                    message = $"Item {equipmentDto.EquipmentId} already in Equipment. Try again with a different ID";
                 }
                 return message;
 
@@ -106,7 +110,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             catch (Exception ex)
             {
 
-                return JsonConvert.SerializeObject(new { error = ex.Message });
+                return $"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception.";
             }
 
         }
@@ -121,14 +125,12 @@ namespace SafetyEquipmentInspectionAPI.Controllers
 
                 if (itemDocToBeUpdated.Exists)
                 {
-                    EquipmentDto equipmentDto = new EquipmentDto
-                    {
-                        EquipmentId = Guid.Parse(equipmentId),
-                        EquipmentType = equipmentType,
-                        Location = location,
-                        Building = building,
-                        Floor = floor
-                    };
+                    EquipmentDto equipmentDto = itemDocToBeUpdated.ConvertTo<EquipmentDto>();
+                    equipmentDto.EquipmentId = Guid.Parse(equipmentId);
+                    equipmentDto.EquipmentType = equipmentType;
+                    equipmentDto.Location = location;
+                    equipmentDto.Building = building;
+                    equipmentDto.Floor = floor;
                     //get async snapshot of this document; null if query.document.Count = 0 (meaning the equipmentId was not found)
                     string dtoJson = JsonConvert.SerializeObject(equipmentDto);
                     Dictionary<string, object> updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(dtoJson);
@@ -136,10 +138,10 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 };
                 return JsonConvert.SerializeObject(new { message = $"Update of item {equipmentId} successful" });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw new Exception($"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception.");
             }
 
         }
@@ -155,13 +157,11 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 //query collection for document with an EquipmentId equal to id and get async snapshot of query result
                 QuerySnapshot query = await equipmentcollection.WhereEqualTo("EquipmentId", id.ToString()).GetSnapshotAsync();
                 await equipmentcollection.Document(query.Documents[0].Id).DeleteAsync();
-                return $"Deletion of {query.Documents[0].Id} successful";
-
-
+                return $"Deletion of {query.Documents[0].Id} successful.";
             }
             catch (Exception ex)
             {
-                return JsonConvert.SerializeObject(new { id = id, error = ex.Message });
+                return $"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception.";
             }
         }
     }

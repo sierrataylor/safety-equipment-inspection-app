@@ -16,6 +16,14 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             Environment.SetEnvironmentVariable(FirestoreConstants.GoogleApplicationCredentials, FirestoreConstants.GoogleApplicationCredentialsPath);
             _db = FirestoreDb.Create(FirestoreConstants.ProjectId);
         }
+        readonly JsonSerializerSettings settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented,
+            ContractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy()
+            }
+        };
 
         [HttpGet("inspection/{equipmentId}/")]
         public async Task<List<QuestionDto>> GetAllQuestions(string equipmentType)
@@ -32,10 +40,10 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 }
                 return questions;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw new Exception($"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception.");
             }
         }
 
@@ -59,17 +67,13 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 if (!questionDoc.Exists)
                 {
                     await questionsCollection.Document(questionDto.QuestionId).SetAsync(questionDict);
-                    JsonSerializerSettings settings = new JsonSerializerSettings { 
-                        Formatting = Formatting.Indented, 
-                        ContractResolver = new DefaultContractResolver { 
-                            NamingStrategy = new CamelCaseNamingStrategy() 
-                            } 
-                        };
-                    message = JsonConvert.SerializeObject(questionDto, settings);
+
+                    message = JsonConvert.SerializeObject(questionDto, settings:settings);
+
                 }
                 else
                 {
-                    message = $"This question already exists for this item";
+                    message = $"This question, {field}, already exists for this item. Please add a different questions";
                 }
                 return message;
 
@@ -78,24 +82,29 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             {
 
 
-                return JsonConvert.SerializeObject(new { error = ex.Message });
+                return $"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception.";
             }
         }
 
         [HttpPut("admin/questions/editQuestion/{questionId}")]
 
-        public async Task<string> UpdateQuestion(QuestionDto questionDto)
+        public async Task<string> UpdateQuestion(string questionId, string equipmentType, int questionNum, string field)
         {
             try
             {
                 CollectionReference questionsCollection = _db.Collection("Questions");
-                DocumentSnapshot questiontoBeUpdated = await questionsCollection.Document(questionDto.QuestionId).GetSnapshotAsync();
+                DocumentSnapshot questiontoBeUpdated = await questionsCollection.Document(questionId).GetSnapshotAsync();
                 if (questiontoBeUpdated.Exists)
                 {
-                    string updateJson = JsonConvert.SerializeObject(questionDto);
+                    QuestionDto questionUpdates = questiontoBeUpdated.ConvertTo<QuestionDto>();
+                    questionUpdates.QuestionId = questionId;
+                    questionUpdates.EquipmentType = equipmentType;
+                    questionUpdates.QuestionNumber = questionNum;
+                    questionUpdates.Field = field;
+                    string updateJson = JsonConvert.SerializeObject(questionUpdates);
                     Dictionary<string, object> updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(updateJson);
-                    await questionsCollection.Document(questionDto.QuestionId).UpdateAsync(updatesDictionary);
-                    return JsonConvert.SerializeObject(new { message = $"Update of Question {questionDto.Field} with ID {questionDto.QuestionId} successfully" });
+                    await questionsCollection.Document(questionId).UpdateAsync(updatesDictionary);
+                    return JsonConvert.SerializeObject(new { message = $"Update of Question {field} with ID {questionId} successfully" });
                 }
                 else
                 {
@@ -117,23 +126,24 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             {
                 CollectionReference questionsCollection = _db.Collection("Questions");
                 DocumentSnapshot questiontoBeDeleted = await questionsCollection.Document(questionId).GetSnapshotAsync();
+
+                QuestionDto questionDataTransferObj = questiontoBeDeleted.ConvertTo<QuestionDto>();
+
                 if (questiontoBeDeleted.Exists)
                 {
-                    Dictionary<string, object> result = questiontoBeDeleted.ToDictionary();
-                    string questionJson = JsonConvert.SerializeObject(result);
-                    QuestionDto questionDataTransferObj = JsonConvert.DeserializeObject<QuestionDto>(questionJson);
+
                     await questionsCollection.Document(questionId).DeleteAsync();
                     return $"Question {questionDataTransferObj.Field} for {questionDataTransferObj.EquipmentType} deleted";
                 }
                 else
                 {
-                    return "Question not found";
+                    return $"This question, {questionDataTransferObj.Field}, was not found. It may have already been deleted, or you may have entered an invalid ID.";
                 }
 
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return $"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception.";
             }
         }
     }
