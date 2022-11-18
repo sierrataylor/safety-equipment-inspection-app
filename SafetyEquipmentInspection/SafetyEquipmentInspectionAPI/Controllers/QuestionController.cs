@@ -126,10 +126,12 @@ namespace SafetyEquipmentInspectionAPI.Controllers
             {
                 CollectionReference questionsCollection = _db.Collection("Questions");
                 DocumentSnapshot questiontoBeDeleted = await questionsCollection.Document(questionId).GetSnapshotAsync();
+
                 QuestionDto questionDataTransferObj = questiontoBeDeleted.ConvertTo<QuestionDto>();
 
                 if (questiontoBeDeleted.Exists)
                 {
+
                     await questionsCollection.Document(questionId).DeleteAsync();
                     return $"Question {questionDataTransferObj.Field} for {questionDataTransferObj.EquipmentType} deleted";
                 }

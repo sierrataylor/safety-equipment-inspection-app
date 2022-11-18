@@ -39,6 +39,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
         [HttpPost("inspection/{equipmentId}")]
         public async Task<List<string>> GenerateInspectionForm(string equipmentId)
         {
+
             try
             {
                 CollectionReference questions = _db.Collection("Questions");
