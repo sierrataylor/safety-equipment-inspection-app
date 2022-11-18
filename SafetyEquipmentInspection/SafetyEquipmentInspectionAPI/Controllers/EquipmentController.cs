@@ -38,7 +38,7 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 //if document exists, use FireStore ConvertTo function to convert it to a DTO
                 EquipmentDto equipmentItem = equipmentDocument.ConvertTo<EquipmentDto>();
                 return equipmentDocument.Exists ? JsonConvert.SerializeObject(equipmentItem, settings) :
-                $"Item with ID {id} not found";
+                $"Item with ID {id} not found and may not be in the database. Try viewing the equipment list to check if this item is in the database, then try again with a valid ID.";
             }
             catch (Exception ex)
             {
@@ -93,16 +93,16 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 string equipmentDtoJson = JsonConvert.SerializeObject(equipmentDto);
                 Dictionary<string, object> itemDocDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(equipmentDtoJson);
                 //check if document already exists with the equipment ID
-                DocumentSnapshot doc = await equipmentCollection.Document(equipmentDto.EquipmentId.ToString()).GetSnapshotAsync();
+                DocumentSnapshot itemDoc = await equipmentCollection.Document(equipmentDto.EquipmentId.ToString()).GetSnapshotAsync();
 
-                if (!doc.Exists)
+                if (!itemDoc.Exists)
                 {
                     WriteResult docAdded = await equipmentCollection.Document(equipmentDto.EquipmentId.ToString()).SetAsync(itemDocDictionary);
                     message = JsonConvert.SerializeObject(new { message = $"Successfully added item {equipmentDto.EquipmentId}", item = equipmentDtoJson }, settings);
                 }
                 else
                 {
-                    message = $"Item {equipmentDto.EquipmentId} already in Equipment";
+                    message = $"Item {equipmentDto.EquipmentId} already in Equipment. Try again with a different ID";
                 }
                 return message;
 
@@ -125,14 +125,12 @@ namespace SafetyEquipmentInspectionAPI.Controllers
 
                 if (itemDocToBeUpdated.Exists)
                 {
-                    EquipmentDto equipmentDto = new EquipmentDto
-                    {
-                        EquipmentId = Guid.Parse(equipmentId),
-                        EquipmentType = equipmentType,
-                        Location = location,
-                        Building = building,
-                        Floor = floor
-                    };
+                    EquipmentDto equipmentDto = itemDocToBeUpdated.ConvertTo<EquipmentDto>();
+                    equipmentDto.EquipmentId = Guid.Parse(equipmentId);
+                    equipmentDto.EquipmentType = equipmentType;
+                    equipmentDto.Location = location;
+                    equipmentDto.Building = building;
+                    equipmentDto.Floor = floor;
                     //get async snapshot of this document; null if query.document.Count = 0 (meaning the equipmentId was not found)
                     string dtoJson = JsonConvert.SerializeObject(equipmentDto);
                     Dictionary<string, object> updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(dtoJson);
