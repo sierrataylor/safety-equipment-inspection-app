@@ -16,7 +16,7 @@ namespace SafetyEquipmentInspectionAPI
             Environment.SetEnvironmentVariable(FirestoreConstants.GoogleApplicationCredentials, FirestoreConstants.GoogleApplicationCredentialsPath);
             _db = FirestoreDb.Create(FirestoreConstants.ProjectId);
         }
-        JsonSerializerSettings settings = new JsonSerializerSettings
+        readonly JsonSerializerSettings settings = new JsonSerializerSettings
         {
             Formatting = Formatting.Indented,
             ContractResolver = new DefaultContractResolver
@@ -30,24 +30,25 @@ namespace SafetyEquipmentInspectionAPI
         {
             try
             {
+
                 CollectionReference employeesCollection = _db.Collection("Employee");
                 DocumentSnapshot employeeDoc = await employeesCollection.Document(employeeId).GetSnapshotAsync();
+
 
                 EmployeeDto employee = employeeDoc.ConvertTo<EmployeeDto>();
                 return employeeDoc.Exists ?
                     JsonConvert.SerializeObject(employee, settings) :
-
-
-                    $"Employee {employeeId} not found";
+                    $"This EmployeeID is not valid, as Employee {employeeId} was not found. Either add this employee to the database or enter a different ID.";
             }
             catch (Exception ex)
             {
 
-                return JsonConvert.SerializeObject(new { error = ex.Message });
+                return $"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception."; //JsonConvert.SerializeObject(new { error = ex.Message });
             }
 
         }
         [HttpPost("/employees/addEmployee")]
+
         public async Task<string> AddEmployee(string employeeId, string firstName, string lastName, string email, string role, string password)
 
         {
@@ -77,7 +78,7 @@ namespace SafetyEquipmentInspectionAPI
                 }
                 else
                 {
-                    message = $"Employee {employeeId} already exists";
+                    message = $"Employee {employeeId} already exists in our database. Try viewing the list of employee to ensure that this employee or ID does not already exist, then try adding this employee against with a different ID.";
                 }
                 return message;
 
@@ -85,7 +86,7 @@ namespace SafetyEquipmentInspectionAPI
             catch (Exception ex)
             {
 
-                return JsonConvert.SerializeObject(new { error = ex.Message });
+                return $"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception.";  //JsonConvert.SerializeObject(new { error = ex.Message });
             }
         }
 
@@ -104,30 +105,32 @@ namespace SafetyEquipmentInspectionAPI
                 }
                 return employees;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw new Exception($"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception.");
             }
         }
 
         [HttpPut("employees/edit/{employeeId}")]
-        public async Task<string> UpdateEmployee(string employeeId, string firstName, string lastName, string role, string email)
+        public async Task<string> UpdateEmployee(string currentEmployeeId, string firstName, string lastName, string role, string email, string password, string updatedEmployeeId = null)
         {
             try
             {
                 CollectionReference employeesCollection = _db.Collection("Employee");
-                DocumentSnapshot employeeToBeUpdated = await employeesCollection.Document(employeeId).GetSnapshotAsync();
+
+                DocumentSnapshot employeeToBeUpdated = await employeesCollection.Document(currentEmployeeId).GetSnapshotAsync();
+
                 if (employeeToBeUpdated.Exists)
                 {
-                    EmployeeDto employeeDto = new EmployeeDto
-                    {
-                        EmployeeId = employeeId,
-                        FirstName = firstName,
-                        LastName = lastName,
-                        Email = email,
-                        Role = role
-                    };
+
+                    EmployeeDto employeeDto = employeeToBeUpdated.ConvertTo<EmployeeDto>();
+                    employeeDto.EmployeeId = !String.IsNullOrEmpty(updatedEmployeeId) ? updatedEmployeeId : currentEmployeeId;
+                    employeeDto.FirstName = firstName;
+                    employeeDto.LastName = lastName;
+                    employeeDto.Email = email;
+                    employeeDto.Role = role;
+                    employeeDto.Password = password;
                     string updateJson = JsonConvert.SerializeObject(employeeDto);
                     Dictionary<string, object> updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(updateJson);
                     await employeesCollection.Document(employeeDto.EmployeeId).UpdateAsync(updatesDictionary);
@@ -135,14 +138,14 @@ namespace SafetyEquipmentInspectionAPI
                 }
                 else
                 {
-                    return $"Employee {employeeId} not found";
+                    return $"Employee {currentEmployeeId} not found";
                 }
 
             }
             catch (Exception ex)
             {
 
-                return ex.Message;
+                return $"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception.";
             }
         }
 
@@ -164,13 +167,14 @@ namespace SafetyEquipmentInspectionAPI
                 }
                 else
                 {
-                    return $"Employee {employeeId} does not exist";
+                    return $"Employee {employeeId} does not exist in the database. The EmployeeID you are using may be invalid \n" +
+                        $"Please try checking the employee list to ensure that the employee you are trying to delete exists in the database";
                 }
             }
             catch (Exception ex)
             {
 
-                return ex.Message;
+                return $"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception."; ;
             }
         }
     }

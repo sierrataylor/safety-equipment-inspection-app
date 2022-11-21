@@ -1,0 +1,72 @@
+#dashboard-buttons {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2em;
+}
+
+.dashboard-button {
+  padding: 10px 0px;
+  font-size: 35px;
+  background-color: #C7DBD5;
+  width: 90%;
+  border-radius: 15px;
+}
+
+#scanner-button, #to-do-button, #past-inspections-button, #inspection-forms-button, #equipment-table-button, #users-table-button {
+  margin: 10px 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#scanner-button, #to-do-button {
+  justify-content: space-around;
+}
+
+#inspector-view, #admin-view {
+    display: flex;
+    flex-direction: row;
+}
+
+img {
+    width: 50%;
+    padding: 10px 0px;
+}
+
+#equipment-table-img, #users-table-img {
+  margin-bottom: 10px;
+}
+
+.manager-button {
+  background-color: #87a7a4;
+}
+
+.admin-button {
+  background-color: #6C98BA;
+}
+
+/*mobile view*/
+@media only screen and (max-width: 768px) {
+  img {
+    display: none;
+  }
+
+  #inspector-view, #admin-view {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dashboard-button {
+    font-size: 30px;
+    width: 100%;
+  }
+
+  #dashboard-buttons {
+    margin-top: 0em;
+  }
+
+  #scanner-button, #to-do-button, #past-inspections-button, #inspection-forms-button, #equipment-table-button, #users-table-button {
+    margin: 7px 0px;
+  }
+}
+

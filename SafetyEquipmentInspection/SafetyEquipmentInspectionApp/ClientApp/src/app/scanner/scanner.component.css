@@ -11,7 +11,16 @@ p {
    text-align: center;
 }
 button {
-    width: 15%;
-    font-size: 18px;
+  width: 15%;
+  font-size: 18p
+}
+#scanner-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+#camera {
+    margin-bottom: 1em;
 }
 
