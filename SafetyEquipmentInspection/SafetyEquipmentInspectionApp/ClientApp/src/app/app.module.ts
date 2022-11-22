@@ -21,7 +21,7 @@ import { SharedService } from './shared.service';
 import { FireExtinguisherFormComponent } from './inspection-form/fire-extinguisher-form/fire-extinguisher-form.component';
 import { EquipmentTableComponent } from './equipment-table/equipment-table.component';
 import { qrgeneratorComponent } from './qrgenerator/qrgenerator.component';
-
+import { ToDoComponent} from './to-do/to-do.component';
 import { SpillKitFormComponent } from './inspection-form/spill-kit-form/spill-kit-form.component';
 import { EyewashFormComponent } from './inspection-form/eyewash-form/eyewash-form.component';
 import { SafetyShowerFormComponent } from './inspection-form/safety-shower-form/safety-shower-form.component';
@@ -65,7 +65,8 @@ import { HoistSlingFormComponent } from './inspection-form/hoist-sling-form/hois
     LadderFormComponent,
     HarnessFormComponent,
     FpLanyardFormComponent,
-    HoistSlingFormComponent
+    HoistSlingFormComponent,
+    ToDoComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -82,8 +83,8 @@ import { HoistSlingFormComponent } from './inspection-form/hoist-sling-form/hois
       { path: 'inspection-form', component: InspectionFormComponent },
       { path: 'past-inspections', component: PastInspectionsComponent },
       { path: 'equipment-table', component: EquipmentTableComponent },
-      { path: 'qrgenerator', component: qrgeneratorComponent }
-
+      { path: 'qrgenerator', component: qrgeneratorComponent },
+      { path: 'to-do', component: ToDoComponent }
     ])
   ],
   providers: [SharedService],
