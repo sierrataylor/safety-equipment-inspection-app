@@ -8,5 +8,7 @@
         public virtual string Email { get; set; }
         public virtual string Role { get; set; }
         public virtual string Password { get; set; }
+        public bool IsSuperAdmin { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }
