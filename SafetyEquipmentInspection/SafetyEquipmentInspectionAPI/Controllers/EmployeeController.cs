@@ -49,7 +49,7 @@ namespace SafetyEquipmentInspectionAPI
         }
         [HttpPost("/employees/addEmployee")]
 
-        public async Task<string> AddEmployee(string employeeId, string firstName, string lastName, string email, string role, string password)
+        public async Task<string> AddEmployee(string employeeId, string firstName, string lastName, string email, string role, string password, bool isAdmin = false, bool isSuperAdmin  = false)
 
         {
             try
@@ -68,7 +68,9 @@ namespace SafetyEquipmentInspectionAPI
                         LastName = lastName,
                         Email = email,
                         Role = role,
-                        Password = password
+                        Password = password,
+                        IsAdmin = isAdmin,
+                        IsSuperAdmin = isSuperAdmin
                     };
 
                     string empJson = JsonConvert.SerializeObject(employeeDto);
@@ -113,7 +115,7 @@ namespace SafetyEquipmentInspectionAPI
         }
 
         [HttpPut("employees/edit/{employeeId}")]
-        public async Task<string> UpdateEmployee(string currentEmployeeId, string firstName, string lastName, string role, string email, string password, string updatedEmployeeId = null)
+        public async Task<string> UpdateEmployee(string currentEmployeeId, string firstName, string lastName, string role, string email, string password, bool isAdmin, bool isSuperAdmin, string updatedEmployeeId = null)
         {
             try
             {
@@ -131,6 +133,8 @@ namespace SafetyEquipmentInspectionAPI
                     employeeDto.Email = email;
                     employeeDto.Role = role;
                     employeeDto.Password = password;
+                    employeeDto.IsSuperAdmin = isSuperAdmin;
+                    employeeDto.IsAdmin= isAdmin;
                     string updateJson = JsonConvert.SerializeObject(employeeDto);
                     Dictionary<string, object> updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(updateJson);
                     await employeesCollection.Document(employeeDto.EmployeeId).UpdateAsync(updatesDictionary);
