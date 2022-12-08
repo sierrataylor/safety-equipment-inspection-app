@@ -5,4 +5,6 @@ export interface EmployeeDto {
   email: string;
   role: string;
   password: string;
+  issuperadmin: boolean;
+  isadmin: boolean;
 }

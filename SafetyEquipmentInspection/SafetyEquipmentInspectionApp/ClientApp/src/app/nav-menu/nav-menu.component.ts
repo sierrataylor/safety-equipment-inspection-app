@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
 })
 export class NavMenuComponent {
   isExpanded = false;
+  public static showAdministrativeSettings: boolean | undefined = false;
 
   collapse() {
     this.isExpanded = false;
@@ -14,5 +15,10 @@ export class NavMenuComponent {
 
   toggle() {
     this.isExpanded = !this.isExpanded;
+  }
+
+  showAdministrativeSettings() {
+    console.log(NavMenuComponent.showAdministrativeSettings);
+    return NavMenuComponent.showAdministrativeSettings;
   }
 }

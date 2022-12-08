@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/shared.service';
 import { EmployeeDto } from '../SharedDTO/employee.dto';
+import { NavMenuComponent } from '../nav-menu/nav-menu.component';
 
 
 @Component({
@@ -18,8 +19,11 @@ export class LogInComponent implements OnInit {
       lastName: "",
       email: "",
       role: "",
-      password: ""
-    };;
+      password: "",
+      issuperadmin: false,
+      isadmin: false
+  };;
+
   employeeId: string = "";
   employeePassword: string = "";
   public loginForm!: FormGroup;
@@ -55,7 +59,12 @@ export class LogInComponent implements OnInit {
         this.SignedInEmployee.role = data.role;
         this.SignedInEmployee.email = data.role;
         this.SignedInEmployee.password = data.password;
+        this.SignedInEmployee.issuperadmin = data.issuperadmin;
+        this.SignedInEmployee.isadmin = data.isadmin;
 
+        console.log(data.isadmin);
+
+        NavMenuComponent.showAdministrativeSettings = data.isadmin;
       }
     });
   }

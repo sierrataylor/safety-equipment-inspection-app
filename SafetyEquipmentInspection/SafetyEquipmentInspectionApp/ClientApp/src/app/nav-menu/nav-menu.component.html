@@ -23,6 +23,11 @@
               [routerLinkActiveOptions]="{ exact: true }">
             <a id="nav-menu-dashboard" class="nav-link" [routerLink]="['/dashboard']">Dashboard</a>
           </li>
+          <li  *ngIf="showAdministrativeSettings()" class="nav-item"
+              [routerLinkActive]="['link-active']"
+              [routerLinkActiveOptions]="{ exact: true }">
+            <a id="nav-menu-dashboard" class="nav-link" [routerLink]="['/admin-dashboard']">Administrative Dashboard</a>
+          </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
             <a id="nav-menu-signout" class="nav-link" [routerLink]="['/']">Sign-Out</a>
           </li>

@@ -3,10 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
-
 import { RouterModule } from '@angular/router';
-
 import { AppComponent } from './app.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
@@ -84,7 +83,8 @@ import { HoistSlingFormComponent } from './inspection-form/hoist-sling-form/hois
       { path: 'past-inspections', component: PastInspectionsComponent },
       { path: 'equipment-table', component: EquipmentTableComponent },
       { path: 'qrgenerator', component: qrgeneratorComponent },
-      { path: 'to-do', component: ToDoComponent }
+      { path: 'to-do', component: ToDoComponent },
+      { path: 'admin-dashboard', component: AdminDashboardComponent}
     ])
   ],
   providers: [SharedService],
