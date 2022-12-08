@@ -11,17 +11,41 @@
          </thead>
          <tbody>
              <tr *ngFor="let dataItem of inspections">
-                 <td>{{dataItem.equipmentId}}</td>
-                 <td>{{dataItem. lastInspectionDate}}</td>
-                 <td>{{dataItem.inspectionResults}}</td>
                  <td>
-                     <button type="button" class="btn btn bg-light">i</button>
-                     <button type="button" class="btn btn bg-light">Edit</button>
-                     <button type="button" class="btn btn bg-light">Delete</button>
+                     {{dataItem.equipmentId}}
+                 </td>
+                 <td>
+                     {{dataItem. lastInspectionDate}}
+                 </td>
+                 <td>
+                     {{dataItem.inspectionResults}}
+                 </td>
+                 <td>
+                     <button id="openbtn" type="button" (click)="openInfo()" class="btn btn bg-light">i</button>
                  </td>
              </tr>
          </tbody>
      </table>
+     <div id="scaninfoId">
+         <button type="button" id="closebtn" (click)="closeInfo()"> Close</button>
+         <h3 id="infoheader"> Scan Info</h3>
+         <table class="table table-striped">
+             <thead>
+                 <tr>
+                     <th>Question Number</th>
+                     <th>Question</th>
+                 </tr>
+             </thead>
+             <tbody>
+                 <tr *ngFor="let dataItem of questions">
+                     >
+                     <td> {{dataItem.questionNumber}}</td>
+                     <td> {{dataItem. field}}</td>
+                 </tr>
+             </tbody>
+         </table>
+     </div>
+
  </div>
-  
+
 
