@@ -35,6 +35,7 @@ import { LadderFormComponent } from './inspection-form/ladder-form/ladder-form.c
 import { HarnessFormComponent } from './inspection-form/harness-form/harness-form.component';
 import { FpLanyardFormComponent } from './inspection-form/fp-lanyard-form/fp-lanyard-form.component';
 import { HoistSlingFormComponent } from './inspection-form/hoist-sling-form/hoist-sling-form.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import { HoistSlingFormComponent } from './inspection-form/hoist-sling-form/hois
     HarnessFormComponent,
     FpLanyardFormComponent,
     HoistSlingFormComponent,
-    ToDoComponent
+    ToDoComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -84,7 +86,8 @@ import { HoistSlingFormComponent } from './inspection-form/hoist-sling-form/hois
       { path: 'past-inspections', component: PastInspectionsComponent },
       { path: 'equipment-table', component: EquipmentTableComponent },
       { path: 'qrgenerator', component: qrgeneratorComponent },
-      { path: 'to-do', component: ToDoComponent }
+      { path: 'to-do', component: ToDoComponent },
+      { path: 'forgot-password', component: ForgotPasswordComponent }
     ])
   ],
   providers: [SharedService],

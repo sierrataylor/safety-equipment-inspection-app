@@ -15,7 +15,13 @@
           <span class="text-danger" *ngIf="loginForm.controls['employeePassword'].dirty && loginForm.hasError('required', 'employeePassword')">*Password is required</span>
         </div>
         <br />
-        <button type="submit" class="btn btn-primary mt-3">Login</button>
+        <div class="buttons-and-links">
+
+          <button type="submit" class="btn btn-primary mt-3">Login</button>
+          <div id="forgot-password-link">
+            <p class="mt-3" [routerLinkActive]="['link-active']"><a [routerLink]="['/forgot-password']">Change/Forgot password</a></p>
+          </div>
+        </div>
       </form>
     </div>
   </div>

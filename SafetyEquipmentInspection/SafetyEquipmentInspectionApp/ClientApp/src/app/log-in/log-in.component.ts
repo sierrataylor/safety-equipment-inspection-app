@@ -61,7 +61,7 @@ export class LogInComponent implements OnInit {
         this.SignedInEmployee.firstName = data.firstName;
         this.SignedInEmployee.lastName = data.lastName;
         this.SignedInEmployee.role = data.role;
-        this.SignedInEmployee.email = data.role;
+        this.SignedInEmployee.email = data.email;
         this.SignedInEmployee.password = data.password;
         this.SignedInEmployee.isAdmin = data.isAdmin;
         this.SignedInEmployee.isSuperAdmin = data.isSuperAdmin;

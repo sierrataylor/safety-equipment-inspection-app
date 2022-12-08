@@ -15,3 +15,10 @@ h1 {
 .log-in-submit {
     margin-bottom: 10px;
 }
+#forgot-password-link, #forgot-password-link p, #forgot-password-link a{
+  color: red;
+  text-decoration: none!important;
+}
+#forgot-password-link:hover{
+    text-decoration: underline!important;
+}
