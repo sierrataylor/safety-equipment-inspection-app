@@ -18,8 +18,10 @@ export class LogInComponent implements OnInit {
       lastName: "",
       email: "",
       role: "",
-      password: ""
-    };;
+      password: "",
+      isAdmin: false,
+      isSuperAdmin: false
+    };
   employeeId: string = "";
   employeePassword: string = "";
   public loginForm!: FormGroup;
@@ -36,8 +38,14 @@ export class LogInComponent implements OnInit {
   LogInUser(form: NgForm) {
     this.GetEmployee(form.controls.employeeId.value);
     if (this.SignedInEmployee?.employeeId == this.employeeId && this.SignedInEmployee?.password == this.employeePassword) {
-      console.log("Signed In!");
-      this.router.navigate(['/dashboard'])
+      if (this.SignedInEmployee.isAdmin = true) {
+        console.log("Signed in, Admin!");
+        this.router.navigate(['/dashboard']);
+      } else {
+        console.log("Signed In!");
+        this.router.navigate(['/dashboard']);
+
+      }
       //this.loginForm.reset();
     } else {
       console.log("User EmployeeId and/or Password Not Found");
@@ -53,8 +61,10 @@ export class LogInComponent implements OnInit {
         this.SignedInEmployee.firstName = data.firstName;
         this.SignedInEmployee.lastName = data.lastName;
         this.SignedInEmployee.role = data.role;
-        this.SignedInEmployee.email = data.role;
+        this.SignedInEmployee.email = data.email;
         this.SignedInEmployee.password = data.password;
+        this.SignedInEmployee.isAdmin = data.isAdmin;
+        this.SignedInEmployee.isSuperAdmin = data.isSuperAdmin;
 
       }
     });
