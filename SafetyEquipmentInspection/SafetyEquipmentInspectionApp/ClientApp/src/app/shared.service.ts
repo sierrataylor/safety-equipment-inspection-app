@@ -87,15 +87,18 @@ export class SharedService {
     return this.http.post(this.APIUrl + "/employees/" + employeeId, Employee);
   }
 
-  UpdateEmployee(employeeId: string, firstName: string, lastname: string, email: string, role: string) {
+  UpdateEmployee(employeeId: string, firstName?: string, lastname?: string, email?: string, role?: string, password? : string, isAdmin?: boolean, isSuperAdmin?: boolean) {
     let Employee: any = {
       employeeId,
       firstName,
       lastname,
-      email,
       role,
+      email,
+      password,
+      isAdmin,
+      isSuperAdmin
     }
-    return this.http.put(this.APIUrl + "/employees/edit/" + employeeId, Employee);
+    return this.http.put(this.APIUrl + "employees/edit/" + employeeId, Employee);
   }
 
   DeleteEmployee(employeeId: string) {
@@ -104,6 +107,11 @@ export class SharedService {
 
   GetEmployeeList() {
     return this.http.get(this.APIUrl + "/employees/");
+  }
+
+  //Password Reset Method
+  ResetEmployeePassword(employeeId: string, firstName: string, lastName: string, newPassword: string) {
+    return this.http.put(this.APIUrl + "employee/resetPassword/" + employeeId + "/"  + firstName + "/"+ lastName, newPassword);
   }
 
   //Question API Methods
