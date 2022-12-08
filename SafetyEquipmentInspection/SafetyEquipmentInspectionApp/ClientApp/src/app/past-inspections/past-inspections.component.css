@@ -1,0 +1,21 @@
+#openbtn {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+#scaninfoId {
+  display: none;
+  border: 1px black solid;
+  margin-left: 300px;
+  background-color: #EDEBEB;
+  width:50%;
+  z-index: 5;
+}
+
+#infoheader {
+    text-align: center;
+}
+
+#closebtn {
+    font-size: 20px;
+    padding: 5px;
+}
