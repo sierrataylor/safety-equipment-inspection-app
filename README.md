@@ -1,6 +1,6 @@
 # Safety Equipment Inspection App
 
-This project has been built by the John Carroll University graduating class of 2023 for the company Avery Dennison. Its purpose is perform efficient inspections of safety equipment.
+This project has been built by a group of Computer Science students at John Carroll University in the graduating class of 2023. Its purpose is perform efficient inspections of safety equipment.
 
 ## Built with:
 
