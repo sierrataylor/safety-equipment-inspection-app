@@ -17,12 +17,9 @@ namespace SafetyEquipmentInspectionAPI.DTOs
         public string Role { get; set; }
         [FirestoreProperty]
         public string Password { get; set; }
-
         [FirestoreProperty]
-        public bool IsSuperAdmin { get; set; }
-
+        public Boolean IsAdmin { get; set; }
         [FirestoreProperty]
-        public bool IsAdmin { get; set; }
-
+        public Boolean IsSuperAdmin { get; set; }
     }
 }

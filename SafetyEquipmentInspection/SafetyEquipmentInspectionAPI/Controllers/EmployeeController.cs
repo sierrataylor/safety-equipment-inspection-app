@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using SafetyEquipmentInspectionAPI.Constants;
 using SafetyEquipmentInspectionAPI.DTOs;
+using System.Data;
 
 namespace SafetyEquipmentInspectionAPI
 {
@@ -49,7 +50,7 @@ namespace SafetyEquipmentInspectionAPI
         }
         [HttpPost("/employees/addEmployee")]
 
-        public async Task<string> AddEmployee(string employeeId, string firstName, string lastName, string email, string role, string password, bool isSuperAdmin, bool isAdmin)
+        public async Task<string> AddEmployee(string employeeId, string firstName, string lastName, string email, string role, string password, bool isAdmin = false, bool isSuperAdmin = false)
 
         {
             try
@@ -69,8 +70,8 @@ namespace SafetyEquipmentInspectionAPI
                         Email = email,
                         Role = role,
                         Password = password,
-                        IsSuperAdmin = isSuperAdmin,
-                        IsAdmin = isAdmin
+                        IsAdmin = isAdmin,
+                        IsSuperAdmin = isSuperAdmin
                     };
 
                     string empJson = JsonConvert.SerializeObject(employeeDto);
@@ -114,8 +115,8 @@ namespace SafetyEquipmentInspectionAPI
             }
         }
 
-        [HttpPut("employees/edit/{employeeId}")]
-        public async Task<string> UpdateEmployee(string currentEmployeeId, string firstName, string lastName, string role, string email, string password, string updatedEmployeeId = null)
+        [HttpPut("employees/edit/{currentEmployeeId}")]
+        public async Task<string> UpdateEmployee(string currentEmployeeId, string firstName, string lastName, string role, string email, string password, bool isAdmin, bool isSuperAdmin, string updatedEmployeeId = null)
         {
             try
             {
@@ -128,11 +129,13 @@ namespace SafetyEquipmentInspectionAPI
 
                     EmployeeDto employeeDto = employeeToBeUpdated.ConvertTo<EmployeeDto>();
                     employeeDto.EmployeeId = !String.IsNullOrEmpty(updatedEmployeeId) ? updatedEmployeeId : currentEmployeeId;
-                    employeeDto.FirstName = firstName;
-                    employeeDto.LastName = lastName;
-                    employeeDto.Email = email;
-                    employeeDto.Role = role;
-                    employeeDto.Password = password;
+                    employeeDto.FirstName = !String.IsNullOrEmpty(firstName) ? firstName: employeeDto.FirstName;
+                    employeeDto.LastName = !String.IsNullOrEmpty(lastName) ? lastName : employeeDto.LastName;
+                    employeeDto.Email = !String.IsNullOrEmpty(email) ? email : employeeDto.Email;
+                    employeeDto.Role = !String.IsNullOrEmpty(role) ? role : employeeDto.Role;
+                    employeeDto.Password = !String.IsNullOrEmpty(password) ? password : employeeDto.Password;
+                    employeeDto.IsSuperAdmin = isSuperAdmin == null | isSuperAdmin == employeeDto.IsSuperAdmin ? employeeDto.IsSuperAdmin : isSuperAdmin;
+                    employeeDto.IsAdmin = isAdmin == null | isAdmin == employeeDto.IsAdmin ? employeeDto.IsAdmin : isAdmin;
                     string updateJson = JsonConvert.SerializeObject(employeeDto);
                     Dictionary<string, object> updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(updateJson);
                     await employeesCollection.Document(employeeDto.EmployeeId).UpdateAsync(updatesDictionary);
@@ -177,6 +180,47 @@ namespace SafetyEquipmentInspectionAPI
             {
 
                 return $"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception."; ;
+            }
+        }
+
+        [HttpPut("employee/resetPassword/{employeeId}/{firstName}/{lastName}")]
+        public async Task<string> ResetPassword(string employeeId, string firstName, string lastName, string newPassword)
+        {
+            try
+            {
+                CollectionReference employeesCollection = _db.Collection("Employee");
+
+                DocumentSnapshot employeeToBeUpdated = await employeesCollection.Document(employeeId).GetSnapshotAsync();
+
+                if (employeeToBeUpdated.Exists)
+                {
+                    EmployeeDto employeeDto = employeeToBeUpdated.ConvertTo<EmployeeDto>();
+                    if (String.Equals(employeeDto.FirstName.ToLower(), firstName.ToLower()) && String.Equals(employeeDto.LastName.ToLower(), lastName.ToLower()))
+                    {
+
+                        employeeDto.Password = newPassword;
+                        string updateJson = JsonConvert.SerializeObject(employeeDto);
+                        Dictionary<string, object> updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(updateJson);
+                        await employeesCollection.Document(employeeDto.EmployeeId).UpdateAsync(updatesDictionary);
+                        return JsonConvert.SerializeObject(new { message = $"Update of {employeeDto.EmployeeId} successful" });
+
+                    }
+                    else
+                    {
+                        return $"The name {firstName} {lastName}, does not match the data corresponding with Employee {employeeId}";
+                    }
+
+                }
+                else
+                {
+                    return $"Employee {employeeId} was not found in the database";
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return $"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception.";
             }
         }
     }
