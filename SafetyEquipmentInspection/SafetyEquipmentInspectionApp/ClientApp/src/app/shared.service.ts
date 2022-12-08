@@ -68,6 +68,7 @@ export class SharedService {
   GetInspectionsList(equipmentId: any = "") {
     return this.http.get<InspectionDto[]>(this.APIUrl + "inspections/past/" + equipmentId)
   }
+  
   //Employee API Methods
 
   GetEmployee(employeeId: string): Observable<EmployeeDto>{
