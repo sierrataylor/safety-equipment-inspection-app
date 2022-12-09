@@ -9,8 +9,6 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LogInComponent } from './log-in/log-in.component';
 import { ScannerComponent } from './scanner/scanner.component';
@@ -36,6 +34,10 @@ import { HarnessFormComponent } from './inspection-form/harness-form/harness-for
 import { FpLanyardFormComponent } from './inspection-form/fp-lanyard-form/fp-lanyard-form.component';
 import { HoistSlingFormComponent } from './inspection-form/hoist-sling-form/hoist-sling-form.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { UserTableComponent } from './user-table/user-table.component';
+import { AddEquipmentItemComponent } from './add-equipment-item/add-equipment-item.component';
+import { AddUserComponent } from './add-user/add-user.component';
 
 
 @NgModule({
@@ -43,8 +45,6 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
     DashboardComponent,
     LogInComponent,
     ScannerComponent,
@@ -68,7 +68,11 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     FpLanyardFormComponent,
     HoistSlingFormComponent,
     ToDoComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    AdminDashboardComponent,
+    UserTableComponent,
+    AddEquipmentItemComponent,
+    AddUserComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -77,8 +81,6 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: 'home', component: HomeComponent},
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
       { path: 'dashboard', component: DashboardComponent },
       { path: '', component: LogInComponent, pathMatch: 'full' },
       { path: 'scanner', component: ScannerComponent },
@@ -87,7 +89,11 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
       { path: 'equipment-table', component: EquipmentTableComponent },
       { path: 'qrgenerator', component: qrgeneratorComponent },
       { path: 'to-do', component: ToDoComponent },
-      { path: 'forgot-password', component: ForgotPasswordComponent }
+      { path: 'forgot-password', component: ForgotPasswordComponent },
+      { path: 'admin-dashboard', component: AdminDashboardComponent },
+      { path: 'add-user', component: AddUserComponent },
+      { path: 'add-equipment-item', component: AddEquipmentItemComponent },
+      { path: 'user-table', component: UserTableComponent }
     ])
   ],
   providers: [SharedService],
