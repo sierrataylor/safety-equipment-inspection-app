@@ -41,7 +41,7 @@ export class LogInComponent implements OnInit {
     if (this.SignedInEmployee?.employeeId == this.employeeId && this.SignedInEmployee?.password == this.employeePassword) {
       if (this.SignedInEmployee.isAdmin = true) {
         console.log("Signed in, Admin!");
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/admin-dashboard']);
       } else {
         console.log("Signed In!");
         this.router.navigate(['/dashboard']);

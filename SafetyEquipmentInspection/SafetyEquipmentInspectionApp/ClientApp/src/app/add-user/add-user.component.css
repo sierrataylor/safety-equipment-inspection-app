@@ -1,0 +1,17 @@
+h1 {
+  font-family: 'LatoWeb';
+  padding: 15px 0px;
+}
+
+.add-user-container {
+  padding-left: 10%;
+}
+
+.add-user-form {
+  font-family: 'LatoWeb';
+  font-weight: 300;
+}
+
+.add-user-submit {
+  margin-bottom: 10px;
+}

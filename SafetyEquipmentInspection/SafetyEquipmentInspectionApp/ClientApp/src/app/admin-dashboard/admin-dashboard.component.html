@@ -1,3 +1,45 @@
 <div>
-  <p>This the administrative dashboard bruh!</p>
+  <div id="dashboard-buttons" class="dashboard-buttons">
+    <div id="inspector-view" class="inspector-view">
+      <button type="button" id="scanner-button" class="btn bnt-outline-primary dashboard-button" [routerLink]="['/scanner']">
+        <img id="scanner-img" src="assets/images/scanner.png" />
+        Scanner
+      </button>
+      <button type="button" id="to-do-button" class="btn bnt-outline-primary dashboard-button" [routerLink]="['/to-do']">
+        <img id="do-do-img" src="assets/images/to-do-list.png" />
+        To-Do
+      </button>
+      <button type="button" id="past-inspections-button" class="btn bnt-outline-primary dashboard-button" [routerLink]="['/past-inspections']">
+        <img id="past-form-img" src="assets/images/form.png" />
+        Past Inspections
+      </button>
+      <button type="button" id="inspection-forms-button" class="btn bnt-outline-primary dashboard-button admin-button" [routerLink]="['/inspection-form']">
+        <img id="past-form-img" src="assets/images/form-edit.png" />
+        Inspection Forms
+      </button> 
+    </div>
+    <div id="admin-view" class="admin-view">
+      <button type="button" id="equipment-table-button" class="btn bnt-outline-primary dashboard-button manager-button" [routerLink]="['/equipment-table']">
+        Equipment Table
+        <img id="equipment-table-img" src="assets/images/output-onlinepngtools.png" />
+      </button>
+      <button type="button" id="users-table-button" class="btn bnt-outline-primary dashboard-button manager-button" [routerLink]="['/user-table']">
+        Users Table
+        <img id="users-table-img" src="assets/images/team.png" />
+      </button>
+      <button type="button" id="users-table-button" class="btn bnt-outline-primary dashboard-button manager-button" [routerLink]="['/add-equipment-item']">
+        Add Equipment Item
+        <img id="equipment-add-img" src="assets/images/output-onlinepngtools.png" />
+      </button>
+      <button type="button" id="users-table-button" class="btn bnt-outline-primary dashboard-button manager-button" [routerLink]="['/add-user']">
+        Add User
+        <img id="equipment-add-img" src="assets/images/team.png" />
+      </button>
+    </div>
+  </div>
+  <div>
+
+  </div>
+
+
 </div>

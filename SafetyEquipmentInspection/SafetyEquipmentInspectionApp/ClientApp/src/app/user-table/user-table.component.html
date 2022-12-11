@@ -1,0 +1,26 @@
+<div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Employee ID</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Email</th>
+        <th>Role</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let dataItem of employees">
+        <td>{{dataItem.employeeId}}</td>
+        <td>{{dataItem.firstName}}</td>
+        <td>{{dataItem.lastName}}</td>
+        <td>{{dataItem.email}}</td>
+        <td>{{dataItem.role}}</td>
+        <td>
+          <button type="button" class="btn btn bg-light">i</button>
+          <button type="button" class="btn btn bg-light">Edit</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
