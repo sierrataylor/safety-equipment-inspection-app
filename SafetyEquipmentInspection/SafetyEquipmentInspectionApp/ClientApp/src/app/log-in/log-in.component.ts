@@ -13,7 +13,7 @@ import { NavMenuComponent } from '../nav-menu/nav-menu.component';
 })
 export class LogInComponent implements OnInit {
 
-  public SignedInEmployee: EmployeeDto | undefined = {
+  public static SignedInEmployee: EmployeeDto | undefined = {
       employeeId: "",
       firstName: "",
       lastName: "",
@@ -38,40 +38,31 @@ export class LogInComponent implements OnInit {
 
   LogInUser(form: NgForm) {
     this.GetEmployee(form.controls.employeeId.value);
-    if (this.SignedInEmployee?.employeeId == this.employeeId && this.SignedInEmployee?.password == this.employeePassword) {
-      if (this.SignedInEmployee.isAdmin = true) {
-        console.log("Signed in, Admin!");
+    if (LogInComponent.SignedInEmployee?.employeeId == this.employeeId && LogInComponent.SignedInEmployee?.password == this.employeePassword) {
+      if (LogInComponent.SignedInEmployee.isAdmin == true) {
         this.router.navigate(['/admin-dashboard']);
       } else {
-        console.log("Signed In!");
         this.router.navigate(['/dashboard']);
-
       }
-      //this.loginForm.reset();
     } else {
-      console.log("User EmployeeId and/or Password Not Found");
       this.loginForm.reset();
     }
   }
 
   GetEmployee(employeeId: any) {
-    //console.log(employeeId);
     return this.service.GetEmployee(employeeId).subscribe((data: EmployeeDto) => {
-      if (this.SignedInEmployee != undefined) {
-        this.SignedInEmployee.employeeId = data.employeeId;
-        this.SignedInEmployee.firstName = data.firstName;
-        this.SignedInEmployee.lastName = data.lastName;
-        this.SignedInEmployee.role = data.role;
-        this.SignedInEmployee.email = data.email;
-        this.SignedInEmployee.password = data.password;
-        this.SignedInEmployee.isAdmin = data.isAdmin;
-        this.SignedInEmployee.isSuperAdmin = data.isSuperAdmin;
+      if (LogInComponent.SignedInEmployee != undefined) {
+        LogInComponent.SignedInEmployee.employeeId = data.employeeId;
+        LogInComponent.SignedInEmployee.firstName = data.firstName;
+        LogInComponent.SignedInEmployee.lastName = data.lastName;
+        LogInComponent.SignedInEmployee.role = data.role;
+        LogInComponent.SignedInEmployee.email = data.email;
+        LogInComponent.SignedInEmployee.password = data.password;
+        LogInComponent.SignedInEmployee.isAdmin = data.isAdmin;
+        LogInComponent.SignedInEmployee.isSuperAdmin = data.isSuperAdmin;
 
-        console.log(data.isadmin);
-
-        NavMenuComponent.showAdministrativeSettings = data.isadmin;
+        NavMenuComponent.showAdministrativeSettings = data.isAdmin;
       }
     });
   }
-
 }
