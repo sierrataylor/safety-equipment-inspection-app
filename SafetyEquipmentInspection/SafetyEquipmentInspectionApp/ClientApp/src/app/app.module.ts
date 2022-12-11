@@ -33,7 +33,6 @@ import { HarnessFormComponent } from './inspection-form/harness-form/harness-for
 import { FpLanyardFormComponent } from './inspection-form/fp-lanyard-form/fp-lanyard-form.component';
 import { HoistSlingFormComponent } from './inspection-form/hoist-sling-form/hoist-sling-form.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { UserTableComponent } from './user-table/user-table.component';
 import { AddEquipmentItemComponent } from './add-equipment-item/add-equipment-item.component';
 import { AddUserComponent } from './add-user/add-user.component';
