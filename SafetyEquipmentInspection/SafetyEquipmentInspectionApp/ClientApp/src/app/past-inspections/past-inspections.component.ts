@@ -44,7 +44,7 @@ export class PastInspectionsComponent implements OnInit {
   public closeInfo() {
     const scan = document.getElementById('scaninfoId');
     if (scan != null) {
-      scan.style.display = 'block';
+      scan.style.display = 'hiden';
       
     }
 

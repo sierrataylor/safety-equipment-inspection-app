@@ -1,0 +1,52 @@
+<div>
+  <div class="add-user-container">
+    <h1>Log In</h1>
+    <div class="add-user-inputs">
+      <form class="add-user-form" id="add-user-form" #f="ngForm" (ngSubmit)="AddUser(f)">
+        <div class="form-group">
+          <label>Employee ID: </label>
+          <input type="text" name="employeeId" [(ngModel)]="employeeId" required />
+          <span class="text-danger" *ngIf="addUserForm.controls['employeeId'].dirty && addUserForm.hasError('required', 'employeeId')">*EmployeeId is required</span>
+        </div>
+        <br />
+        <div class="form-group">
+          <label>First name: </label>
+          <input type="text" name="firstName" [(ngModel)]="firstName" required />
+          <span class="text-danger" *ngIf="addUserForm.controls['firstName'].dirty && addUserForm.hasError('required', 'firstName')">*First name is required</span>
+        </div>
+        <br />
+        <div class="form-group">
+          <label>Last name: </label>
+          <input type="text" name="lastName" [(ngModel)]="lastName" required />
+          <span class="text-danger" *ngIf="addUserForm.controls['lastName'].dirty && addUserForm.hasError('required', 'lastName')">*Last name is required</span>
+        </div>
+        <br />
+        <div class="form-group">
+          <label>Email address: </label>
+          <input type="text" name="email" [(ngModel)]="email" required />
+          <span class="text-danger" *ngIf="addUserForm.controls['email'].dirty && addUserForm.hasError('required', 'email')">*Email is required</span>
+        </div>
+        <br />
+        <div class="form-group">
+          <label>Employee role: </label>
+          <input type="text" name="role" [(ngModel)]="role" required />
+          <span class="text-danger" *ngIf="addUserForm.controls['role'].dirty && addUserForm.hasError('required', 'role')">*Role is required</span>
+        </div>
+        <br />
+        <div class="form-group">
+          <label>Is this user an admin?: </label>
+          <input type="text" name="employeeId" [(ngModel)]="isAdmin" required />
+          <span class="text-danger" *ngIf="addUserForm.controls['isAdmin'].dirty && addUserForm.hasError('required', 'isAdmin')">*EmployeeId is required</span>
+        </div>
+        <br />
+        <div class="form-group">
+          <label>Password: </label>
+          <input type="password" name="employeePassword" [(ngModel)]="employeePassword" required />
+          <span class="text-danger" *ngIf="addUserForm.controls['employeePassword'].dirty && addUserForm.hasError('required', 'employeePassword')">*Password is required</span>
+        </div>
+        <br />
+        <button type="submit" class="btn btn-primary mt-3" [routerLinkActive]="['link-active']"><a [routerLink]="['/user-table']">Add user</a></button>
+      </form>
+    </div>
+  </div>
+</div>

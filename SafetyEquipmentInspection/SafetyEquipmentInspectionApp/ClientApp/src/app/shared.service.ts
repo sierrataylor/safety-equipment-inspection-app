@@ -75,16 +75,19 @@ export class SharedService {
     return this.http.get<EmployeeDto>(this.APIUrl + "employees/employee/" + employeeId);
   }
 
-  AddEmployee(employeeId: string, firstName: string, lastname: string, email: string, role: string) {
+  AddEmployee(employeeId: string, firstName: string, lastname: string, email: string, role: string, password: string, isAdmin: boolean = false, isSuperAdmin: boolean = false) {
     let Employee: any = {
       employeeId,
       firstName,
       lastname,
       email,
       role,
+      password,
+      isAdmin,
+      isSuperAdmin
     }
 
-    return this.http.post(this.APIUrl + "/employees/" + employeeId, Employee);
+    return this.http.post(this.APIUrl + "employees/" + employeeId, Employee);
   }
 
   UpdateEmployee(employeeId: string, firstName?: string, lastname?: string, email?: string, role?: string, password? : string, isAdmin?: boolean, isSuperAdmin?: boolean) {
@@ -106,7 +109,7 @@ export class SharedService {
   }
 
   GetEmployeeList() {
-    return this.http.get(this.APIUrl + "/employees/");
+    return this.http.get(this.APIUrl + "employees/");
   }
 
   //Password Reset Method
@@ -154,7 +157,7 @@ export class SharedService {
       response,
     }
 
-    return this.http.post(this.APIUrl + "/inspections/answers/" + equipmentId + "/" + questionNum, AnswerData);
+    return this.http.post(this.APIUrl + "inspections/answers/" + equipmentId + "/" + questionNum, AnswerData);
   }
 
 }
