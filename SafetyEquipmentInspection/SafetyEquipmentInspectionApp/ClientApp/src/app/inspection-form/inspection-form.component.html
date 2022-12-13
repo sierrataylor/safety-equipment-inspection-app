@@ -1,5 +1,5 @@
 <!--Remove comment later. this is the part of the form that should be prepopulated when the user pulls up the form through the qr scan.
-  all info should be pulled from the equipment table that has the basic info about the item, and the user info from the user table. 
+  all info should be pulled from the equipment table that has the basic info about the item, and the user info from the user table.
   ask if it should be editable by the employee or not
   likely just start at the beginning of the form, where they have to approve the info before continuing into the form -->
 
@@ -39,7 +39,7 @@
       <td><input required type="text" id="equipment-floor" ngModel name="equipmentFloor" #equipmentFloor="ngModel" value="{{EquipmentItem?.floor}}" /></td>
       <td>
         <label for="equipment-floor">Location</label>
-        <div class="alert alert-danger" *ngIf="!equipmentFloor.valid && equipmentFloor.touched">Floor is required</div>
+        <div class="alert alert-danger" *ngIf="!equipmentFloor.valid && equipmentFloor.touched">Location is required</div>
       </td>
       <td><input required type="text" id="equipment-floor" ngModel name="equipmentFloor" #equipmentFloor="ngModel" value="{{EquipmentItem?.location}}" /></td>
     </tr>

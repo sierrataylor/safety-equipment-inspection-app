@@ -1,5 +1,5 @@
-var expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
-var regex;
+//var expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
+//var regex;
 
 function initializeScanner() {
   console.log("Worked!");
@@ -7,13 +7,12 @@ function initializeScanner() {
     video: document.getElementById("camera")
   });
 
-  regex = new RegExp(expression);
+  //regex = new RegExp(expression);
 
   let result = document.getElementById("qrcode");
   scanner.addListener("scan", function (content) {
-    if (content.match(regex)) {
-      window.location.replace(content);
-    }
+    //if (content.match(regex)) {
+    window.location.href = "/inspection-form";
     scanner.stop();
   });
   Instascan.Camera.getCameras()

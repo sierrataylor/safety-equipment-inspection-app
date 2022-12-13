@@ -49,13 +49,14 @@ namespace SafetyEquipmentInspectionAPI
         }
         [HttpPost("/employees/addEmployee")]
 
-        public async Task<string> AddEmployee(string employeeId, string firstName, string lastName, string email, string role, string password, bool isAdmin = false, bool isSuperAdmin = false)
+        public async Task<string> AddEmployee(object Employee)
 
         {
             try
             {
+                var employee = JsonConvert.DeserializeObject<EmployeeDto>(Employee.ToString());
                 CollectionReference employeesCollection = _db.Collection("Employee");
-                DocumentSnapshot employeeDoc = await employeesCollection.Document(employeeId).GetSnapshotAsync();
+                DocumentSnapshot employeeDoc = await employeesCollection.Document(employee.EmployeeId).GetSnapshotAsync();
                 string message;
 
                 if (!employeeDoc.Exists)
@@ -63,14 +64,14 @@ namespace SafetyEquipmentInspectionAPI
 
                     EmployeeDto employeeDto = new EmployeeDto
                     {
-                        EmployeeId = employeeId,
-                        FirstName = firstName,
-                        LastName = lastName,
-                        Email = email,
-                        Role = role,
-                        Password = password,
-                        IsAdmin = isAdmin,
-                        IsSuperAdmin = isSuperAdmin
+                        EmployeeId = employee.EmployeeId,
+                        FirstName = employee.FirstName,
+                        LastName = employee.LastName,
+                        Email = employee.Email,
+                        Role = employee.Role,
+                        Password = employee.Password,
+                        IsAdmin = employee.IsAdmin,
+                        IsSuperAdmin = employee.IsSuperAdmin
                     };
 
                     string empJson = JsonConvert.SerializeObject(employeeDto);
@@ -80,7 +81,7 @@ namespace SafetyEquipmentInspectionAPI
                 }
                 else
                 {
-                    message = $"Employee {employeeId} already exists in our database. Try viewing the list of employee to ensure that this employee or ID does not already exist, then try adding this employee against with a different ID.";
+                    message = $"Employee {employee.EmployeeId} already exists in our database. Try viewing the list of employee to ensure that this employee or ID does not already exist, then try adding this employee against with a different ID.";
                 }
                 return message;
 

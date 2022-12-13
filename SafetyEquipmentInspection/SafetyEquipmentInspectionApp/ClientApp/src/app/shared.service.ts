@@ -89,7 +89,7 @@ export class SharedService {
       isSuperAdmin
     }
 
-    return this.http.post(this.APIUrl + "employees/" + employeeId, Employee);
+    return this.http.post(this.APIUrl + "employees/addEmployee", Employee);
   }
 
   UpdateEmployee(employeeId: string, firstName?: string, lastname?: string, email?: string, role?: string, password? : string, isAdmin?: boolean, isSuperAdmin?: boolean) {
