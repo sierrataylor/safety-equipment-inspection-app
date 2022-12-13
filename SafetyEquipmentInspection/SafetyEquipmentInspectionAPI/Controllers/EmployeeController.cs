@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using SafetyEquipmentInspectionAPI.Constants;
 using SafetyEquipmentInspectionAPI.DTOs;
-using System.Data;
 
 namespace SafetyEquipmentInspectionAPI
 {
@@ -50,13 +49,14 @@ namespace SafetyEquipmentInspectionAPI
         }
         [HttpPost("/employees/addEmployee")]
 
-        public async Task<string> AddEmployee(string employeeId, string firstName, string lastName, string email, string role, string password, bool isAdmin = false, bool isSuperAdmin = false)
+        public async Task<string> AddEmployee(object Employee)
 
         {
             try
             {
+                var employee = JsonConvert.DeserializeObject<EmployeeDto>(Employee.ToString());
                 CollectionReference employeesCollection = _db.Collection("Employee");
-                DocumentSnapshot employeeDoc = await employeesCollection.Document(employeeId).GetSnapshotAsync();
+                DocumentSnapshot employeeDoc = await employeesCollection.Document(employee.EmployeeId).GetSnapshotAsync();
                 string message;
 
                 if (!employeeDoc.Exists)
@@ -64,14 +64,14 @@ namespace SafetyEquipmentInspectionAPI
 
                     EmployeeDto employeeDto = new EmployeeDto
                     {
-                        EmployeeId = employeeId,
-                        FirstName = firstName,
-                        LastName = lastName,
-                        Email = email,
-                        Role = role,
-                        Password = password,
-                        IsAdmin = isAdmin,
-                        IsSuperAdmin = isSuperAdmin
+                        EmployeeId = employee.EmployeeId,
+                        FirstName = employee.FirstName,
+                        LastName = employee.LastName,
+                        Email = employee.Email,
+                        Role = employee.Role,
+                        Password = employee.Password,
+                        IsAdmin = employee.IsAdmin,
+                        IsSuperAdmin = employee.IsSuperAdmin
                     };
 
                     string empJson = JsonConvert.SerializeObject(employeeDto);
@@ -81,7 +81,7 @@ namespace SafetyEquipmentInspectionAPI
                 }
                 else
                 {
-                    message = $"Employee {employeeId} already exists in our database. Try viewing the list of employee to ensure that this employee or ID does not already exist, then try adding this employee against with a different ID.";
+                    message = $"Employee {employee.EmployeeId} already exists in our database. Try viewing the list of employee to ensure that this employee or ID does not already exist, then try adding this employee against with a different ID.";
                 }
                 return message;
 
@@ -129,7 +129,7 @@ namespace SafetyEquipmentInspectionAPI
 
                     EmployeeDto employeeDto = employeeToBeUpdated.ConvertTo<EmployeeDto>();
                     employeeDto.EmployeeId = !String.IsNullOrEmpty(updatedEmployeeId) ? updatedEmployeeId : currentEmployeeId;
-                    employeeDto.FirstName = !String.IsNullOrEmpty(firstName) ? firstName: employeeDto.FirstName;
+                    employeeDto.FirstName = !String.IsNullOrEmpty(firstName) ? firstName : employeeDto.FirstName;
                     employeeDto.LastName = !String.IsNullOrEmpty(lastName) ? lastName : employeeDto.LastName;
                     employeeDto.Email = !String.IsNullOrEmpty(email) ? email : employeeDto.Email;
                     employeeDto.Role = !String.IsNullOrEmpty(role) ? role : employeeDto.Role;
@@ -183,8 +183,8 @@ namespace SafetyEquipmentInspectionAPI
             }
         }
 
-        [HttpPut("employee/resetPassword/{employeeId}/{firstName}/{lastName}")]
-        public async Task<string> ResetPassword(string employeeId, string firstName, string lastName, string newPassword)
+        [HttpPut("employee/resetPassword/{employeeId}")]
+        public async Task<string> ResetPassword(string employeeId, object payload)
         {
             try
             {
@@ -195,21 +195,12 @@ namespace SafetyEquipmentInspectionAPI
                 if (employeeToBeUpdated.Exists)
                 {
                     EmployeeDto employeeDto = employeeToBeUpdated.ConvertTo<EmployeeDto>();
-                    if (String.Equals(employeeDto.FirstName.ToLower(), firstName.ToLower()) && String.Equals(employeeDto.LastName.ToLower(), lastName.ToLower()))
-                    {
 
-                        employeeDto.Password = newPassword;
-                        string updateJson = JsonConvert.SerializeObject(employeeDto);
-                        Dictionary<string, object> updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(updateJson);
-                        await employeesCollection.Document(employeeDto.EmployeeId).UpdateAsync(updatesDictionary);
-                        return JsonConvert.SerializeObject(new { message = $"Update of {employeeDto.EmployeeId} successful" });
-
-                    }
-                    else
-                    {
-                        return $"The name {firstName} {lastName}, does not match the data corresponding with Employee {employeeId}";
-                    }
-
+                    employeeDto.Password = JsonConvert.DeserializeObject<EmployeeDto>(payload.ToString()).Password;
+                    string updateJson = JsonConvert.SerializeObject(employeeDto);
+                    Dictionary<string, object> updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(updateJson);
+                    await employeesCollection.Document(employeeDto.EmployeeId).UpdateAsync(updatesDictionary);
+                    return JsonConvert.SerializeObject(new { message = $"Update of {employeeDto.EmployeeId} successful" });
                 }
                 else
                 {

@@ -10,6 +10,14 @@ h1 {
 .add-item-form {
   font-family: 'LatoWeb';
   font-weight: 300;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.add-item-form-group {
+  display: flex;
+  justify-content: space-between;
 }
 
 .add-item-submit {

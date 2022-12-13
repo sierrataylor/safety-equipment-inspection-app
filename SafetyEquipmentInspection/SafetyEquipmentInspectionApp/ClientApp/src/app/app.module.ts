@@ -3,10 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
-
 import { RouterModule } from '@angular/router';
-
 import { AppComponent } from './app.component';
+import { AdminSettingsComponent } from './admin-settings/admin-settings.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -34,7 +33,6 @@ import { HarnessFormComponent } from './inspection-form/harness-form/harness-for
 import { FpLanyardFormComponent } from './inspection-form/fp-lanyard-form/fp-lanyard-form.component';
 import { HoistSlingFormComponent } from './inspection-form/hoist-sling-form/hoist-sling-form.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { UserTableComponent } from './user-table/user-table.component';
 import { AddEquipmentItemComponent } from './add-equipment-item/add-equipment-item.component';
 import { AddUserComponent } from './add-user/add-user.component';
@@ -69,7 +67,7 @@ import { AddUserComponent } from './add-user/add-user.component';
     HoistSlingFormComponent,
     ToDoComponent,
     ForgotPasswordComponent,
-    AdminDashboardComponent,
+    AdminSettingsComponent,
     UserTableComponent,
     AddEquipmentItemComponent,
     AddUserComponent
@@ -90,7 +88,7 @@ import { AddUserComponent } from './add-user/add-user.component';
       { path: 'qrgenerator', component: qrgeneratorComponent },
       { path: 'to-do', component: ToDoComponent },
       { path: 'forgot-password', component: ForgotPasswordComponent },
-      { path: 'admin-dashboard', component: AdminDashboardComponent },
+      { path: 'admin-dashboard', component: AdminSettingsComponent },
       { path: 'add-user', component: AddUserComponent },
       { path: 'add-equipment-item', component: AddEquipmentItemComponent },
       { path: 'user-table', component: UserTableComponent }

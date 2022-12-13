@@ -10,6 +10,14 @@ h1 {
 .add-user-form {
   font-family: 'LatoWeb';
   font-weight: 300;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.add-user-form-group{
+    display: flex;
+    justify-content: space-between;
 }
 
 .add-user-submit {
