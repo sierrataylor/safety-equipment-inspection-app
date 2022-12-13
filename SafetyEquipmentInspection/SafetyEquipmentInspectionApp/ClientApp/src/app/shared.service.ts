@@ -68,6 +68,9 @@ export class SharedService {
   GetInspectionsList(equipmentId: any = "") {
     return this.http.get<InspectionDto[]>(this.APIUrl + "inspections/past/" + equipmentId)
   }
+  GetToDoList(equipmentId: any = "") {
+    return this.http.get<InspectionDto[]>(this.APIUrl + "inspections/todo/" + equipmentId)
+  }
 
   //Employee API Methods
   GetEmployee(employeeId: string): Observable<EmployeeDto>{
@@ -120,7 +123,7 @@ export class SharedService {
   //Question API Methods
 
   GetQuestionsList(equipmentType: string) {
-    return this.http.get(this.APIUrl + "inspection/" + equipmentType);
+    return this.http.get(this.APIUrl + "inspection/past/" + equipmentType);
   }
 
   AddQuestion(equipmentType: string, field: string, questionNum: number) {

@@ -148,5 +148,40 @@ namespace SafetyEquipmentInspectionAPI.Controllers
                 throw new Exception($"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception.");
             }
         }
+
+
+
+        [HttpGet("inspections/todo/")]
+        public async Task<List<InspectionDto>> GetToDo(string equipmentId = "")
+        {
+            try
+            {
+                CollectionReference inspectionCollection = _db.Collection("Inspection");
+                List<InspectionDto> todolist = new List<InspectionDto>();
+                QuerySnapshot getInspectionsBasedOnItemIdQuery = !String.IsNullOrEmpty(equipmentId) ?
+                    await inspectionCollection.WhereEqualTo("EquipmentId", equipmentId).GetSnapshotAsync() :
+                    await inspectionCollection.GetSnapshotAsync();
+                if (getInspectionsBasedOnItemIdQuery.Any())
+                {
+                    foreach (DocumentSnapshot inspectionDoc in getInspectionsBasedOnItemIdQuery.Documents)
+                    {
+
+                        InspectionDto inspection = inspectionDoc.ConvertTo<InspectionDto>();
+                        TimeSpan timeSpan = DateTime.Today.Subtract(inspection.LastInspectionDate);
+                        if (timeSpan.TotalDays >= 30)
+                        {
+                            todolist.Add(inspection);
+                        }
+                    }
+                }
+                return todolist;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception($"The exception {ex.GetBaseException().Message} is being thrown from {ex.TargetSite} in {ex.Source}. Please refer to {ex.HelpLink} to search for this exception.");
+            }
+        }
     }
 }
