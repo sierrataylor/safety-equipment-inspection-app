@@ -3,23 +3,22 @@
     <h1>Log In</h1>
     <div class="log-in-inputs">
       <form class="log-in-form" id="log-in-form" #f="ngForm" (ngSubmit)="LogInUser(f)">
-        <div class="form-group">
+        <div class="log-in-form-group form-group">
           <label>Employee ID: </label>
           <input type="text" name="employeeId" [(ngModel)]="employeeId" required />
           <span class="text-danger" *ngIf="loginForm.controls['employeeId'].dirty && loginForm.hasError('required', 'employeeId')">*EmployeeId is required</span>
         </div>
         <br />
-        <div class="form-group">
+        <div class="log-in-form-group form-group">
           <label>Password: </label>
           <input type="password" name="employeePassword" [(ngModel)]="employeePassword" required />
           <span class="text-danger" *ngIf="loginForm.controls['employeePassword'].dirty && loginForm.hasError('required', 'employeePassword')">*Password is required</span>
         </div>
         <br />
         <div class="buttons-and-links">
-
           <button type="submit" class="btn btn-primary mt-3">Login</button>
-          <div id="forgot-password-link">
-            <p class="mt-3" [routerLinkActive]="['link-active']"><a [routerLink]="['/forgot-password']">Change/Forgot password</a></p>
+          <div id="forgot-password-link" class="btn btn-primary mt-3">
+            <p [routerLinkActive]="['link-active']"><a [routerLink]="['/forgot-password']">Reset Password</a></p>
           </div>
         </div>
       </form>

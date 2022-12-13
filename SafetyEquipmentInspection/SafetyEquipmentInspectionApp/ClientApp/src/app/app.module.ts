@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
-import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { AdminSettingsComponent } from './admin-settings/admin-settings.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -67,7 +67,7 @@ import { AddUserComponent } from './add-user/add-user.component';
     HoistSlingFormComponent,
     ToDoComponent,
     ForgotPasswordComponent,
-    AdminDashboardComponent,
+    AdminSettingsComponent,
     UserTableComponent,
     AddEquipmentItemComponent,
     AddUserComponent
@@ -88,7 +88,7 @@ import { AddUserComponent } from './add-user/add-user.component';
       { path: 'qrgenerator', component: qrgeneratorComponent },
       { path: 'to-do', component: ToDoComponent },
       { path: 'forgot-password', component: ForgotPasswordComponent },
-      { path: 'admin-dashboard', component: AdminDashboardComponent },
+      { path: 'admin-dashboard', component: AdminSettingsComponent },
       { path: 'add-user', component: AddUserComponent },
       { path: 'add-equipment-item', component: AddEquipmentItemComponent },
       { path: 'user-table', component: UserTableComponent }

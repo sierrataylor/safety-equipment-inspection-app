@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { LogInComponent } from '../log-in/log-in.component';
 
 @Component({
   selector: 'app-nav-menu',
@@ -7,7 +8,6 @@ import { Component } from '@angular/core';
 })
 export class NavMenuComponent {
   isExpanded = false;
-  public static showAdministrativeSettings: boolean | undefined = false;
 
   collapse() {
     this.isExpanded = false;
@@ -17,8 +17,23 @@ export class NavMenuComponent {
     this.isExpanded = !this.isExpanded;
   }
 
-  showAdministrativeSettings() {
-    console.log(NavMenuComponent.showAdministrativeSettings);
-    return NavMenuComponent.showAdministrativeSettings;
+  ShowAdministrativeSettings() {
+    if (LogInComponent.SignedInEmployee != undefined) {
+      return LogInComponent.SignedInEmployee.isAdmin;
+    }
+    return false;
+  }
+
+  LogOutUser() {
+    if (LogInComponent.SignedInEmployee != undefined) {
+      LogInComponent.SignedInEmployee.employeeId = "";
+      LogInComponent.SignedInEmployee.firstName = "";
+      LogInComponent.SignedInEmployee.lastName = "";
+      LogInComponent.SignedInEmployee.email = "";
+      LogInComponent.SignedInEmployee.role = "";
+      LogInComponent.SignedInEmployee.password = "";
+      LogInComponent.SignedInEmployee.isAdmin = false;
+      LogInComponent.SignedInEmployee.isSuperAdmin = false;
+    }
   }
 }

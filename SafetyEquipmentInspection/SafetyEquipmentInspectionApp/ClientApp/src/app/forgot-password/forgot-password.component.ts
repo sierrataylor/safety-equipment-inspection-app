@@ -11,7 +11,7 @@ import { EmployeeDto } from '../SharedDTO/employee.dto';
 })
 export class ForgotPasswordComponent implements OnInit {
 
-  public CurrentUserEmployee: EmployeeDto | undefined = {
+  public static CurrentUserEmployee: EmployeeDto | undefined = {
     employeeId: "",
     firstName: "",
     lastName: "",
@@ -27,6 +27,7 @@ export class ForgotPasswordComponent implements OnInit {
   firstName: string = "";
   lastName: string = "";
   newPassword: string = "";
+  oldPassword: string = "";
 
   constructor(public service: SharedService, private formBuilder: FormBuilder, private router: Router) { }
 
@@ -35,43 +36,35 @@ export class ForgotPasswordComponent implements OnInit {
       employeeId: ["", Validators.required],
       firstName: ["", Validators.required],
       lastName: ["", Validators.required],
-      newPassword: ["", Validators.required]
+      newPassword: ["", Validators.required],
+      oldPassword: ["", Validators.required]
     })
   }
 
-  ResetEmployeePassword(form: NgForm) {
-    this.GetEmployee(form.controls.employeeId.value);
-    console.log(this.employeeId);
-    console.log(form.controls.employeeId.value);
-    //console.log(this.CurrentUserEmployee);
-    //console.log(this.CurrentUserEmployee.employeeId);
-    if (this.CurrentUserEmployee) {
-      this.service.ResetEmployeePassword(this.employeeId, this.firstName, this.lastName, this.newPassword).subscribe(response => {
-        console.log(response);
-      });
+  async ResetEmployeePassword(form: NgForm) {
+    await this.GetEmployee(form.controls.employeeId.value);
+
+    if (ForgotPasswordComponent.CurrentUserEmployee && ForgotPasswordComponent.CurrentUserEmployee.password === this.oldPassword) {
+      await this.service.ResetEmployeePassword(this.employeeId, this.newPassword).toPromise();
       alert("Password successfully changed!");
       this.router.navigate(['/']);
     } else {
-      alert("Something went wrong with the passord reset process. Please ensure that your EmployeeID and name were entered correctly.");
-      this.router.navigate(['/']);
+      alert("Hmmm... we seemd to have encountered an error. Please ensure that your EmployeeID and old password were entered correctly.");
     }
   }
 
-  GetEmployee(employeeId: any) {
-    //console.log(employeeId);
-    return this.service.GetEmployee(employeeId).subscribe((data: EmployeeDto) => {
-      if (this.CurrentUserEmployee != undefined) {
-        this.CurrentUserEmployee.employeeId = data.employeeId;
-        this.CurrentUserEmployee.firstName = data.firstName;
-        this.CurrentUserEmployee.lastName = data.lastName;
-        this.CurrentUserEmployee.role = data.role;
-        this.CurrentUserEmployee.email = data.email;
-        this.CurrentUserEmployee.password = data.password;
-        this.CurrentUserEmployee.isAdmin = data.isAdmin;
-        this.CurrentUserEmployee.isSuperAdmin = data.isSuperAdmin;
-
-      }
-    });
+  async GetEmployee(employeeId: any) {
+    let data = await this.service.GetEmployee(employeeId).toPromise();
+    if (ForgotPasswordComponent.CurrentUserEmployee && data) {
+      ForgotPasswordComponent.CurrentUserEmployee.employeeId = data.employeeId;
+      ForgotPasswordComponent.CurrentUserEmployee.firstName = data.firstName;
+      ForgotPasswordComponent.CurrentUserEmployee.lastName = data.lastName;
+      ForgotPasswordComponent.CurrentUserEmployee.role = data.role;
+      ForgotPasswordComponent.CurrentUserEmployee.email = data.email;
+      ForgotPasswordComponent.CurrentUserEmployee.password = data.password;
+      ForgotPasswordComponent.CurrentUserEmployee.isAdmin = data.isAdmin;
+      ForgotPasswordComponent.CurrentUserEmployee.isSuperAdmin = data.isSuperAdmin;
+    }
   }
 
 }

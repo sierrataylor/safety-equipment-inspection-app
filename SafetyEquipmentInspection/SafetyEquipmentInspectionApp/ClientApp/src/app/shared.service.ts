@@ -68,9 +68,8 @@ export class SharedService {
   GetInspectionsList(equipmentId: any = "") {
     return this.http.get<InspectionDto[]>(this.APIUrl + "inspections/past/" + equipmentId)
   }
-  
-  //Employee API Methods
 
+  //Employee API Methods
   GetEmployee(employeeId: string): Observable<EmployeeDto>{
     return this.http.get<EmployeeDto>(this.APIUrl + "employees/employee/" + employeeId);
   }
@@ -113,8 +112,9 @@ export class SharedService {
   }
 
   //Password Reset Method
-  ResetEmployeePassword(employeeId: string, firstName: string, lastName: string, newPassword: string) {
-    return this.http.put(this.APIUrl + "employee/resetPassword/" + employeeId + "/"  + firstName + "/"+ lastName, newPassword);
+  ResetEmployeePassword(employeeId: string, newPassword: string) {
+    let payload: any = { Password: newPassword };
+    return this.http.put(this.APIUrl + "employee/resetPassword/" + employeeId, payload);
   }
 
   //Question API Methods

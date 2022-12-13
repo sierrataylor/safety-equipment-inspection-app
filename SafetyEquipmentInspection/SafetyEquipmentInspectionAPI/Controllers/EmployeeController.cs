@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using SafetyEquipmentInspectionAPI.Constants;
 using SafetyEquipmentInspectionAPI.DTOs;
-using System.Data;
 
 namespace SafetyEquipmentInspectionAPI
 {
@@ -129,7 +128,7 @@ namespace SafetyEquipmentInspectionAPI
 
                     EmployeeDto employeeDto = employeeToBeUpdated.ConvertTo<EmployeeDto>();
                     employeeDto.EmployeeId = !String.IsNullOrEmpty(updatedEmployeeId) ? updatedEmployeeId : currentEmployeeId;
-                    employeeDto.FirstName = !String.IsNullOrEmpty(firstName) ? firstName: employeeDto.FirstName;
+                    employeeDto.FirstName = !String.IsNullOrEmpty(firstName) ? firstName : employeeDto.FirstName;
                     employeeDto.LastName = !String.IsNullOrEmpty(lastName) ? lastName : employeeDto.LastName;
                     employeeDto.Email = !String.IsNullOrEmpty(email) ? email : employeeDto.Email;
                     employeeDto.Role = !String.IsNullOrEmpty(role) ? role : employeeDto.Role;
@@ -183,8 +182,8 @@ namespace SafetyEquipmentInspectionAPI
             }
         }
 
-        [HttpPut("employee/resetPassword/{employeeId}/{firstName}/{lastName}")]
-        public async Task<string> ResetPassword(string employeeId, string firstName, string lastName, string newPassword)
+        [HttpPut("employee/resetPassword/{employeeId}")]
+        public async Task<string> ResetPassword(string employeeId, object payload)
         {
             try
             {
@@ -195,21 +194,12 @@ namespace SafetyEquipmentInspectionAPI
                 if (employeeToBeUpdated.Exists)
                 {
                     EmployeeDto employeeDto = employeeToBeUpdated.ConvertTo<EmployeeDto>();
-                    if (String.Equals(employeeDto.FirstName.ToLower(), firstName.ToLower()) && String.Equals(employeeDto.LastName.ToLower(), lastName.ToLower()))
-                    {
 
-                        employeeDto.Password = newPassword;
-                        string updateJson = JsonConvert.SerializeObject(employeeDto);
-                        Dictionary<string, object> updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(updateJson);
-                        await employeesCollection.Document(employeeDto.EmployeeId).UpdateAsync(updatesDictionary);
-                        return JsonConvert.SerializeObject(new { message = $"Update of {employeeDto.EmployeeId} successful" });
-
-                    }
-                    else
-                    {
-                        return $"The name {firstName} {lastName}, does not match the data corresponding with Employee {employeeId}";
-                    }
-
+                    employeeDto.Password = JsonConvert.DeserializeObject<EmployeeDto>(payload.ToString()).Password;
+                    string updateJson = JsonConvert.SerializeObject(employeeDto);
+                    Dictionary<string, object> updatesDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(updateJson);
+                    await employeesCollection.Document(employeeDto.EmployeeId).UpdateAsync(updatesDictionary);
+                    return JsonConvert.SerializeObject(new { message = $"Update of {employeeDto.EmployeeId} successful" });
                 }
                 else
                 {

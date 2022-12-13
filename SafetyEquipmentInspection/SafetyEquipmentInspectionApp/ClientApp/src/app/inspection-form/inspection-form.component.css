@@ -24,14 +24,14 @@ table {
 /* if less than 770px, turn into mobile view */
 
 /*
-For Mobile 
+For Mobile
 @media screen and (max-width: 540px) {
   .view {
     width: 400px;
   }
 }
 
-For Tablets 
+For Tablets
 @media screen and (min-width: 540px) and (max-width: 780px) {
   .view {
     width: 600px;

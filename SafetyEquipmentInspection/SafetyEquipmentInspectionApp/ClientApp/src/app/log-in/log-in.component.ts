@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/shared.service';
 import { EmployeeDto } from '../SharedDTO/employee.dto';
-import { NavMenuComponent } from '../nav-menu/nav-menu.component';
 
 
 @Component({
@@ -22,7 +21,8 @@ export class LogInComponent implements OnInit {
       password: "",
       isAdmin: false,
       isSuperAdmin: false
-    };
+  };
+
   employeeId: string = "";
   employeePassword: string = "";
   public loginForm!: FormGroup;
@@ -37,16 +37,16 @@ export class LogInComponent implements OnInit {
   }
 
   LogInUser(form: NgForm) {
-    this.GetEmployee(form.controls.employeeId.value);
-    if (LogInComponent.SignedInEmployee?.employeeId == this.employeeId && LogInComponent.SignedInEmployee?.password == this.employeePassword) {
-      if (LogInComponent.SignedInEmployee.isAdmin == true) {
-        this.router.navigate(['/admin-dashboard']);
-      } else {
+
+    this.service.GetEmployee(form.controls.employeeId.value).subscribe((data: EmployeeDto) => {
+      if (data.employeeId == this.employeeId && data.password == this.employeePassword) {
+        this.GetEmployee(form.controls.employeeId.value);
         this.router.navigate(['/dashboard']);
       }
-    } else {
-      this.loginForm.reset();
-    }
+      else {
+        this.loginForm.reset();
+      }
+    });
   }
 
   GetEmployee(employeeId: any) {
@@ -60,8 +60,6 @@ export class LogInComponent implements OnInit {
         LogInComponent.SignedInEmployee.password = data.password;
         LogInComponent.SignedInEmployee.isAdmin = data.isAdmin;
         LogInComponent.SignedInEmployee.isSuperAdmin = data.isSuperAdmin;
-
-        NavMenuComponent.showAdministrativeSettings = data.isAdmin;
       }
     });
   }

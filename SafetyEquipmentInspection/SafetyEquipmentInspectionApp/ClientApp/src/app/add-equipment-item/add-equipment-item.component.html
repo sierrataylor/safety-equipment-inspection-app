@@ -1,27 +1,27 @@
 <div>
   <div class="add-item-container">
-    <h1>Log In</h1>
+    <h1>Add Equipment Item</h1>
     <div class="add-item-inputs">
       <form class="add-item-form" id="add-item-form" #f="ngForm" (ngSubmit)="AddItem(f)">
-        <div class="form-group">
-          <label>Equipment type:: </label>
+        <div class="add-item-form-group form-group">
+          <label>Equipment type: </label>
           <input type="text" name="equipmentType" [(ngModel)]="equipmentType" required />
           <span class="text-danger" *ngIf="addItemForm.controls['equipmentType'].dirty && addItemForm.hasError('required', 'equipmentType')">*Equipment type is required</span>
         </div>
         <br />
-        <div class="form-group">
+        <div class="add-item-form-group form-group">
           <label>Building name: </label>
           <input type="text" name="building" [(ngModel)]="building" required />
           <span class="text-danger" *ngIf="addItemForm.controls['building'].dirty && addItemForm.hasError('required', 'building')">*Building is required</span>
         </div>
         <br />
-        <div class="form-group">
+        <div class="add-item-form-group form-group">
           <label>Floor number: </label>
           <input type="text" name="floor" [(ngModel)]="floor" required />
           <span class="text-danger" *ngIf="addItemForm.controls['floor'].dirty && addItemForm.hasError('required', 'floor')">*Floor number is required</span>
         </div>
         <br />
-        <div class="form-group">
+        <div class="add-item-form-group form-group">
           <label>Location: </label>
           <input type="text" name="location" [(ngModel)]="location" required />
           <span class="text-danger" *ngIf="addItemForm.controls['location'].dirty && addItemForm.hasError('required', 'location')">*Location is required</span>
