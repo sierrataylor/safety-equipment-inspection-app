@@ -22,16 +22,17 @@ export class PastInspectionsComponent implements OnInit {
     this.GetInspectionsList();
     this.GetQuestionsList();
   }
-  GetInspectionsList() {
-    return this.service.GetInspectionsList().subscribe(data => {
+  GetInspectionsList(equipmentId: any = "") {
+    return this.service.GetInspectionsList(equipmentId).subscribe(data => {
       this.inspections = data;
     });
+
 }
   GetQuestionsList(equipmentType: any = "") {
     return this.service.GetQuestionsList(equipmentType).subscribe(data => {
       this.questions = data;
     });
-    }
+  }
 
   public openInfo()
   {
@@ -44,7 +45,7 @@ export class PastInspectionsComponent implements OnInit {
   public closeInfo() {
     const scan = document.getElementById('scaninfoId');
     if (scan != null) {
-      scan.style.display = 'hiden';
+      scan.style.display = 'hidden';
       
     }
 

@@ -120,7 +120,7 @@ export class SharedService {
   //Question API Methods
 
   GetQuestionsList(equipmentType: string) {
-    return this.http.get(this.APIUrl + "inspection/" + equipmentType);
+    return this.http.get(this.APIUrl + "inspection/past/" + equipmentType);
   }
 
   AddQuestion(equipmentType: string, field: string, questionNum: number) {
